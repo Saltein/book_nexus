@@ -1,0 +1,27 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #002e5b;
+    font-weight: 400;
+    height: 100%;
+    width: 100%;
+    transition: 0.2s;
+}
+
+.wrapper a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    padding: 0 20px 0 20px;
+
+    white-space: nowrap;
+}
+
+.wrapper:hover {
+    color: #800098;
+    transition: 0.2s;
+}
