@@ -6,7 +6,10 @@ import { MainPage } from '../MainPage/MainPage';
 export const GlobalPage = (props) => {
     return (
         <div className={styles.wrapper}>
-            <Header />
+            <header>
+                <Header />
+            </header>
+            <div className={styles.margin}/>
             <Routes>
                 <Route path='/main' element={<MainPage />} />
                 <Route path='/' element={<MainPage />} />
