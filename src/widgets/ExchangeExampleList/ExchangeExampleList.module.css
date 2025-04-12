@@ -1,0 +1,22 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 60px;
+}
+
+.wrapper .txt {
+    margin-bottom: 40px;
+    text-align: center;
+    font-size: 32px;
+    color: #333;
+    font-family: "Playfair Display", serif;
+    font-weight: 500;
+}
+
+.exchangeList {
+    display: flex;
+    gap: 30px;
+}

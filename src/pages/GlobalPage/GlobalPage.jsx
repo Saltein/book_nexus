@@ -1,5 +1,5 @@
 import styles from './GlobalPage.module.css'
-import { Header } from '../../widgets/Header/Header'
+import { Header } from '../../widgets'
 import { Route, Routes } from 'react-router-dom';
 import { MainPage } from '../MainPage/MainPage';
 

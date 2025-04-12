@@ -1,0 +1,97 @@
+.wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    width: 270px;
+    height: 480px;
+
+    border-radius: 10px;
+    overflow: hidden;
+
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+
+}
+
+.status {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #28a745;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.coverWrapper {
+    height: 300px;
+    overflow: hidden;
+}
+
+.cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.exchangeInfo {
+    display: flex;
+    flex-direction: column;
+
+    padding: 20px;
+
+    flex: 1;
+    width: 100%;
+
+    justify-content: space-between;
+}
+
+.title {
+    font-family: "Playfair Display", serif;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+.author {
+    font-family: "Poppins", sans-serif;
+    line-height: 30px;
+    color: #666;
+    font-style: italic;
+}
+
+.title, .author {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.divider {
+    height: 1px;
+    width: 100%;
+    background-color: #eee;
+}
+
+.giver_receiver {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 0 15px 0;
+    gap: 15px;
+}
+
+.gr {
+    color: #4e9caf;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+}
+
+.gr img {
+    width: 20px;
+}
