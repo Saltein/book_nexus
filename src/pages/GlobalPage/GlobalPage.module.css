@@ -7,3 +7,9 @@ header {
 .margin {
     height: 100px;
 }
+
+@media (max-width: 960px) {
+    .margin {
+        height: 60px;
+    }  
+}

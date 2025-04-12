@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { NavButton, NavTogglerButton } from '../../shared'
 import styles from './Header.module.css'
 import logo from './assets/logo.png'
@@ -14,6 +15,9 @@ const menuList = [
 ]
 
 export const Header = (props) => {
+
+    const [menuVisible, setMenuVisible] = useState(false)
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.container}>
@@ -27,7 +31,7 @@ export const Header = (props) => {
                     <NavButton title='Вход/Регистрация' />
                 </div>
                 <div className={styles.nav_toggle}>
-                    <NavTogglerButton />
+                    <NavTogglerButton onClick={setMenuVisible}/>
                 </div>
             </div>
         </div>
