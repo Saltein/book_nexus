@@ -45,10 +45,21 @@
     margin-top: 20px;
 }
 
-.socialLinks img{
+.socialLinks a {
+    display: inline-block; /* чтобы transform работал */
+    transition: 0.3s ease; /* плавное движение */
+}
+
+.socialLinks img {
     height: 32px;
     width: 32px;
     margin: 5px 10px;
+    transition: 0.3s ease; 
+}
+
+.socialLinks a:hover img {
+    transform: translateY(-5px);
+    filter: brightness(0.7);
 }
 
 @media (max-width: 768px) {

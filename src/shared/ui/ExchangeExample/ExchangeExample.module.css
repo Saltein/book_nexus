@@ -11,8 +11,20 @@
 
     background-color: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
+.wrapper_of_wrapper {
+    display: inline-block;
+    transition: 0.3s ease;
+}
 
+.wrapper_of_wrapper:hover {
+    transform: translateY(-5px);
+}
+
+.wrapper_of_wrapper:hover .cover {
+    transform: scale(1.05);
+    transition: 0.3s ease;
 }
 
 .status {
@@ -25,6 +37,7 @@
     border-radius: 20px;
     font-size: 12px;
     font-weight: bold;
+    z-index: 1000;
 }
 
 .coverWrapper {
@@ -37,6 +50,7 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
+    transition: 0.3s ease;
 }
 
 .exchangeInfo {
@@ -58,6 +72,7 @@
     margin-bottom: 10px;
     line-height: 1.2;
 }
+
 .author {
     font-family: "Poppins", sans-serif;
     line-height: 30px;
@@ -65,7 +80,8 @@
     font-style: italic;
 }
 
-.title, .author {
+.title,
+.author {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
