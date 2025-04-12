@@ -1,0 +1,15 @@
+.wrapper {
+    display: flex;
+}
+
+.wrapper img, .noIcon {
+    height: 24px;
+    width: 24px;
+    margin: 5px 10px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    color: #555;
+}

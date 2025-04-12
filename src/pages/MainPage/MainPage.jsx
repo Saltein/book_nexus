@@ -1,4 +1,4 @@
-import { ExchangeExampleList } from '../../widgets'
+import { Contacts, ExchangeExampleList } from '../../widgets'
 import styles from './MainPage.module.css'
 import aboutImage from './assets/about_hero.jpg'
 
@@ -10,6 +10,7 @@ export const MainPage = (props) => {
                 <img className={styles.aboutImage} src={aboutImage} />
             </div>
             <ExchangeExampleList />
+            <Contacts />
         </div>
     )
 }
