@@ -2,6 +2,7 @@ import styles from './GlobalPage.module.css'
 import { Footer, Header } from '../../widgets'
 import { Route, Routes } from 'react-router-dom';
 import { MainPage } from '../MainPage/MainPage';
+import { BookCatalogPage } from '../BookCatalogPage/BookCatalogPage';
 
 export const GlobalPage = (props) => {
     return (
@@ -13,6 +14,8 @@ export const GlobalPage = (props) => {
             <Routes>
                 <Route path='/main' element={<MainPage />} />
                 <Route path='/' element={<MainPage />} />
+
+                <Route path='/catalog' element={<BookCatalogPage />} />
             </Routes>
             <Footer />
         </div>

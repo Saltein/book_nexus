@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styles from './PopupMenu.module.css'
 
 export const PopupMenu = ({menuList}) => {
@@ -6,7 +7,7 @@ export const PopupMenu = ({menuList}) => {
             {menuList.map((option, index) => {
                 return (
                     <div className={styles.option} key={index}>
-                        <a href={option.href}>{option.title}</a>
+                        <Link to={option.href}>{option.title}</Link>
                     </div>
                 )
             })}

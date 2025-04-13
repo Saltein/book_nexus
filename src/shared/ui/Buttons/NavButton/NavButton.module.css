@@ -3,8 +3,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    color: #002e5b;
     font-weight: 400;
     font-size: large;
     height: 100%;
@@ -18,8 +16,9 @@
     width: 100%;
 }
 
-.aCon .link {
-    all: unset;
+.link {
+    color: #002e5b;
+    text-decoration: none;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -29,6 +28,15 @@
     padding: 0 20px 0 20px;
 
     white-space: nowrap;
+}
+
+.link:visited {
+    text-decoration: none;
+}
+
+.link:hover {
+    color: #800098;
+    transition: 0.2s;
 }
 
 .menuCon {
@@ -46,9 +54,4 @@
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto; /* Включаем взаимодействие с меню при появлении */
-}
-
-.aCon:hover {
-    color: #800098;
-    transition: 0.2s;
 }

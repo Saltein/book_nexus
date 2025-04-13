@@ -2,15 +2,16 @@ import { useState } from 'react'
 import { NavButton, NavTogglerButton } from '../../shared'
 import styles from './Header.module.css'
 import logo from './assets/logo.png'
+import { Link } from 'react-router-dom'
 
 const menuList = [
     {
         title: 'Отзывы',
-        href: '#'
+        href: '/reviews'
     },
     {
         title: 'Правила сервиса',
-        href: '#'
+        href: 'service_rules'
     }
 ]
 
@@ -22,16 +23,18 @@ export const Header = (props) => {
         <div className={styles.wrapper}>
             <div className={styles.container}>
                 <a>
-                    <img src={logo} />
+                    <Link to='/main'>
+                        <img src={logo} />
+                    </Link>
                 </a>
                 <div className={styles.nav_buttons}>
-                    <NavButton title='Каталог книг' />
-                    <NavButton title='Обмен и доставка' />
+                    <NavButton title='Каталог книг' href={'/catalog'} />
+                    <NavButton title='Обмен и доставка' href={'/exchange_delivery'} />
                     <NavButton title='Ещё' menuList={menuList} />
-                    <NavButton title='Вход/Регистрация' />
+                    <NavButton title='Вход/Регистрация' href={'/auth'} />
                 </div>
                 <div className={styles.nav_toggle}>
-                    <NavTogglerButton onClick={setMenuVisible}/>
+                    <NavTogglerButton onClick={setMenuVisible} />
                 </div>
             </div>
         </div>
