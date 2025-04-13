@@ -14,15 +14,18 @@
 
 .option {
     display: flex;
-    justify-content: left;
+    justify-content: flex-start; /* или просто убрать эту строку, если не нужна */
 }
 
 .option a {
+    all: unset;
+    color: #002e5b;
+    cursor: pointer;
+    text-align: left;
     display: block;
-    margin: 0;
-    padding: 6px 16px;
+    width: 100%;
+    padding: 6px 15px;
     font-size: 14px;
-    color: #0b1c39;
 }
 
 .option a:hover {
