@@ -1,4 +1,4 @@
-import { ExchangeExample } from '../../shared/ui/ExchangeExample/ExchangeExample'
+import { ExchangeExample } from '../../entities'
 import styles from './ExchangeExampleList.module.css'
 
 import book1 from './tempAssets/book1.jpg';

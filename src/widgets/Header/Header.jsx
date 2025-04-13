@@ -22,11 +22,9 @@ export const Header = (props) => {
     return (
         <div className={styles.wrapper}>
             <div className={styles.container}>
-                <a>
-                    <Link to='/main'>
-                        <img src={logo} />
-                    </Link>
-                </a>
+                <Link to='/main'>
+                    <img src={logo} />
+                </Link>
                 <div className={styles.nav_buttons}>
                     <NavButton title='Каталог книг' href={'/catalog'} />
                     <NavButton title='Обмен и доставка' href={'/exchange_delivery'} />

@@ -1,0 +1,27 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.titleBlock {
+    display: flex;
+}
+
+.title {
+    color: #800098;
+    font-weight: 700;
+    font-family: "Playfair Display", serif;
+    font-size: 1.25rem;
+    padding-left: 5px;
+}
+
+.filtersBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.filterImg {
+    width: 20px;
+}
