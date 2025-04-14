@@ -7,7 +7,7 @@ export const FilterCBForm = ({ title, optionsList }) => {
             <div className={styles.optionsList}>
                 {optionsList.map((option, index) => {
                     return (
-                        <div className={styles.option} key={index}>
+                        <div className={styles.options} key={index}>
                             <input className={styles.checkbox} type='checkbox' value={option.value} />
                             <span className={styles.optionTitle}>{option.title}</span>
                         </div>
