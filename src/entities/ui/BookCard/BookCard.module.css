@@ -1,21 +1,19 @@
+.wrapper_of_wrapper {
+    display: flex;
+    height: 100%;
+}
+
 .wrapper {
     position: relative;
     display: flex;
     flex-direction: column;
-
-    width: 270px;
+    flex-grow: 1; /* Занимает всё доступное пространство */
+    width: 100%; /* Занимает всю ширину родителя */
     height: 480px;
-
     border-radius: 10px;
     overflow: hidden;
-
     background-color: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.wrapper_of_wrapper {
-    display: inline-block;
-    transition: 0.3s ease;
 }
 
 .wrapper_of_wrapper:hover {
@@ -25,19 +23,6 @@
 .wrapper_of_wrapper:hover .cover {
     transform: scale(1.05);
     transition: 0.3s ease;
-}
-
-.status {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background-color: #28a745;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: bold;
-    z-index: 900;
 }
 
 .coverWrapper {
@@ -53,11 +38,13 @@
     transition: 0.3s ease;
 }
 
-.exchangeInfo {
+.bookInfo {
     display: flex;
     flex-direction: column;
 
     padding: 20px;
+
+    gap: 10px;
 
     flex: 1;
     width: 100%;
@@ -88,20 +75,19 @@
     width: 100%;
 }
 
-.giver_receiver {
-    display: flex;
-    flex-direction: column;
-    padding: 15px 0 15px 0;
-    gap: 15px;
+.buttonCon {
+    margin: 15px
 }
 
-.gr {
-    color: #4e9caf;
+.year {
+    color: #888;
+    font-size: 0.8rem;
+    font-family: "Poppins", sans-serif;
+}
+
+.genre {
+    color: #800098;
+    font-size: 0.8rem;
     font-weight: 600;
-    display: flex;
-    justify-content: space-between;
-}
-
-.gr img {
-    width: 20px;
+    font-family: "Poppins", sans-serif;
 }

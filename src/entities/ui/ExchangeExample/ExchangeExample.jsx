@@ -1,3 +1,4 @@
+import { DefaultDivider } from '../../../shared/ui'
 import styles from './ExchangeExample.module.css'
 import rightArrowIcon from './assets/right-arrow.svg'
 
@@ -18,7 +19,7 @@ export const ExchangeExample = (props) => {
                     </div>
 
                     <div className={styles.giver_receiver}>
-                        <div className={styles.divider} />
+                        <DefaultDivider />
                         <div className={styles.gr}>
                             <span>{props.giver}</span>
                             <img src={rightArrowIcon} />

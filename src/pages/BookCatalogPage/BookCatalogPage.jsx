@@ -1,3 +1,4 @@
+import { BookCatalogBlock } from '../../widgets/BookCatalogBlock/BookCatalogBlock'
 import { FiltersBlock } from '../../widgets/FiltersBlock/FiltersBlock'
 import styles from './BookCatalogPage.module.css'
 
@@ -9,7 +10,7 @@ export const BookCatalogPage = (props) => {
                     <FiltersBlock />
                 </div>
                 <div className={styles.bookList}>
-                    books
+                    <BookCatalogBlock />
                 </div>
             </div>
         </div>

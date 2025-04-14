@@ -8,24 +8,62 @@
     display: flex;
     flex-direction: row;
     max-width: 1200px;
-    flex: 1
+    flex: 1;
+    min-height: 100vh;
 }
 
 .filters {
     flex: 1;
-    padding: 15px;
+    padding: 15px 15px 15px 0;
+    position: sticky;
+    top: 100px;
+    align-self: flex-start;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
 }
 
 .bookList {
+    padding: 15px;
     flex: 3;
-    background-color: azure;
 }
 
+@media (max-width: 1200px) {
+    .container {
+        max-width: 960px;
+    }
+}
 
+@media (max-width: 960px) {
+    .container {
+        max-width: 720px;
+    }
 
+    .filters {
+        top: 60px;
+        max-height: calc(100vh - 100px);
+    }
+
+    .bookList {
+        padding: 15px 0 15px 15px;
+    }
+}
 
 @media (max-width: 760px) {
     .container {
         flex-direction: column;
+    }
+
+    .filters {
+        padding: 15px;
+        flex: unset;
+        top: 0;
+        position: unset;
+        height: 100%;
+        width: 100%;
+        overflow: unset;
+    }
+
+    .bookList {
+        padding: 15px;
     }
 }
