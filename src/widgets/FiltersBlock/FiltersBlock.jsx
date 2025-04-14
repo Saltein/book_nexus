@@ -1,7 +1,5 @@
-import { DefaultButton } from '../../shared/ui/Buttons/DefaultButton/DefaultButton'
-import { FilterCBForm } from '../../shared/ui/CheckboxForms/FilterCBForms/FilterCBForm'
-import { FiltersDDList } from '../../shared/ui/DropdownLists/FiltersDDList/FiltersDDList'
-import { FilterSlidebar } from '../../shared/ui/Slidebars/FilterSlidebar/FilterSlidebar'
+import { useEffect, useState } from 'react'
+import { DefaultButton, DefaultDivider, FilterCBForm, FiltersDDList, FilterSlidebar } from '../../shared/ui'
 import styles from './FiltersBlock.module.css'
 import filterIcon from './assets/filter.svg'
 
@@ -85,6 +83,45 @@ const langOptionsList = [
 export const FiltersBlock = (props) => {
     var currentYear = new Date().getFullYear()
 
+    const [genre, setGenre] = useState('')
+    const [country, setCountry] = useState('')
+    const [year, setYear] = useState([])
+    const [lang, setLang] = useState([false, false, false])
+
+    useEffect(() => {
+        console.log("Состояние genre изменилось на", genre)
+    }, [genre])
+    useEffect(() => {
+        console.log("Состояние country изменилось на", country)
+    }, [country])
+    useEffect(() => {
+        console.log("Состояние year изменилось на", year)
+    }, [year])
+    useEffect(() => {
+        console.log("Состояние lang изменилось на", lang)
+    }, [lang])
+
+    const handleGenreChange = (selectedGenre) => {
+        setGenre(selectedGenre)
+    }
+    const handleCountryChange = (selectedCountry) => {
+        setCountry(selectedCountry)
+    }
+    const handleYearChange = (selectedYear) => {
+        setYear(selectedYear)
+    }
+    const handleLangChange = ({ value, index }) => {
+        setLang(prevLang => {
+            const newLang = [...prevLang]; // Создаем копию массива
+            newLang[index] = !newLang[index]; // Инвертируем значение по индексу
+            return newLang;
+        });
+    }
+
+    const handleSubmit = () => {
+
+    }
+
     return (
         <div className={styles.wrapper}>
 
@@ -96,13 +133,16 @@ export const FiltersBlock = (props) => {
             </div>
 
             <div className={styles.filtersBlock}>
-                <FiltersDDList title={'Жанр'} optionsList={genreOptionsList} />
-                <FiltersDDList title={'Страна'} optionsList={countryOptionsList} />
-                <FilterSlidebar title={'Год выпуска'} min={1900} max={currentYear} step={10} value={1990} />
-                <FilterCBForm title={'Язык'} optionsList={langOptionsList}/>
+                <FiltersDDList title={'Жанр'} optionsList={genreOptionsList} onChange={handleGenreChange} />
+                <DefaultDivider />
+                <FiltersDDList title={'Страна'} optionsList={countryOptionsList} onChange={handleCountryChange} />
+                <DefaultDivider />
+                <FilterSlidebar title={'Год выпуска'} min={1900} max={currentYear} step={10} value={1990} onChange={handleYearChange} />
+                <DefaultDivider />
+                <FilterCBForm title={'Язык'} optionsList={langOptionsList} onChange={handleLangChange} />
             </div>
-
-            <DefaultButton title={'Применить фильтры'} />
+            <DefaultDivider />
+            <DefaultButton title={'Применить фильтры'} onClick={handleSubmit} />
 
         </div>
     )

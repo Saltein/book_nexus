@@ -7,4 +7,5 @@ export {
     FilterSlidebar,
     FilterCBForm,
     DefaultButton,
+    DefaultDivider,
 } from './ui'
