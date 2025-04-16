@@ -8,6 +8,7 @@
     height: 100px;
 
     background-color: white;
+    z-index: 1000;
 }
 
 .container {
@@ -36,6 +37,22 @@
     display: none;
 }
 
+.menu {
+    display: none;
+    position: absolute;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;
+    width: 100%;
+}
+
+.menu.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
 @media (max-width: 1200px) {
     .container {
         max-width: 960px;
@@ -54,6 +71,9 @@
     .nav_toggle {
         display: flex;
         align-items: center;
+    }
+    .menu {
+        display: block;
     }
 }
 @media (max-width: 720px) {

@@ -8,4 +8,5 @@ export {
     FilterCBForm,
     DefaultButton,
     DefaultDivider,
+    BackToTopButton,
 } from './ui'

@@ -3,6 +3,7 @@ import { Footer, Header } from '../../widgets'
 import { Route, Routes } from 'react-router-dom';
 import { MainPage } from '../MainPage/MainPage';
 import { BookCatalogPage } from '../BookCatalogPage/BookCatalogPage';
+import { BackToTopButton } from '../../shared';
 
 export const GlobalPage = (props) => {
     return (
@@ -17,6 +18,7 @@ export const GlobalPage = (props) => {
 
                 <Route path='/catalog' element={<BookCatalogPage />} />
             </Routes>
+            <BackToTopButton />
             <Footer />
         </div>
     )

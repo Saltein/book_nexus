@@ -16,7 +16,7 @@
 
 .infoBlock {
     display: flex;
-    width: 500px;
+    width: 250px;
     flex-direction: column;
     gap: 30px;
     font-family: "Poppins", sans-serif;
@@ -73,11 +73,17 @@
 
 
 @media (max-width: 1200px) {
+    .infoList, .divider {
+        width: 500px;
+    }
+}
+
+@media (max-width: 960px) {
     .infoList {
         grid-template-columns: repeat(1, 1fr);
     }
 
     .infoList, .divider {
-        width: 500px;
+        width: 250px;
     }
 }

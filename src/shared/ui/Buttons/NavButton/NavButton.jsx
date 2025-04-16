@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { PopupMenu } from '../../Menus/PopupMenu/PopupMenu'
 import styles from './NavButton.module.css'
 
-export const NavButton = ({ title, href, menuList }) => {
+export const NavButton = ({ title, href, menuList, onClick }) => {
     const navigate = useNavigate()
 
     const handleClick = (e) => {
@@ -10,6 +10,7 @@ export const NavButton = ({ title, href, menuList }) => {
         if (href) {
             navigate(href)
         }
+        onClick && onClick()
     }
 
     return (
