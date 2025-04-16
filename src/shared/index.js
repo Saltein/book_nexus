@@ -10,4 +10,5 @@ export {
     DefaultDivider,
     BackToTopButton,
     Pagination,
+    RatingStars,
 } from './ui'

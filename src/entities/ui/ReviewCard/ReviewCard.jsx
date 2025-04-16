@@ -1,3 +1,4 @@
+import { RatingStars } from '../../../shared/ui/RatingStars/RatingStars'
 import styles from './ReviewCard.module.css'
 import quoteIcon from './assets/quote.svg'
 
@@ -11,10 +12,10 @@ export const ReviewCard = ({ id, name, rating, date, text, image }) => {
             </div>
 
             <div className={styles.infoWrapper}>
-                <img src={quoteIcon} />
+                <img className={styles.quoteIcon} src={quoteIcon} />
                 <div className={styles.info}>
                     <h5 className={styles.name}>{name}</h5>
-                    {/* RaitingScale */}
+                    <RatingStars rating={rating} />
                     <p className={styles.date}>{date}</p>
                     <p className={styles.text}>{text}</p>
                 </div>
