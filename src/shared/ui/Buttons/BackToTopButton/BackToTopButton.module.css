@@ -13,10 +13,10 @@
     font-size: 1.25rem;
     cursor: pointer;
     border: none;
-    padding-top: 1%;
 }
 
 .button img {
+    margin-top: 10%;
     width: 60%;
 }
 
