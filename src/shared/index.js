@@ -9,4 +9,5 @@ export {
     DefaultButton,
     DefaultDivider,
     BackToTopButton,
+    Pagination,
 } from './ui'
