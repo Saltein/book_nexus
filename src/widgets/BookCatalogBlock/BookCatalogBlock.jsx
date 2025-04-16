@@ -290,7 +290,8 @@ export const BookCatalogBlock = (props) => {
             </div>
 
             <Pagination
-                currentPage={currentPage} totalPages={totalPages}
+                currentPage={currentPage} 
+                totalPages={totalPages}
                 onPageChange={(page) => { setCurrentPage(page) }}
             />
         </div>

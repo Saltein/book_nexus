@@ -1,0 +1,38 @@
+.preview {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(rgba(138, 79, 255, 0.9), rgba(255, 107, 107, 0.8));
+    padding: 100px 0;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    color: #362d2b;
+}
+
+.preview h1 {
+    font-family: "Playfair Display", serif;
+    text-align: center;
+}
+
+.preview p {
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+}
+
+.reviewsCon {
+    display: flex;
+    justify-content: center;
+
+    margin: 20px 0;
+}
+
+.leaveReviewCon {
+    display: flex;
+    justify-content: center;
+    padding: 20px 48px 48px 48px;
+    width: 100%;
+}
+
+.button {
+    width: 300px;
+}

@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { MainPage } from '../MainPage/MainPage';
 import { BookCatalogPage } from '../BookCatalogPage/BookCatalogPage';
 import { BackToTopButton } from '../../shared';
+import { ReviewsPage } from '../ReviewsPage/ReviewsPage';
 
 export const GlobalPage = (props) => {
     return (
@@ -11,12 +12,14 @@ export const GlobalPage = (props) => {
             <header>
                 <Header />
             </header>
-            <div className={styles.margin}/>
+            <div className={styles.margin} />
             <Routes>
                 <Route path='/main' element={<MainPage />} />
                 <Route path='/' element={<MainPage />} />
 
                 <Route path='/catalog' element={<BookCatalogPage />} />
+
+                <Route path='/reviews' element={<ReviewsPage />} />
             </Routes>
             <BackToTopButton />
             <Footer />

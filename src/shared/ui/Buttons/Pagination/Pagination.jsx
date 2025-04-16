@@ -1,12 +1,7 @@
 import React, { useMemo } from 'react';
 import styles from './Pagination.module.css'; // Создайте или скопируйте стили для пагинации
 
-export const Pagination = ({
-    currentPage,
-    totalPages,
-    onPageChange,
-    maxPageButtons = 5,
-}) => {
+export const Pagination = ({ currentPage, totalPages, onPageChange, maxPageButtons = 5 }) => {
     // Функция для генерации списка номеров страниц с ограничением количества кнопок
     const getPageNumbers = () => {
         let pages = [];
@@ -43,10 +38,8 @@ export const Pagination = ({
         return pages;
     };
 
-    // Используем useMemo для оптимизации генерации номеров страниц
     const pageNumbers = useMemo(() => getPageNumbers(), [currentPage, totalPages, maxPageButtons]);
 
-    // Функция для обработки клика по кнопке пагинации
     const paginate = (pageNumber) => {
         if (pageNumber === '...' || pageNumber < 1 || pageNumber > totalPages) return;
         onPageChange(pageNumber);
@@ -59,7 +52,7 @@ export const Pagination = ({
                     onClick={() => paginate(currentPage - 1)}
                     disabled={currentPage === 1}
                 >
-                    &laquo;
+                    &#8592;
                 </button>
 
                 {pageNumbers.map((page, index) => (
@@ -77,7 +70,7 @@ export const Pagination = ({
                     onClick={() => paginate(currentPage + 1)}
                     disabled={currentPage === totalPages}
                 >
-                    &raquo;
+                    &#8594;
                 </button>
             </div>
         </div>

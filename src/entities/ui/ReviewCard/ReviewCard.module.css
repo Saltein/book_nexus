@@ -1,0 +1,73 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: 320px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    margin: 15px;
+
+    transition: 0.2s;
+}
+
+.wrapper:hover {
+    transform: translateY(-5px);
+}
+
+.imageConOfCon {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.imageCon {
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    border-radius: 50%;
+    border: 3px solid white;
+    height: 80px;
+    width: 80px;
+    transform: translateY(-15px);
+}
+
+.image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #800098;
+}
+
+.infoWrapper {
+    display: flex;
+    align-items: flex-start;
+    padding: 0 24px 24px 24px; 
+}
+
+.infoWrapper img {
+    width: 30px;
+    padding: 8px;
+}
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.name {
+    font-family: "Playfair Display", serif;
+    color: #362d2b;
+    font-weight: 500;
+    font-size: 1.25rem;
+}
+
+.date {
+    color: #6c757d;
+    font-size: 12px;
+    font-family: "Poppins", sans-serif;
+}
+
+.text {
+    color: #6c757d;
+    font-size: 16px;
+}
