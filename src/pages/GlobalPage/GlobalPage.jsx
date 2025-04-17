@@ -5,6 +5,7 @@ import { MainPage } from '../MainPage/MainPage';
 import { BookCatalogPage } from '../BookCatalogPage/BookCatalogPage';
 import { BackToTopButton } from '../../shared';
 import { ReviewsPage } from '../ReviewsPage/ReviewsPage';
+import { ServiceRulesPage } from '../ServiceRulesPage/ServiceRulesPage';
 
 export const GlobalPage = (props) => {
     return (
@@ -20,6 +21,7 @@ export const GlobalPage = (props) => {
                 <Route path='/catalog' element={<BookCatalogPage />} />
 
                 <Route path='/reviews' element={<ReviewsPage />} />
+                <Route path='/service_rules' element={<ServiceRulesPage />} />
             </Routes>
             <BackToTopButton />
             <Footer />

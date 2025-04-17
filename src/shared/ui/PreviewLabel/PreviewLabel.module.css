@@ -1,0 +1,15 @@
+.preview {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(rgba(138, 79, 255, 0.9), rgba(255, 107, 107, 0.8));
+    padding: 100px 0;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    color: #362d2b;
+}
+
+.h, .p {
+    text-align: center;
+    padding: 0 10px;
+}

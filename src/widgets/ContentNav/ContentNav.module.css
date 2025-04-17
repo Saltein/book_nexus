@@ -1,0 +1,32 @@
+.wrapper {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px 0;
+}
+
+.title {
+    font-family: "Playfair Display", serif;
+    color: #362d2b;
+    font-size: 20px;
+}
+
+.chapters {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chapter a {
+    color: #978e98;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.chapter:hover a {
+    color: #800098;
+    transform: translateX(5px);
+    transition: 0.2s;
+}

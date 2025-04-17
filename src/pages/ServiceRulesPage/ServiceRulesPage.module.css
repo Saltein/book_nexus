@@ -1,17 +1,23 @@
 .wrapper {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     width: 100%;
 }
 
 .container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.rulesBlock {
     display: flex;
     flex-direction: row;
     max-width: 1200px;
     flex: 1;
 }
 
-.filters {
+.rulesNav {
     flex: 1;
     padding: 15px 15px 15px 0;
     position: sticky;
@@ -21,38 +27,66 @@
     overflow-y: auto;
 }
 
-.bookList {
+.rules {
+    display: flex;
+    flex-direction: column;
     padding: 15px;
     flex: 3;
 }
 
+.block {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+
+.titleCon {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.image {
+    width: 32px;
+}
+
+.title {
+    font-family: "Playfair Display", serif;
+    font-size: 32px;
+}
+
+
+
+
 @media (max-width: 1200px) {
-    .container {
+    .rulesBlock {
         max-width: 960px;
     }
 }
 
 @media (max-width: 960px) {
-    .container {
+    .rulesBlock {
         max-width: 720px;
     }
 
-    .filters {
+    .rulesNav {
         top: 60px;
         max-height: calc(100vh - 100px);
     }
 
-    .bookList {
+    .rules {
         padding: 15px 0 15px 15px;
     }
 }
 
 @media (max-width: 760px) {
-    .container {
+    .rulesBlock {
         flex-direction: column;
     }
 
-    .filters {
+    .rulesNav {
         padding: 15px;
         flex: unset;
         top: 0;
@@ -62,7 +96,7 @@
         overflow: unset;
     }
 
-    .bookList {
+    .rules {
         padding: 15px;
     }
 }
