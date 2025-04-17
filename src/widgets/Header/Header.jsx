@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NavButton, NavTogglerButton } from '../../shared'
 import styles from './Header.module.css'
 import logo from './assets/logo.png'
@@ -19,13 +19,23 @@ const moreMenuList = [
 export const Header = (props) => {
 
     const [menuVisible, setMenuVisible] = useState(false)
+    const [isScrolled, setIsScrolled] = useState(false)
 
     const handleMenu = () => {
         setMenuVisible(!menuVisible)
     }
 
+    useEffect(() => {
+        const toggleScroll = () => {
+            setIsScrolled(window.scrollY > 0);
+        };
+
+        window.addEventListener("scroll", toggleScroll);
+        return () => window.removeEventListener("scroll", toggleScroll);
+    }, [])
+
     return (
-        <div className={styles.wrapper}>
+        <div className={`${styles.wrapper} ${isScrolled ? styles.scrolled : ''}`}>
             <div className={styles.container}>
 
                 <Link to='/main'>
