@@ -1,0 +1,15 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    color: white;
+    cursor: pointer;
+}
+
+.icon {
+    width: 32px;
+}
+
+.button {
+    font-weight: 500;
+}

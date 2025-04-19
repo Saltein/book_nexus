@@ -1,0 +1,19 @@
+.wrapper {
+    display: flex;
+    flex: 1;
+    min-width: 150px;
+    cursor: pointer;
+    height: 60px;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    color: #606060;
+    border-bottom: 3px solid #ffffff;
+    transition: 0.2s;
+}
+
+.wrapper.active {
+    border-bottom: 3px solid #8a4fff;
+    color: #8a4fff;
+    transition: 0.2s;
+}

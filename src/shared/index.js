@@ -11,4 +11,5 @@ export {
     BackToTopButton,
     Pagination,
     RatingStars,
+    FormSwitchTab,
 } from './ui'
