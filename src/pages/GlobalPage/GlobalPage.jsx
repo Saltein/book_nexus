@@ -1,12 +1,13 @@
 import styles from './GlobalPage.module.css'
 import { Footer, Header } from '../../widgets'
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { MainPage } from '../MainPage/MainPage';
-import { BookCatalogPage } from '../BookCatalogPage/BookCatalogPage';
+import { MainPage } from '../../pages';
+import { BookCatalogPage } from '../../pages';
 import { BackToTopButton } from '../../shared';
-import { ReviewsPage } from '../ReviewsPage/ReviewsPage';
-import { ServiceRulesPage } from '../ServiceRulesPage/ServiceRulesPage';
-import { AuthPage } from '../AuthPage/AuthPage';
+import { ReviewsPage } from '../../pages';
+import { ServiceRulesPage } from '../../pages';
+import { AuthPage } from '../../pages';
+import { ExchangeAndDeliveryPage } from '../../pages';
 
 export const GlobalPage = (props) => {
 
@@ -26,7 +27,7 @@ export const GlobalPage = (props) => {
                 <Route path='/' element={<MainPage />} />
 
                 <Route path='/catalog' element={<BookCatalogPage />} />
-
+                <Route path='/exchange_delivery' element={<ExchangeAndDeliveryPage />} />
                 <Route path='/reviews' element={<ReviewsPage />} />
                 <Route path='/service_rules' element={<ServiceRulesPage />} />
                 <Route path='/auth' element={<AuthPage />} />

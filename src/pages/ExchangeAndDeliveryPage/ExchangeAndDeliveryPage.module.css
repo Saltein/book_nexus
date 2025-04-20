@@ -1,0 +1,47 @@
+.wrapper {
+    width: 100%;
+}
+
+.tutors {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: fit-content;
+    width: 100%;
+    padding: 40px 20px;
+    margin: 0 auto;
+    gap: 25px;
+}
+
+.globalTitle {
+    text-align: center;
+    font-family: "Playfair Display", serif;
+    color: #362d2b;
+    font-weight: 500;
+    font-size: 2rem;
+}
+
+.tutorList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tutor {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.title {
+    font-family: "Playfair Display", serif;
+    color: #362d2b;
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+.description {
+    font-family: "Poppins", sans-serif;
+    color: #978e98;
+    font-size: 16px;
+}
