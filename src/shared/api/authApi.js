@@ -3,7 +3,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;;
 export const authApi = {
     async register(formData) {
         try {
-            const response = await fetch(`${BASE_URL}/auth/register`, {
+            const response = await fetch(`${BASE_URL}/api/users/registration`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export const authApi = {
 
     async login(formData) {
         try {
-            const response = await fetch(`${BASE_URL}/auth/login`, {
+            const response = await fetch(`${BASE_URL}/api/users/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -41,6 +41,26 @@ export const authApi = {
             return await response.json()
         } catch (error) {
             console.error('Login error:', error)
+            throw error
+        }
+    },
+
+    async check() {
+        try {
+            const response = await fetch(`${BASE_URL}/api/auth/check`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Check failed')
+            }
+
+            return await response.json()
+        } catch (error) {
+            console.error('Check error:', error)
             throw error
         }
     }
