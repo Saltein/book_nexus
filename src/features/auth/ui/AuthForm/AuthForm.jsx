@@ -44,7 +44,7 @@ export const AuthForm = ({ inputs = [], buttonTitle }) => {
             return
         }
         
-        console.log("Успешная (тест) регистрация") 
+        console.log("Успешная (тест) регистрация", formData) 
     }
 
     return (

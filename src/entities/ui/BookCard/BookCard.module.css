@@ -1,6 +1,7 @@
 .wrapper_of_wrapper {
     display: flex;
     height: 100%;
+    transition: transform 0.3s;
 }
 
 .wrapper {
@@ -18,6 +19,7 @@
 
 .wrapper_of_wrapper:hover {
     transform: translateY(-5px);
+    transition: transform 0.3s;
 }
 
 .wrapper_of_wrapper:hover .cover {
