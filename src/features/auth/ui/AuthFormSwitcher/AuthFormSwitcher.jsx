@@ -88,7 +88,7 @@ export const AuthFormSwitcher = () => {
             >
                 <div ref={contentRef}>
                     {currentTab === tabs[0] && (
-                        <AuthForm buttonTitle="Войти" inputs={loginInputs} />
+                        <AuthForm buttonTitle="Войти" inputs={loginInputs} isLogin />
                     )}
                     {currentTab === tabs[1] && (
                         <AuthForm buttonTitle="Зарегистрироваться" inputs={registrationInputs} />

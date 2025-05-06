@@ -7,7 +7,7 @@ const PHONE_PATTERN = '^(?=(?:.*\\d){11,})[+\\d\\s\\-\\(\\)]+$'
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = new RegExp(PHONE_PATTERN);
 
-export const AuthForm = ({ inputs = [], buttonTitle }) => {
+export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false }) => {
 
     const [formData, setFormData] = useState({})
 
@@ -21,7 +21,7 @@ export const AuthForm = ({ inputs = [], buttonTitle }) => {
 
 
     // TO DO вывод ошибок на экран, отправка формы
-    const handleSubmit = () => {    
+    const handleRegister = async () => {
         console.log(formData)
 
         if (Object.keys(formData).length !== 7) {
@@ -33,7 +33,7 @@ export const AuthForm = ({ inputs = [], buttonTitle }) => {
             console.log("Некорректный email");
             return;
         }
-    
+
         if (!PHONE_REGEX.test(formData.phone)) {
             console.log("Некорректный номер телефона");
             return;
@@ -43,9 +43,36 @@ export const AuthForm = ({ inputs = [], buttonTitle }) => {
             console.log("Пароли не совпадают")
             return
         }
-        
-        console.log("Успешная (тест) регистрация", formData) 
+
+        try {
+            let response = await authApi.register(formData);
+            if (response) {
+                console.log("Успешная (тест) регистрация", formData, response)
+                setCurrentTab(tabs[0])
+            } else {
+                setError("Ошибка регистрации")
+            }
+        } catch (error) {
+            console.error('Ошибка регистрации:', error.message);
+            setError(`Ошибка регистрации: ${error.message}`)
+        }
+
+        console.log("Успешная (тест) регистрация", formData)
     }
+
+    const handleLogin = async () => {
+        setError('')
+
+        try {
+            const { email, password } = formData;
+            await dispatch(loginUser({ email, password }));
+            navigate('/dating')
+        } catch (error) {
+            console.error('Ошибка авторизации:', error.message);
+            setError(`Ошибка авторизации: ${error.message}`)
+        }
+    }
+
 
     return (
         <div className={styles.wrapper}>
@@ -71,7 +98,7 @@ export const AuthForm = ({ inputs = [], buttonTitle }) => {
                 })}
             </div>
 
-            <DefaultButton title={buttonTitle} color={'#8a4fff'} onClick={handleSubmit} />
+            <DefaultButton title={buttonTitle} color={'#8a4fff'} onClick={isLogin ? handleLogin : handleRegister} />
         </div>
     )
 }
