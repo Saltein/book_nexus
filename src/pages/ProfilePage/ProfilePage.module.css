@@ -1,0 +1,70 @@
+.wrapper {
+    display: flex;
+    gap: 8px;
+    
+    max-width: 1200px;
+    margin: 10px auto;
+}
+
+.nav {
+    flex: 1;
+    height: fit-content;
+
+}
+
+.widget {
+    flex: 5;
+}
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #ccc;
+}
+
+.navButton {
+    all: unset;
+    box-sizing: border-box;
+    color: #002e5b;
+    cursor: pointer;
+    height: 40px;
+    font-weight: 400;
+    font-size: large;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    align-content: center;
+    padding: 5px 10px;
+
+    &.logout {
+        color: red;
+        margin-top: 40px;
+    }
+    transition: 0.3s;
+}
+
+.navButton:hover {
+    background: linear-gradient(to right, #55007711, #00000000);
+    padding: 5px 20px;
+    transition: 0.3s;
+}
+
+.logout:hover {
+    background: linear-gradient(to right, #ff000022, #00000000);
+}
+
+@media (max-width: 1200px) {
+    .wrapper {
+        max-width: 960px;
+    }
+}
+
+@media (max-width: 960px) {
+    .wrapper {
+        max-width: 720px;
+    }
+}
+
+@media (max-width: 760px) {
+    .wrapper {
+        flex-direction: column;
+    }
+}

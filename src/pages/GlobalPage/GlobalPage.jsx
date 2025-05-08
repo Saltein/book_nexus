@@ -1,7 +1,7 @@
 import styles from './GlobalPage.module.css'
 import { Footer, Header } from '../../widgets'
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { MainPage } from '../../pages';
+import { MainPage, ProfilePage } from '../../pages';
 import { BookCatalogPage } from '../../pages';
 import { BackToTopButton } from '../../shared';
 import { ReviewsPage } from '../../pages';
@@ -9,6 +9,7 @@ import { ServiceRulesPage } from '../../pages';
 import { AuthPage } from '../../pages';
 import { ExchangeAndDeliveryPage } from '../../pages';
 import { AuthProvider } from '../../app/context/AuthContext';
+import { ProtectedRoute } from '../../app/hoc/ProtectedRoute';
 
 export const GlobalPage = (props) => {
 
@@ -33,6 +34,12 @@ export const GlobalPage = (props) => {
                     <Route path='/reviews' element={<ReviewsPage />} />
                     <Route path='/service_rules' element={<ServiceRulesPage />} />
                     <Route path='/auth' element={<AuthPage />} />
+
+                    <Route path='/profile/*' element={
+                        <ProtectedRoute>
+                            <ProfilePage />
+                        </ProtectedRoute>
+                    } />
                 </Routes>
 
                 {!isSimpleLayout && <BackToTopButton />}

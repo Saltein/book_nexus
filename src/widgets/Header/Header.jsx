@@ -67,7 +67,6 @@ export const Header = (props) => {
                 <NavMenu menuList={moreMenuList} onClick={handleMenu} />
             </div>
 
-            {isLogged && <button onClick={() => { dispatch(logout()) }}>Выйти</button>}
         </div>
     )
 }
