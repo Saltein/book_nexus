@@ -3,8 +3,8 @@ import { DefaultButton } from '../../../../shared'
 import styles from './AuthForm.module.css'
 import { useDispatch } from 'react-redux';
 import { authApi } from '../../../../shared/api/authApi';
-import { loginUser } from '../../model/authActions'
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../../app/context/AuthContext';
 
 const PHONE_PATTERN = '^(?=(?:.*\\d){11,})[+\\d\\s\\-\\(\\)]+$'
 
@@ -13,7 +13,7 @@ const PHONE_REGEX = new RegExp(PHONE_PATTERN);
 
 export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrentTab = () => { }, tabs = [] }) => {
 
-    const dispatch = useDispatch()
+    const { login } = useAuth()
     const navigate = useNavigate()
 
     let formattedFormData
@@ -63,29 +63,28 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
             }
         } catch (error) {
             console.error('Ошибка регистрации:', error.message);
-            console.log(`Ошибка регистрации: ${error.message}`)
         }
 
         console.log("Успешная (тест) регистрация", formattedFormData)
     }
 
     const handleLogin = async () => {
-        console.log('')
-
         try {
-            const { email, password } = formData;
-            await dispatch(loginUser({ email, password }));
-            const response = await authApi.check()
+            let response = await authApi.login(formData)
             if (response) {
-                console.log("👍")
-                response.data.isAuthenticated ? navigate('/main') : console.log('👎')
+                const token = response.user // передаём в AuthContext -> loginSuccess -> user
+                console.log("ПЕРЕДАНО В КОНТЕКСТ", token)
+
+                login(token)
+                navigate('/main')
             } else {
-                console.log("Ошибка авторизации")
+                console.error("Ошибка входа:", response?.message || "Неизвестная ошибка");
             }
+
         } catch (error) {
-            console.error('Ошибка авторизации:', error.message);
-            console.log(`Ошибка авторизации: ${error.message}`)
+            console.error('Ошибка входа:', error.message);
         }
+
     }
 
     useEffect(() => {

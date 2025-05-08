@@ -8,6 +8,7 @@ export const authApi = {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify(formData),
             });
 
@@ -30,6 +31,7 @@ export const authApi = {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify(formData),
             });
 
@@ -51,7 +53,8 @@ export const authApi = {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
+                credentials: 'include',
             })
             if (!response.ok) {
                 const errorData = await response.json();
@@ -61,6 +64,25 @@ export const authApi = {
             return await response.json()
         } catch (error) {
             console.error('Check error:', error)
+            throw error
+        }
+    },
+
+    async logout() {
+        try {
+            const response = await fetch(`${BASE_URL}/api/users/logout`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Logout failed')
+            }
+        } catch (error) {
+            console.error('Logout error:', error)
             throw error
         }
     }

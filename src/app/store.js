@@ -1,15 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from '../entities/user/model/userSlice'
-
-const preloadedState = {
-    auth: {
-        token: localStorage.getItem('token') || null,
-    },
-}
+import authReducer from './model/authSlice'
 
 export const store = configureStore({
     reducer: {
         user: userReducer,
+        auth: authReducer,
     },
-    preloadedState,
 })

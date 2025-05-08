@@ -4,6 +4,8 @@ import styles from './Header.module.css'
 import logo from './assets/logo.png'
 import { Link } from 'react-router-dom'
 import { NavMenu } from './ui/NavMenu/NavMenu'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout, selectIsLoggedIn } from '../../app/model/authSlice'
 
 const moreMenuList = [
     {
@@ -18,8 +20,12 @@ const moreMenuList = [
 
 export const Header = (props) => {
 
+    const dispatch = useDispatch()
+
     const [menuVisible, setMenuVisible] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
+
+    const isLogged = useSelector(selectIsLoggedIn)
 
     const handleMenu = () => {
         setMenuVisible(!menuVisible)
@@ -46,7 +52,10 @@ export const Header = (props) => {
                     <NavButton title='Каталог книг' href={'/catalog'} />
                     <NavButton title='Обмен и доставка' href={'/exchange_delivery'} />
                     <NavButton title='Ещё' menuList={moreMenuList} />
-                    <NavButton title='Вход/Регистрация' href={'/auth'} />
+                    {isLogged
+                        ? <NavButton title='Профиль' href={'/profile'} />
+                        : <NavButton title='Вход/Регистрация' href={'/auth'} />
+                    }
                 </div>
 
                 <div className={styles.nav_toggle}>
@@ -57,6 +66,8 @@ export const Header = (props) => {
             <div className={`${styles.menu} ${menuVisible ? styles.active : ''}`}>
                 <NavMenu menuList={moreMenuList} onClick={handleMenu} />
             </div>
+
+            {isLogged && <button onClick={() => { dispatch(logout()) }}>Выйти</button>}
         </div>
     )
 }
