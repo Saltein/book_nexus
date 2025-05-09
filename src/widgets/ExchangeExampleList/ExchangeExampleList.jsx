@@ -1,57 +1,38 @@
-import { ExchangeExample } from '../../entities'
 import styles from './ExchangeExampleList.module.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { ExchangeExample } from '../../entities'
+import { exchangeExamplesApi } from '../../shared/api/exchangeExamplesApi';
+import { getExamples, setExamples } from './model/examplesSlice';
+import { useEffect } from 'react';
 
-import book1 from './tempAssets/book1.jpg';
-import book2 from './tempAssets/book2.jpg';
-import book3 from './tempAssets/book3.jpg';
-import book4 from './tempAssets/book4.jpg';
+export const ExchangeExampleList = () => {
 
-const data = [
-    {
-        id: 1,
-        exchangeStatus: "Успешный обмен",
-        bookTitle: "1984",
-        bookAuthor: "Джордж Оруэлл",
-        bookCover: book1,
-        giver: 'Алексей',
-        receiver: 'Мария',
-    },
-    {
-        id: 2,
-        exchangeStatus: "Успешный обмен",
-        bookTitle: "Евгений Онегин",
-        bookAuthor: "Александр Пушкин",
-        bookCover: book2,
-        giver: 'Ирина',
-        receiver: 'Дмитрий',
-    },
-    {
-        id: 3,
-        exchangeStatus: "Успешный обмен",
-        bookTitle: "Преступление и наказание",
-        bookAuthor: "Федор Достоевский",
-        bookCover: book3,
-        giver: 'Сергей',
-        receiver: 'Ольга',
-    },
-    {
-        id: 4,
-        exchangeStatus: "Успешный обмен",
-        bookTitle: "Маленький принц",
-        bookAuthor: "Антуан де Сент-Экзюпери",
-        bookCover: book4,
-        giver: 'Анна',
-        receiver: 'Павел',
-    },
+    const dispatch = useDispatch()
+    const examplesData = useSelector(getExamples)
 
-]
+    const getExamplesFunc = async () => {
+        try {
+            const response = await exchangeExamplesApi.get()
+            if (response) {
+                console.log("Данные получены", response)
+                dispatch(setExamples(response))
+            } else {
+                console.log("Неизвестная ошибка получения примеров")
+            }
+        } catch (error) {
+            console.log("Ошибка получения примеров", error)
+        }
+    }
 
-export const ExchangeExampleList = (props) => {
+    useEffect(() => {
+        getExamplesFunc()
+    }, [])
+
     return (
         <div className={styles.wrapper}>
             <p className={styles.txt}>Примеры обменов</p>
             <div className={styles.exchangeList}>
-                {data.map((exchange, index) => {
+                {examplesData.map((exchange, index) => {
                     return (
                         <div key={exchange.id || index}>
                             <ExchangeExample {...exchange} />
