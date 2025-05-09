@@ -1,0 +1,10 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+}
+.icon {
+    width: 25px;
+    height: 25px;
+}

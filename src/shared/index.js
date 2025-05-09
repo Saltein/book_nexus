@@ -12,4 +12,5 @@ export {
     Pagination,
     RatingStars,
     FormSwitchTab,
+    MyExchange,
 } from './ui'

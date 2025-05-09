@@ -1,10 +1,11 @@
+import { formatStatus } from '../../../shared/lib/status/formatStatus'
 import { DefaultDivider } from '../../../shared/ui'
 import styles from './ExchangeExample.module.css'
 import rightArrowIcon from './assets/right-arrow.svg'
 
 export const ExchangeExample = (props) => {
 
-    const status = props.status === 'completed' ? 'Успешный обмен' : 'В процессе'
+    const status = formatStatus(props.status)
 
     return (
         <div className={styles.wrapper_of_wrapper}>

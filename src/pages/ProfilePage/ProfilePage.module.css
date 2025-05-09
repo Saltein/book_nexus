@@ -13,6 +13,7 @@
 }
 
 .widget {
+    min-height: 500px;
     flex: 5;
 }
 
