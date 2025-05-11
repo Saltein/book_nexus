@@ -1,0 +1,23 @@
+.labelDiv {
+    display: flex;
+    align-items: center;
+}
+
+.label {
+    text-align: center;
+    font-size: 24px;
+    font-family: "Playfair Display", serif;
+    color: #333;
+    text-wrap: nowrap;
+    width: 500px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: #fcfcfc;
+}
+
+.exchangeList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}

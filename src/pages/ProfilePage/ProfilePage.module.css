@@ -9,12 +9,13 @@
 .nav {
     flex: 1;
     height: fit-content;
-
+    min-width: fit-content;
 }
 
 .widget {
     min-height: 500px;
     flex: 5;
+    padding-bottom: 40px;
 }
 
 .panel {

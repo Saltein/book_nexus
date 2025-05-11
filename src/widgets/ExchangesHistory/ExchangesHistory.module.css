@@ -1,0 +1,12 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.message {
+    font-weight: 600;
+    color: #666;
+    width: 100%;
+    text-align: center;
+}

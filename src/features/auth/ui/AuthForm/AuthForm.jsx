@@ -1,10 +1,11 @@
+import styles from './AuthForm.module.css'
 import { useEffect, useState } from 'react'
 import { DefaultButton } from '../../../../shared'
-import styles from './AuthForm.module.css'
 import { useDispatch } from 'react-redux';
 import { authApi } from '../../../../shared/api/authApi';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../../app/context/AuthContext';
+import { setEmail, setId, setRole } from '../../../../entities/user/model/userSlice';
 
 const PHONE_PATTERN = '^(?=(?:.*\\d){11,})[+\\d\\s\\-\\(\\)]+$'
 
@@ -15,6 +16,7 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
 
     const { login } = useAuth()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     let formattedFormData
 
@@ -72,11 +74,22 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
         try {
             let response = await authApi.login(formData)
             if (response) {
-                const token = response.user // передаём в AuthContext -> loginSuccess -> user
-                console.log("ПЕРЕДАНО В КОНТЕКСТ", token)
+                const user = response.user;
 
-                login(token)
-                navigate('/main')
+                // Redux
+                dispatch(setId(user.id));
+                dispatch(setEmail(user.email));
+                dispatch(setRole(user.role));
+
+                // Local Storage
+                localStorage.setItem('user', JSON.stringify({
+                    id: user.id,
+                    email: user.email,
+                    role: user.role
+                }));
+
+                login(user); // если login также сохраняет токен
+                navigate('/main');
             } else {
                 console.error("Ошибка входа:", response?.message || "Неизвестная ошибка");
             }

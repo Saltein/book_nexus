@@ -1,22 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    token: localStorage.getItem('token') || null,
+    id: -1,
+    "email": "",
+    "role": "",
 };
 
 const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setToken: (state, action) => {
-            state.token = action.payload;
+        setId: (state, action) => {
+            state.id = action.payload
         },
-        clearToken: (state) => {
-            state.token = null;
+        setEmail: (state, action) => {
+            state.email = action.payload
+        },
+        setRole: (state, action) => {
+            state.email = action.payload
         },
     },
 });
 
-export const { setToken, clearToken } = userSlice.actions;
+export const { setId, setEmail, setRole } = userSlice.actions;
 export default userSlice.reducer;
-export const selectToken = (state) => state.user.token
+export const getId = (state) => state.user.id
+export const getEmail = (state) => state.user.email
+export const geRole = (state) => state.user.role

@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginSuccess, logoutSuccess, selectUser, selectIsLoggedIn } from '../model/authSlice';
 import { authApi } from '../../shared/api/authApi';
+import { setEmail, setId, setRole } from '../../entities/user/model/userSlice';
 
 // Создаем контекст с начальным значением null
 export const AuthContext = createContext(null);
@@ -20,21 +21,32 @@ export const AuthProvider = ({ children }) => {
         const checkAuth = async () => {
             try {
                 const response = await authApi.check();
-    
+
                 if (response.isAuthenticated) {
                     dispatch(loginSuccess(response.user));
                 } else {
                     dispatch(logoutSuccess());
                 }
             } catch (err) {
+                localStorage.removeItem('user');
                 dispatch(logoutSuccess());
             } finally {
                 setIsInitialized(true);
             }
         };
-    
+
         checkAuth();
     }, [dispatch]);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            const { id, email, role } = JSON.parse(storedUser);
+            dispatch(setId(id));
+            dispatch(setEmail(email));
+            dispatch(setRole(role));
+        }
+    }, []);
 
     const value = { isAuthenticated: isLoggedIn, user, login, logout };
 
