@@ -3,10 +3,13 @@ import styles from './ProfilePage.module.css'
 import { logout } from '../../app/model/authSlice'
 import { Routes, Route, Navigate, Link } from 'react-router-dom'
 import { MyAnnouncements, ExchangesHistory } from '../../widgets'
+import { useState } from 'react'
 
 export const ProfilePage = () => {
 
     const dispatch = useDispatch()
+
+    const [currentPage, setCurrentPage] = useState(0)
 
     const handleLogout = () => {
         localStorage.removeItem('user');
@@ -16,8 +19,17 @@ export const ProfilePage = () => {
         <div className={styles.wrapper}>
             <div className={styles.nav}>
                 <div className={styles.panel}>
-                    <Link className={styles.navButton} to={'/profile/history'}>История обменов</Link>
-                    <Link className={styles.navButton} to={'/profile/announcements'}>Мои объявления</Link>
+                    <Link
+                        className={`${styles.navButton} ${currentPage === 0 ? styles.current : ''}`}
+                        to={'/profile/history'}
+                        onClick={() => setCurrentPage(0)}
+                    >История обменов</Link>
+                    <Link
+                        className={`${styles.navButton} ${currentPage === 1 ? styles.current : ''}`}
+                        to={'/profile/announcements'}
+                        onClick={() => setCurrentPage(1)}
+                    >
+                        Мои объявления</Link>
                     <a className={`${styles.navButton} ${styles.logout}`} onClick={handleLogout}>Выйти из аккаунта</a>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 import styles from './ExchangesHistory.module.css'
 import { useSelector, useDispatch } from 'react-redux'
-import { DefaultDivider, ExchangesListBox, MyExchange } from '../../shared'
+import { ExchangesListBox } from '../../shared'
 import { useEffect } from 'react'
 import { exchangesApi } from '../../shared/api/exchangesApi'
 import {
@@ -28,10 +28,6 @@ export const ExchangesHistory = () => {
                 exchangesApi.getExchangesByStatus(userId, 'accepted'),
                 exchangesApi.getExchangesByStatus(userId, 'pending'),
             ])
-            console.log("Данные completed:", completed)
-            console.log("Данные rejected :", rejected)
-            console.log("Данные accepted :", accepted)
-            console.log("Данные pending  :", pending)
 
             dispatch(setExchangesArchive([...completed, ...rejected]))
             dispatch(setExchangesAccepted(accepted))
@@ -47,9 +43,9 @@ export const ExchangesHistory = () => {
 
     return (
         <div className={styles.wrapper}>
-            <ExchangesListBox title={'Принятые'} dataList={acceptedExchangesData}/>
-            <ExchangesListBox title={'На рассмотрении'} dataList={pendingExchangesData}/>
-            <ExchangesListBox title={'Архив'} dataList={archiveExchangesData}/>
+            <ExchangesListBox title={'Принятые'} dataList={acceptedExchangesData} />
+            <ExchangesListBox title={'На рассмотрении'} dataList={pendingExchangesData} />
+            <ExchangesListBox title={'Архив'} dataList={archiveExchangesData} />
 
             {archiveExchangesData.length === 0 && <span className={styles.message}>Вы еще не совершали обменов</span>}
         </div >

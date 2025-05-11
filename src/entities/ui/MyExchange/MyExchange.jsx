@@ -3,22 +3,36 @@ import { formatDate } from '../../../shared/lib/date/formatDate'
 import { StatusIcon } from '../../../shared/ui/StatusIcon/StatusIcon'
 import { useSelector } from 'react-redux'
 import { getId } from '../../user/model/userSlice'
+import { ModalWindow } from '../../../shared'
+import { ExchangeInfoWindow } from './ExchangeInfoWindow/ExchangeInfoWindow'
+import { useState } from 'react'
 
 export const MyExchange = ({ obj }) => {
     const created_at = formatDate(obj.created_at)
     const userId = useSelector(getId)
 
+    const [isOpen, setIsOpen] = useState(false)
+
+    const handleClose = () => {
+        setIsOpen(false)
+    }
+
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} onClick={() => setIsOpen(true)}>
             <img className={styles.cover} src={obj.Book.cover} />
             <span className={styles.createdAt}>{created_at}</span>
             <span className={styles.author}>{obj.Book.author}</span>
             <span className={styles.title}>{obj.Book.name}</span>
             <span className={styles.sender}>
-                от {obj.Sender.id === userId ? 'Вас, к ' + obj.Recipient.name : obj.Sender.name}
+                {obj.Sender.id === userId ? 'Вы → ' + obj.Recipient.name : obj.Sender.name + ' → Вы'}
             </span>
 
             <StatusIcon statusStr={obj.status} />
+            {isOpen && (
+                <ModalWindow onClose={handleClose}>
+                    <ExchangeInfoWindow dataObj={obj}/>
+                </ModalWindow>
+            )}
         </div>
     )
 }

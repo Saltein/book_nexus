@@ -14,4 +14,5 @@ export {
     FormSwitchTab,
     MyExchange,
     ExchangesListBox,
+    ModalWindow,
 } from './ui'
