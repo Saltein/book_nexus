@@ -1,296 +1,59 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { BookCard } from '../../entities/ui/BookCard/BookCard'
 import styles from './BookCatalogBlock.module.css'
-
-import book1 from './tempAssets/book1.jpg';
-import book2 from './tempAssets/book2.jpg';
-import book3 from './tempAssets/book3.jpg';
-import book4 from './tempAssets/book4.jpg';
 import { Pagination } from '../../shared';
+import { useDispatch, useSelector } from 'react-redux';
+import { getFilteredBooks, setBooks } from './model/bookCatalogSlice';
+import { bookCatalogApi } from '../../shared/api/bookCatalogApi';
 
-const data = [
-    {
-        id: 1,
-        bookTitle: "1984",
-        bookAuthor: "Джордж Оруэлл",
-        bookCover: book1,
-        bookYear: '1949',
-        bookGenre: 'Фантастика',
-    },
-    {
-        id: 2,
-        bookTitle: "Евгений Онегин",
-        bookAuthor: "Александр Пушкин",
-        bookCover: book2,
-        bookYear: '1833',
-        bookGenre: 'Роман',
-    },
-    {
-        id: 3,
-        bookTitle: "Преступление и наказание",
-        bookAuthor: "Федор Достоевский",
-        bookCover: book3,
-        bookYear: '1866',
-        bookGenre: 'Роман',
-    },
-    {
-        id: 4,
-        bookTitle: "Маленький принц",
-        bookAuthor: "Антуан де Сент-Экзюпери",
-        bookCover: book4,
-        bookYear: '1943',
-        bookGenre: 'Cказка',
-    },
-    {
-        id: 1,
-        bookTitle: "1984",
-        bookAuthor: "Джордж Оруэлл",
-        bookCover: book1,
-        bookYear: '1949',
-        bookGenre: 'Фантастика',
-    },
-    {
-        id: 2,
-        bookTitle: "Евгений Онегин",
-        bookAuthor: "Александр Пушкин",
-        bookCover: book2,
-        bookYear: '1833',
-        bookGenre: 'Роман',
-    },
-    {
-        id: 3,
-        bookTitle: "Преступление и наказание",
-        bookAuthor: "Федор Достоевский",
-        bookCover: book3,
-        bookYear: '1866',
-        bookGenre: 'Роман',
-    },
-    {
-        id: 4,
-        bookTitle: "Маленький принц",
-        bookAuthor: "Антуан де Сент-Экзюпери",
-        bookCover: book4,
-        bookYear: '1943',
-        bookGenre: 'Cказка',
-    },
-    {
-        id: 1,
-        bookTitle: "1984",
-        bookAuthor: "Джордж Оруэлл",
-        bookCover: book1,
-        bookYear: '1949',
-        bookGenre: 'Фантастика',
-    },
-    {
-        id: 2,
-        bookTitle: "Евгений Онегин",
-        bookAuthor: "Александр Пушкин",
-        bookCover: book2,
-        bookYear: '1833',
-        bookGenre: 'Роман',
-    },
-    {
-        id: 3,
-        bookTitle: "Преступление и наказание",
-        bookAuthor: "Федор Достоевский",
-        bookCover: book3,
-        bookYear: '1866',
-        bookGenre: 'Роман',
-    },
-    {
-        id: 4,
-        bookTitle: "Маленький принц",
-        bookAuthor: "Антуан де Сент-Экзюпери",
-        bookCover: book4,
-        bookYear: '1943',
-        bookGenre: 'Cказка',
-    },
-    {
-        id: 1,
-        bookTitle: "1984",
-        bookAuthor: "Джордж Оруэлл",
-        bookCover: book1,
-        bookYear: '1949',
-        bookGenre: 'Фантастика',
-    },
-    {
-        id: 2,
-        bookTitle: "Евгений Онегин",
-        bookAuthor: "Александр Пушкин",
-        bookCover: book2,
-        bookYear: '1833',
-        bookGenre: 'Роман',
-    },
-    {
-        id: 3,
-        bookTitle: "Преступление и наказание",
-        bookAuthor: "Федор Достоевский",
-        bookCover: book3,
-        bookYear: '1866',
-        bookGenre: 'Роман',
-    },
-    {
-        id: 4,
-        bookTitle: "Маленький принц",
-        bookAuthor: "Антуан де Сент-Экзюпери",
-        bookCover: book4,
-        bookYear: '1943',
-        bookGenre: 'Cказка',
-    },
-    {
-        id: 1,
-        bookTitle: "1984",
-        bookAuthor: "Джордж Оруэлл",
-        bookCover: book1,
-        bookYear: '1949',
-        bookGenre: 'Фантастика',
-    },
-    {
-        id: 2,
-        bookTitle: "Евгений Онегин",
-        bookAuthor: "Александр Пушкин",
-        bookCover: book2,
-        bookYear: '1833',
-        bookGenre: 'Роман',
-    },
-    {
-        id: 3,
-        bookTitle: "Преступление и наказание",
-        bookAuthor: "Федор Достоевский",
-        bookCover: book3,
-        bookYear: '1866',
-        bookGenre: 'Роман',
-    },
-    {
-        id: 4,
-        bookTitle: "Маленький принц",
-        bookAuthor: "Антуан де Сент-Экзюпери",
-        bookCover: book4,
-        bookYear: '1943',
-        bookGenre: 'Cказка',
-    },
-    {
-        id: 1,
-        bookTitle: "1984",
-        bookAuthor: "Джордж Оруэлл",
-        bookCover: book1,
-        bookYear: '1949',
-        bookGenre: 'Фантастика',
-    },
-    {
-        id: 2,
-        bookTitle: "Евгений Онегин",
-        bookAuthor: "Александр Пушкин",
-        bookCover: book2,
-        bookYear: '1833',
-        bookGenre: 'Роман',
-    },
-    {
-        id: 3,
-        bookTitle: "Преступление и наказание",
-        bookAuthor: "Федор Достоевский",
-        bookCover: book3,
-        bookYear: '1866',
-        bookGenre: 'Роман',
-    },
-    {
-        id: 4,
-        bookTitle: "Маленький принц",
-        bookAuthor: "Антуан де Сент-Экзюпери",
-        bookCover: book4,
-        bookYear: '1943',
-        bookGenre: 'Cказка',
-    },
-    {
-        id: 1,
-        bookTitle: "1984",
-        bookAuthor: "Джордж Оруэлл",
-        bookCover: book1,
-        bookYear: '1949',
-        bookGenre: 'Фантастика',
-    },
-    {
-        id: 2,
-        bookTitle: "Евгений Онегин",
-        bookAuthor: "Александр Пушкин",
-        bookCover: book2,
-        bookYear: '1833',
-        bookGenre: 'Роман',
-    },
-    {
-        id: 3,
-        bookTitle: "Преступление и наказание",
-        bookAuthor: "Федор Достоевский",
-        bookCover: book3,
-        bookYear: '1866',
-        bookGenre: 'Роман',
-    },
-    {
-        id: 4,
-        bookTitle: "Маленький принц",
-        bookAuthor: "Антуан де Сент-Экзюпери",
-        bookCover: book4,
-        bookYear: '1943',
-        bookGenre: 'Cказка',
-    },
-    {
-        id: 1,
-        bookTitle: "1984",
-        bookAuthor: "Джордж Оруэлл",
-        bookCover: book1,
-        bookYear: '1949',
-        bookGenre: 'Фантастика',
-    },
-    {
-        id: 2,
-        bookTitle: "Евгений Онегин",
-        bookAuthor: "Александр Пушкин",
-        bookCover: book2,
-        bookYear: '1833',
-        bookGenre: 'Роман',
-    },
-    {
-        id: 3,
-        bookTitle: "Преступление и наказание",
-        bookAuthor: "Федор Достоевский",
-        bookCover: book3,
-        bookYear: '1866',
-        bookGenre: 'Роман',
-    },
-    {
-        id: 4,
-        bookTitle: "Маленький принц",
-        bookAuthor: "Антуан де Сент-Экзюпери",
-        bookCover: book4,
-        bookYear: '1943',
-        bookGenre: 'Cказка',
-    },
-]
+export const BookCatalogBlock = () => {
+    const dispatch = useDispatch()
+    const booksData = useSelector(getFilteredBooks);
 
-export const BookCatalogBlock = (props) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(12); // Количество книг на странице
 
     const currentItems = useMemo(() => {
         const indexOfLastItem = currentPage * itemsPerPage;
         const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-        return data.slice(indexOfFirstItem, indexOfLastItem);
-    }, [currentPage, itemsPerPage]);
+        return booksData.slice(indexOfFirstItem, indexOfLastItem);
+    }, [currentPage, itemsPerPage, booksData]);
 
-    const totalPages = Math.ceil(data.length / itemsPerPage);
+    const totalPages = Math.ceil(booksData.length / itemsPerPage);
+
+    const getBooksFunc = async () => {
+        try {
+            const response = await bookCatalogApi.get()
+            if (response) {
+                dispatch(setBooks(response))
+            } else {
+                console.log("Неизвестная ошибка получения книг")
+            }
+        } catch (error) {
+            console.log("Ошибка получения книг", error)
+        }
+    }
+
+    useEffect(() => {
+        getBooksFunc()
+    }, [])
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [booksData]);
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.bookList}>
                 {currentItems.map((book, index) => (
                     <div key={`${book.id}-${index}`}>
-                        <BookCard {...book} />
+                        <BookCard img_url={book.img_url} name={book.name} author={book.author} year={book.year} Genre={book.Genre} />
                     </div>
                 ))}
             </div>
 
             <Pagination
-                currentPage={currentPage} 
+                currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={(page) => { setCurrentPage(page) }}
             />

@@ -4,8 +4,8 @@ import styles from './Header.module.css'
 import logo from './assets/logo.png'
 import { Link } from 'react-router-dom'
 import { NavMenu } from './ui/NavMenu/NavMenu'
-import { useDispatch, useSelector } from 'react-redux'
-import { logout, selectIsLoggedIn } from '../../app/model/authSlice'
+import { useSelector } from 'react-redux'
+import { selectIsLoggedIn } from '../../app/model/authSlice'
 
 const moreMenuList = [
     {
@@ -18,9 +18,7 @@ const moreMenuList = [
     }
 ]
 
-export const Header = (props) => {
-
-    const dispatch = useDispatch()
+export const Header = () => {
 
     const [menuVisible, setMenuVisible] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
@@ -45,7 +43,7 @@ export const Header = (props) => {
             <div className={styles.container}>
 
                 <Link to='/main'>
-                    <img src={logo} />
+                    <img src={logo} alt='logo' />
                 </Link>
 
                 <div className={styles.nav_buttons}>

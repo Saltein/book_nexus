@@ -1,22 +1,29 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styles from './ReviewForm.module.css'
 import { DefaultButton, RatingStars } from '../../../shared'
 
-export const ReviewForm = ({ onSubmit, onCancel }) => {
+export const ReviewForm = ({ handleClose }) => {
 
     const [stars, setStars] = useState(0)
     const [text, setText] = useState('')
+    const [warning, setWarning] = useState('')
 
     const handleSubmit = () => {
         const data = {
             stars,
             text,
         }
-        onSubmit(data)
-    }
+        if (stars <= 0) {
+            setWarning('Поставьте рейтинг!')
+            return
+        }
+        if (text.length <= 0) {
+            setWarning('Напишите что нибудь в поле ввода!')
+            return
+        }
 
-    const handleCancel = () => {
-        onCancel()
+        console.log('Отзыв оставлен!')
+        handleClose()
     }
 
     const handleStars = (stars) => {
@@ -27,28 +34,13 @@ export const ReviewForm = ({ onSubmit, onCancel }) => {
         setText(e.target.value)
     }
 
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (event.target.closest(`.${styles.form}`) === null) {
-                handleCancel();
-            }
-        }
-        document.addEventListener('mousedown', handleClickOutside)
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
-    }, [handleSubmit])
-
-
     return (
-        <div className={styles.wrapper}>
-            <div className={styles.form}>
-                <h2>Оставьте отзыв</h2>
-                <RatingStars starSize='48px' ratiable onRate={handleStars} rating={stars}/>
-                <textarea className={styles.text} onChange={handleTextChange} />
-                <DefaultButton title={'Оставить отзыв'} onClick={handleSubmit} />
-            </div>
+        <div className={styles.form}>
+            <h2>Оставьте отзыв</h2>
+            <RatingStars starSize='48px' rateable onRate={handleStars} rating={stars} />
+            <textarea className={styles.text} onChange={handleTextChange} />
+            {warning && <span className={styles.warning}>{warning}</span>}
+            <DefaultButton title={'Оставить отзыв'} onClick={handleSubmit} />
         </div>
     )
 }

@@ -1,7 +1,13 @@
-import { useEffect, useState } from 'react'
-import { DefaultButton, DefaultDivider, FilterCBForm, FiltersDDList, FilterSlidebar } from '../../shared/ui'
+import { DefaultDivider, FilterCBForm, FiltersDDList, FilterSlidebar } from '../../shared/ui'
 import styles from './FiltersBlock.module.css'
 import filterIcon from './assets/filter.svg'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+    setFilterGenre,
+    setFilterCountry,
+    setFilterYearRange,
+    setFilterLang,
+} from '../BookCatalogBlock/model/bookCatalogSlice'
 
 const genreOptionsList = [
     {
@@ -81,46 +87,26 @@ const langOptionsList = [
 ]
 
 export const FiltersBlock = (props) => {
+    const dispatch = useDispatch()
+    const filters = useSelector(state => state.bookCatalog.filters)
+
     var currentYear = new Date().getFullYear()
 
-    const [genre, setGenre] = useState('')
-    const [country, setCountry] = useState('')
-    const [year, setYear] = useState([])
-    const [lang, setLang] = useState([false, false, false])
-
-    useEffect(() => {
-        console.log("Состояние genre изменилось на", genre)
-    }, [genre])
-    useEffect(() => {
-        console.log("Состояние country изменилось на", country)
-    }, [country])
-    useEffect(() => {
-        console.log("Состояние year изменилось на", year)
-    }, [year])
-    useEffect(() => {
-        console.log("Состояние lang изменилось на", lang)
-    }, [lang])
-
     const handleGenreChange = (selectedGenre) => {
-        setGenre(selectedGenre)
+        dispatch(setFilterGenre(selectedGenre))
     }
     const handleCountryChange = (selectedCountry) => {
-        setCountry(selectedCountry)
+        dispatch(setFilterCountry(selectedCountry))
     }
     const handleYearChange = (selectedYear) => {
-        setYear(selectedYear)
+        dispatch(setFilterYearRange(selectedYear))
     }
     const handleLangChange = ({ value, index }) => {
-        setLang(prevLang => {
-            const newLang = [...prevLang]; // Создаем копию массива
-            newLang[index] = !newLang[index]; // Инвертируем значение по индексу
-            return newLang;
-        });
+        dispatch(setFilterLang(
+            filters.lang.map((flag, i) => i === index ? !flag : flag)
+        ))
     }
 
-    const handleSubmit = () => {
-
-    }
 
     return (
         <div className={styles.wrapper}>
@@ -137,13 +123,10 @@ export const FiltersBlock = (props) => {
                 <DefaultDivider />
                 <FiltersDDList title={'Страна'} optionsList={countryOptionsList} onChange={handleCountryChange} />
                 <DefaultDivider />
-                <FilterSlidebar title={'Год выпуска'} min={1900} max={currentYear} step={10} value={1990} onChange={handleYearChange} />
+                <FilterSlidebar title={'Год выпуска'} min={1000} max={currentYear} step={100} value={1990} onChange={handleYearChange} />
                 <DefaultDivider />
                 <FilterCBForm title={'Язык'} optionsList={langOptionsList} onChange={handleLangChange} />
             </div>
-            <DefaultDivider />
-            <DefaultButton title={'Применить фильтры'} onClick={handleSubmit} />
-
         </div>
     )
 }

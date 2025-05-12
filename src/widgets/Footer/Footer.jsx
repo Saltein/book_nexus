@@ -7,7 +7,7 @@ export const Footer = (props) => {
             <div className={styles.infoList}>
 
                 <div className={styles.infoBlock}>
-                    <div className={styles.logoDiv}><img src={logo} /></div>
+                    <div className={styles.logoDiv}><img src={logo} alt='logo' /></div>
                     <p>
                         Этот сайт создан для обмена книг между пользователями.
                     </p>
