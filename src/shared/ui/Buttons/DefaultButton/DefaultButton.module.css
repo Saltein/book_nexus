@@ -1,6 +1,7 @@
 .wrapper {
     display: flex;
     width: 100%;
+    flex: 1;
 }
 
 .button {
@@ -15,9 +16,7 @@
     font-weight: 400;
     letter-spacing: 1px;
     transition: 0.2s;
-    
 }
-
 
 .button:hover {
     filter: brightness(1.5);

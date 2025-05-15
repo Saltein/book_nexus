@@ -28,6 +28,11 @@ const registrationInputs = [
         type: 'email',
     },
     {
+        name: 'confirmationCode',
+        placeholder: 'Проверочный код',
+        type: 'text',
+    },
+    {
         name: 'phone',
         placeholder: 'Телефон',
         type: 'tel',

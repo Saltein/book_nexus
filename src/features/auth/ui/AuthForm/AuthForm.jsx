@@ -122,22 +122,42 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
                 {inputs.map((input, index) => {
                     const isTel = input.type === 'tel'
                     return (
-                        <input
-                            onChange={handleOnChange}
-                            name={input.name}
-                            key={index}
-                            className={styles.input}
-                            type={input.type}
-                            placeholder={isTel ? 'Телефон' : input.placeholder}
-                            {...(isTel && {
-                                inputMode: 'tel',                        // Показывает цифровую клавиатуру на моб. устройствах
-                                pattern: PHONE_PATTERN,                  // Регулярка для гибкого ввода телефона
-                                title:
-                                    'Номер телефона: минимум 7 цифр. Допускаются +, пробелы, дефисы, скобки.',
-                            })}
-                        />
+                        input.name === 'confirmationCode' || (input.name === 'email' && !isLogin)
+                            ?
+                            <div className={styles.confirmationCode}>
+                                <input
+                                    onChange={handleOnChange}
+                                    name={input.name}
+                                    key={index}
+                                    className={`${styles.input} ${styles.code}`}
+                                    type={input.type}
+                                    placeholder={isTel ? 'Телефон' : input.placeholder}
+                                />
+                                {input.name === 'confirmationCode'
+                                    ?
+                                    <DefaultButton title={'Проверить'} color={'#8a4fff'} height='40px' />
+                                    :
+                                    <DefaultButton title={'Отправить код'} color={'#8a4fff'} height='40px' />
+                                }
+                            </div>
+                            :
+                            <input
+                                onChange={handleOnChange}
+                                name={input.name}
+                                key={index}
+                                className={styles.input}
+                                type={input.type}
+                                placeholder={isTel ? 'Телефон' : input.placeholder}
+                                {...(isTel && {
+                                    inputMode: 'tel',                        // Показывает цифровую клавиатуру на моб. устройствах
+                                    pattern: PHONE_PATTERN,                  // Регулярка для гибкого ввода телефона
+                                    title:
+                                        'Номер телефона: минимум 7 цифр. Допускаются +, пробелы, дефисы, скобки.',
+                                })}
+                            />
                     )
                 })}
+                {isLogin && <a className={styles.forgetPass}>Забыли пароль?</a>}
             </div>
 
             <DefaultButton title={buttonTitle} color={'#8a4fff'} onClick={isLogin ? handleLogin : handleRegister} />
