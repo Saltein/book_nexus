@@ -1,28 +1,45 @@
 import styles from './BookCard.module.css'
-import { DefaultButton, DefaultDivider } from '../../../shared/ui'
+import { DefaultButton, DefaultDivider, ModalWindow } from '../../../shared/ui'
+import { useState } from 'react'
+import { BookCardModal } from './BookCardModal/BookCardModal'
 
-export const BookCard = ({img_url, name, author, year, Genre}) => {
+export const BookCard = ({ bookData, isMyBook = false }) => {
+    const [isOpen, setIsOpen] = useState(false)
+
+    const onClose = () => {
+        setIsOpen(false)
+    }
+
     return (
-        <div className={styles.wrapper_of_wrapper}>
+        <div className={styles.wrapper_of_wrapper} onClick={() => setIsOpen(true)}>
             <div className={styles.wrapper}>
 
                 <div className={styles.coverWrapper}>
-                    <img className={styles.cover} src={img_url} />
+                    <img className={styles.cover} src={bookData.img_url} />
                 </div>
 
                 <div className={styles.bookInfo}>
                     <div className={styles.title_author}>
-                        <h3 className={styles.title}>{name}</h3>
-                        <p className={styles.author}>{author}</p>
+                        <h3 className={styles.title}>{bookData.name}</h3>
+                        <p className={styles.author}>{bookData.author}</p>
                     </div>
-                    <span className={styles.year}>{year}</span>
+                    <span className={styles.year}>{bookData.year}</span>
                     <DefaultDivider />
-                    <span className={styles.genre}>{Genre.name}</span>
+                    <span className={styles.genre}>{bookData.Genre.name}</span>
                 </div>
 
-                <div className={styles.buttonCon}>
-                    <DefaultButton title={'Забронировать'} />
-                </div>
+                {!isMyBook &&
+                    <div className={styles.buttonCon}>
+                        <DefaultButton title={'Забронировать'} />
+                    </div>
+                }
+
+                {isOpen & isMyBook ?
+                    <ModalWindow onClose={onClose}>
+                        <BookCardModal bookData={bookData} />
+                    </ModalWindow>
+                    : <></>
+                }
             </div>
         </div>
     )

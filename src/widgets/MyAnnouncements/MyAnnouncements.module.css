@@ -1,0 +1,45 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    width: 100%;
+}
+
+.addBook {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    background: radial-gradient(white, rgb(239, 205, 255));
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+.addBook:hover {
+    transform: scale(1.02);
+    transition: 0.1s;
+}
+
+.addBook:hover .addIcon {
+    animation: pulse 1s infinite;
+}
+
+.addIcon {
+    width: 80px;
+    height: 80px;
+    filter: drop-shadow(0 0 0 #00000066);
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+        filter: drop-shadow(0 3px 3px #00000066);
+    }
+}

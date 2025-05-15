@@ -89,6 +89,7 @@ const langOptionsList = [
 export const FiltersBlock = (props) => {
     const dispatch = useDispatch()
     const filters = useSelector(state => state.bookCatalog.filters)
+    // const filterLists = useSelector TO DO
 
     var currentYear = new Date().getFullYear()
 

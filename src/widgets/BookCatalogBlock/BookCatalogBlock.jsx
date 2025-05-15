@@ -40,6 +40,7 @@ export const BookCatalogBlock = () => {
 
     useEffect(() => {
         setCurrentPage(1);
+        console.log(booksData)
     }, [booksData]);
 
     return (
@@ -47,7 +48,7 @@ export const BookCatalogBlock = () => {
             <div className={styles.bookList}>
                 {currentItems.map((book, index) => (
                     <div key={`${book.id}-${index}`}>
-                        <BookCard img_url={book.img_url} name={book.name} author={book.author} year={book.year} Genre={book.Genre} />
+                        <BookCard bookData={book} />
                     </div>
                 ))}
             </div>

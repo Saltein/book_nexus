@@ -8,6 +8,7 @@ const initialState = {
         country: 'all',
         yearRange: [1900, new Date().getFullYear()],
         lang: [false, false, false], // соответствует ['ru','en','other']
+        filterLists: {}
     }
 };
 
@@ -31,6 +32,10 @@ const bookCatalogSlice = createSlice({
         setFilterLang(state, action) {
             state.filters.lang = action.payload;
         },
+
+        setFilterLists(state, action) {
+            state.filters.filterLists = action.payload
+        },
     },
 });
 
@@ -40,19 +45,21 @@ export const {
     setFilterCountry,
     setFilterYearRange,
     setFilterLang,
-} = bookCatalogSlice.actions;
-export default bookCatalogSlice.reducer;
+    setFilterLists,
+} = bookCatalogSlice.actions
+export default bookCatalogSlice.reducer
 
 // Базовые селекторы
-const getBooks = state => state.bookCatalog.books;
-const getFilters = state => state.bookCatalog.filters;
+const getBooks = state => state.bookCatalog.books
+const getFilters = state => state.bookCatalog.filters
+export const getFilterLists = state => state.bookCatalog.filterLists
 
 // Мемоизированный селектор
 export const getFilteredBooks = createSelector(
     [getBooks, getFilters],
     (books, filters) => {
         const [minYear, maxYear] = filters.yearRange;
-        const langs = ['ru', 'en', 'other'];
+        const langs = ['ru', 'en', 'other']
 
         return books.filter(book => {
             if (filters.genre !== 'all' && book.genre !== filters.genre) {
