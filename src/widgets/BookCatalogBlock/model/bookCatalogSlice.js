@@ -50,8 +50,8 @@ export const {
 export default bookCatalogSlice.reducer
 
 // Базовые селекторы
-const getBooks = state => state.bookCatalog.books
 const getFilters = state => state.bookCatalog.filters
+export const getBooks = state => state.bookCatalog.books
 export const getFilterLists = state => state.bookCatalog.filterLists
 
 // Мемоизированный селектор

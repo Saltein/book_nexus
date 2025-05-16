@@ -15,4 +15,5 @@ export {
     MyExchange,
     ExchangesListBox,
     ModalWindow,
+    SearchBar,
 } from './ui'

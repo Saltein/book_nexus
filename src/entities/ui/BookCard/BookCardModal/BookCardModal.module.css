@@ -9,7 +9,7 @@
 
 .coverDiv {
     width: 300px;
-    height: 450px;
+    /* height: 450px; */
     overflow: hidden;
     border-radius: 10px;
 }

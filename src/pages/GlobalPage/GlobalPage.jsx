@@ -1,7 +1,7 @@
 import styles from './GlobalPage.module.css'
 import { Footer, Header } from '../../widgets'
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { MainPage, ProfilePage } from '../../pages';
+import { MainPage, ModeratorPage, ProfilePage } from '../../pages';
 import { BookCatalogPage } from '../../pages';
 import { BackToTopButton } from '../../shared';
 import { ReviewsPage } from '../../pages';
@@ -38,6 +38,11 @@ export const GlobalPage = (props) => {
                     <Route path='/profile/*' element={
                         <ProtectedRoute>
                             <ProfilePage />
+                        </ProtectedRoute>
+                    } />
+                    <Route path='/moderation/*' element={
+                        <ProtectedRoute allowedRoles={['admin', 'moderator']}>
+                            <ModeratorPage />
                         </ProtectedRoute>
                     } />
                 </Routes>

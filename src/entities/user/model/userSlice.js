@@ -17,7 +17,7 @@ const userSlice = createSlice({
             state.email = action.payload
         },
         setRole: (state, action) => {
-            state.email = action.payload
+            state.role = action.payload
         },
     },
 });
@@ -26,4 +26,4 @@ export const { setId, setEmail, setRole } = userSlice.actions;
 export default userSlice.reducer;
 export const getId = (state) => state.user.id
 export const getEmail = (state) => state.user.email
-export const geRole = (state) => state.user.role
+export const getRole = (state) => state.user.role

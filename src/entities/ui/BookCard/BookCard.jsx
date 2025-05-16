@@ -3,7 +3,7 @@ import { DefaultButton, DefaultDivider, ModalWindow } from '../../../shared/ui'
 import { useState } from 'react'
 import { BookCardModal } from './BookCardModal/BookCardModal'
 
-export const BookCard = ({ bookData, isMyBook = false }) => {
+export const BookCard = ({ bookData, isMyBook = false, isAdmin = false }) => {
     const [isOpen, setIsOpen] = useState(false)
 
     const onClose = () => {
@@ -15,7 +15,15 @@ export const BookCard = ({ bookData, isMyBook = false }) => {
             <div className={styles.wrapper}>
 
                 <div className={styles.coverWrapper}>
-                    <img className={styles.cover} src={bookData.img_url} />
+                    <img
+                        className={styles.cover}
+                        src={bookData.img_url}
+                        onError={(e) => {
+                            e.target.onerror = null // предотвращает бесконечный цикл в случае, если заглушка тоже не загрузится
+                            e.target.src = 'https://imgholder.ru/400x700/8493a8/adb9ca&text=Фото+обложки&font=kelson' // путь к заглушке
+                        }}
+                        alt={bookData.name}
+                    />
                 </div>
 
                 <div className={styles.bookInfo}>
@@ -28,15 +36,15 @@ export const BookCard = ({ bookData, isMyBook = false }) => {
                     <span className={styles.genre}>{bookData.Genre.name}</span>
                 </div>
 
-                {!isMyBook &&
+                {!isMyBook && !isAdmin &&
                     <div className={styles.buttonCon}>
                         <DefaultButton title={'Забронировать'} />
                     </div>
                 }
 
-                {isOpen & isMyBook ?
+                {isOpen ?
                     <ModalWindow onClose={onClose}>
-                        <BookCardModal bookData={bookData} />
+                        <BookCardModal bookData={bookData} isMyBook={isMyBook} isAdmin={isAdmin} isInCatalog={!isMyBook && !isAdmin} />
                     </ModalWindow>
                     : <></>
                 }

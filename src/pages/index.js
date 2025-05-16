@@ -6,3 +6,4 @@ export { ExchangeAndDeliveryPage } from './ExchangeAndDeliveryPage/ExchangeAndDe
 export { ReviewsPage } from './ReviewsPage/ReviewsPage'
 export { AuthPage } from './AuthPage/AuthPage'
 export { ProfilePage } from './ProfilePage/ProfilePage'
+export { ModeratorPage } from './ModeratorPage/ModeratorPage'

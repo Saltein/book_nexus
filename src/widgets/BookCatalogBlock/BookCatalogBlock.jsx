@@ -3,23 +3,26 @@ import { BookCard } from '../../entities/ui/BookCard/BookCard'
 import styles from './BookCatalogBlock.module.css'
 import { Pagination } from '../../shared';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFilteredBooks, setBooks } from './model/bookCatalogSlice';
+import { getBooks, getFilteredBooks, setBooks } from './model/bookCatalogSlice';
 import { bookCatalogApi } from '../../shared/api/bookCatalogApi';
 
-export const BookCatalogBlock = () => {
+export const BookCatalogBlock = ({ isAdmin = false }) => {
     const dispatch = useDispatch()
-    const booksData = useSelector(getFilteredBooks);
+    const books = useSelector(getBooks)
+    const filteredBooks = useSelector(getFilteredBooks)
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(12); // Количество книг на странице
+    let booksData = isAdmin ? books : filteredBooks
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const [itemsPerPage] = useState(12) // Количество книг на странице
 
     const currentItems = useMemo(() => {
-        const indexOfLastItem = currentPage * itemsPerPage;
-        const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-        return booksData.slice(indexOfFirstItem, indexOfLastItem);
+        const indexOfLastItem = currentPage * itemsPerPage
+        const indexOfFirstItem = indexOfLastItem - itemsPerPage
+        return booksData.slice(indexOfFirstItem, indexOfLastItem)
     }, [currentPage, itemsPerPage, booksData]);
 
-    const totalPages = Math.ceil(booksData.length / itemsPerPage);
+    const totalPages = Math.ceil(booksData.length / itemsPerPage)
 
     const getBooksFunc = async () => {
         try {
@@ -39,16 +42,16 @@ export const BookCatalogBlock = () => {
     }, [])
 
     useEffect(() => {
-        setCurrentPage(1);
+        setCurrentPage(1)
         console.log(booksData)
-    }, [booksData]);
+    }, [booksData])
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.bookList}>
                 {currentItems.map((book, index) => (
                     <div key={`${book.id}-${index}`}>
-                        <BookCard bookData={book} />
+                        <BookCard bookData={book} isAdmin={isAdmin} />
                     </div>
                 ))}
             </div>

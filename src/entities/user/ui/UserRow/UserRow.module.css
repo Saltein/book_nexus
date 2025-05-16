@@ -1,0 +1,49 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    height: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.value {
+    border-left: 1px solid #ccc;
+    padding: 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+}
+
+.value:first-child {
+    border: none;
+}
+
+.id {
+    width: 7%;
+}
+
+.name {
+    width: 20%;
+}
+
+.email {
+    width: 25%;
+}
+
+.phone {
+    width: 13%;
+}
+
+.city {
+    width: 15%;
+}
+
+.birthday {
+    width: 10%;
+}
+
+.role {
+    width: 10%;
+}

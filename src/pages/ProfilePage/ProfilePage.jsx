@@ -28,8 +28,7 @@ export const ProfilePage = () => {
                         className={`${styles.navButton} ${currentPage === 1 ? styles.current : ''}`}
                         to={'/profile/announcements'}
                         onClick={() => setCurrentPage(1)}
-                    >
-                        Мои объявления</Link>
+                    >Мои объявления</Link>
                     <a className={`${styles.navButton} ${styles.logout}`} onClick={handleLogout}>Выйти из аккаунта</a>
                 </div>
             </div>

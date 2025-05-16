@@ -2,7 +2,7 @@ import { DefaultButton, DefaultDivider } from '../../../../shared'
 import { formatDate } from '../../../../shared/lib/date/formatDate'
 import styles from './BookCardModal.module.css'
 
-export const BookCardModal = ({ bookData }) => {
+export const BookCardModal = ({ bookData, isAdmin = false, isMyBook = false, isInCatalog = false }) => {
     return (
         <div className={styles.wrapper}>
             <div className={styles.coverDiv}>
@@ -27,11 +27,22 @@ export const BookCardModal = ({ bookData }) => {
                         <span className={styles.d}>Дата создания: </span>
                         {formatDate(bookData.created_at, true)}
                     </div>
+
+                    {isAdmin &&
+                        <>
+                            <DefaultDivider />
+                            <span className={styles.user}><span className={styles.d}>Владелец книги: </span>Иван Иванов</span>
+                        </>}
                 </div>
-                <div className={styles.buttonsDiv}>
-                    <DefaultButton title={'Изменить'} color={"#fa0"} brightText = {false} />
-                    <DefaultButton title={'Удалить'} color={"#d33"} />
-                </div>
+                {console.log('isMyBook', isMyBook)}
+                {console.log('isAdmin', isAdmin)}
+                {(isMyBook || isAdmin) &&
+                    <div className={styles.buttonsDiv}>
+                        <DefaultButton title={'Изменить'} color={"#fa0"} brightText={false} />
+                        <DefaultButton title={'Удалить'} color={"#d33"} />
+                    </div>}
+                {isInCatalog &&
+                    <DefaultButton title={'Забронировать'} />}
             </div>
         </div>
     )

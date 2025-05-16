@@ -2,7 +2,7 @@ import { BookCatalogBlock } from '../../widgets/BookCatalogBlock/BookCatalogBloc
 import { FiltersBlock } from '../../widgets/FiltersBlock/FiltersBlock'
 import styles from './BookCatalogPage.module.css'
 
-export const BookCatalogPage = (props) => {
+export const BookCatalogPage = () => {
     return (
         <div className={styles.wrapper}>
             <div className={styles.container}>

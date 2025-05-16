@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { NavMenu } from './ui/NavMenu/NavMenu'
 import { useSelector } from 'react-redux'
 import { selectIsLoggedIn } from '../../app/model/authSlice'
+import { getRole } from '../../entities/user/model/userSlice'
 
 const moreMenuList = [
     {
@@ -24,6 +25,7 @@ export const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false)
 
     const isLogged = useSelector(selectIsLoggedIn)
+    const role = useSelector(getRole)
 
     const handleMenu = () => {
         setMenuVisible(!menuVisible)
@@ -47,6 +49,7 @@ export const Header = () => {
                 </Link>
 
                 <div className={styles.nav_buttons}>
+                    {(role === 'moderator' || role === 'admin') && <NavButton title='Панель модератора' href={'/moderation'} />}
                     <NavButton title='Каталог книг' href={'/catalog'} />
                     <NavButton title='Обмен и доставка' href={'/exchange_delivery'} />
                     <NavButton title='Ещё' menuList={moreMenuList} />
