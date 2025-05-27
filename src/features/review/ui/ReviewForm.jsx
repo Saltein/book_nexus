@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import styles from './ReviewForm.module.css'
 import { DefaultButton, RatingStars } from '../../../shared'
+import { reviewsApi } from '../../../shared/api/reviewsApi'
+import { useSelector } from 'react-redux'
+import { getId } from '../../../entities/user/model/userSlice'
 
 export const ReviewForm = ({ handleClose }) => {
+    const userId = useSelector(getId)
 
     const [stars, setStars] = useState(0)
     const [text, setText] = useState('')
     const [warning, setWarning] = useState('')
 
-    const handleSubmit = () => {
-        const data = {
-            stars,
-            text,
-        }
+    const handleSubmit = async () => {
         if (stars <= 0) {
             setWarning('Поставьте рейтинг!')
             return
@@ -22,7 +22,16 @@ export const ReviewForm = ({ handleClose }) => {
             return
         }
 
-        console.log('Отзыв оставлен!')
+        try {
+            const response = reviewsApi.leave(userId, stars, text)
+            if (response) {
+                console.log("Отзыв оставлен!", response)
+            } else {
+                console.log("Неизвестная ошибка отправки отзыва")
+            }
+        } catch (error) {
+            console.error('Ошибка отправки отзыва', error)
+        }
         handleClose()
     }
 

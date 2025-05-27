@@ -9,7 +9,7 @@ import { reviewsApi } from '../../shared/api/reviewsApi';
 export const ReviewsList = () => {
     const dispatch = useDispatch()
 
-    const reviewsData = useSelector(getReviews)
+    const reviewsData = useSelector(getReviews).slice().reverse()
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(3); // Количество книг на странице

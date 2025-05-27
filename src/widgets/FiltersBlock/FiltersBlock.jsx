@@ -8,68 +8,8 @@ import {
     setFilterYearRange,
     setFilterLang,
 } from '../BookCatalogBlock/model/bookCatalogSlice'
-
-const genreOptionsList = [
-    {
-        value: "all",
-        title: "Все жанры",
-    },
-    {
-        value: "fantastic",
-        title: "Фантастика",
-    },
-    {
-        value: "detective",
-        title: "Детектив",
-    },
-    {
-        value: "novel",
-        title: "Роман",
-    },
-    {
-        value: "fantasy",
-        title: "Фэнтези",
-    },
-    {
-        value: "scientific",
-        title: "Научная литература",
-    },
-    {
-        value: "biography",
-        title: "Биография",
-    },
-    {
-        value: "fairytale",
-        title: "Сказка",
-    },
-]
-
-const countryOptionsList = [
-    {
-        value: 'all',
-        title: 'Все страны',
-    },
-    {
-        value: 'russia',
-        title: 'Россия',
-    },
-    {
-        value: 'usa',
-        title: 'США',
-    },
-    {
-        value: 'greatbritain',
-        title: 'Великобритания',
-    },
-    {
-        value: 'france',
-        title: 'Франция',
-    },
-    {
-        value: 'japan',
-        title: 'Япония',
-    },
-]
+import { getGenres } from '../../entities/dictionaries/genres/genresSlice'
+import { getCountries } from '../../entities/dictionaries/countries/countriesSlice'
 
 const langOptionsList = [
     {
@@ -86,8 +26,13 @@ const langOptionsList = [
     },
 ]
 
-export const FiltersBlock = (props) => {
+export const FiltersBlock = () => {
+
+    const genreOptionsList = useSelector(getGenres)
+    const countryOptionsList = useSelector(getCountries)
+
     const dispatch = useDispatch()
+    
     const filters = useSelector(state => state.bookCatalog.filters)
     // const filterLists = useSelector TO DO
 

@@ -3,7 +3,7 @@ import { BookCard } from '../../entities/ui/BookCard/BookCard'
 import styles from './BookCatalogBlock.module.css'
 import { Pagination } from '../../shared';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBooks, getFilteredBooks, setBooks } from './model/bookCatalogSlice';
+import { getBooks, getFilteredBooks, getFilters, setBooks } from './model/bookCatalogSlice';
 import { bookCatalogApi } from '../../shared/api/bookCatalogApi';
 
 export const BookCatalogBlock = ({ isAdmin = false }) => {
@@ -43,7 +43,6 @@ export const BookCatalogBlock = ({ isAdmin = false }) => {
 
     useEffect(() => {
         setCurrentPage(1)
-        console.log(booksData)
     }, [booksData])
 
     return (

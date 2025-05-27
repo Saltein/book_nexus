@@ -4,8 +4,8 @@ import { createSelector } from 'reselect';
 const initialState = {
     books: [],
     filters: {
-        genre: 'all',
-        country: 'all',
+        genre: 0,
+        country: 0,
         yearRange: [1900, new Date().getFullYear()],
         lang: [false, false, false], // соответствует ['ru','en','other']
         filterLists: {}
@@ -50,7 +50,7 @@ export const {
 export default bookCatalogSlice.reducer
 
 // Базовые селекторы
-const getFilters = state => state.bookCatalog.filters
+export const getFilters = state => state.bookCatalog.filters
 export const getBooks = state => state.bookCatalog.books
 export const getFilterLists = state => state.bookCatalog.filterLists
 
@@ -59,23 +59,38 @@ export const getFilteredBooks = createSelector(
     [getBooks, getFilters],
     (books, filters) => {
         const [minYear, maxYear] = filters.yearRange;
-        const langs = ['ru', 'en', 'other']
+        const langs = ['ru', 'en', 'other'];
+        const genreIndex = parseInt(filters.genre);
+        const countryIndex = parseInt(filters.country);
+
+        if (genreIndex === undefined) {
+            genreIndex = 0
+        }
+        if (countryIndex === undefined) {
+            countryIndex = 0
+        }
+
+        const genreList = filters.filterLists.genre || [];
+        const countryList = filters.filterLists.country || [];
+
+        const selectedGenre = genreList[genreIndex - 1];
+        const selectedCountry = countryList[countryIndex - 1];
 
         return books.filter(book => {
-            if (filters.genre !== 'all' && book.genre !== filters.genre) {
+            if (genreIndex !== 0 && book.Genre.name !== selectedGenre?.name) {
                 return false;
             }
-            if (filters.country !== 'all' && book.country !== filters.country) {
+            if (countryIndex !== 0 && book.AuthorCountry.name !== selectedCountry?.name) {
                 return false;
             }
             if (book.year < minYear || book.year > maxYear) {
                 return false;
             }
-            // если ни один флаг не активен — пропускаем все языки
             if (!filters.lang.some(Boolean)) {
                 return true;
             }
             const idx = langs.indexOf(book.lang);
+            console.log('filters.lang[idx]', filters.lang[idx])
             return idx >= 0 && filters.lang[idx];
         });
     }

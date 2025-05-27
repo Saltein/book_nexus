@@ -12,6 +12,8 @@
     /* height: 450px; */
     overflow: hidden;
     border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 3px 5px -2px #0002;
 }
 
 .cover {
@@ -41,25 +43,6 @@
     gap: 10px;
 }
 
-.author {
-    font-family: "Playfair Display", serif;
-    color: #333;
-}
-
-.title {
-    font-family: "Playfair Display", serif;
-    font-weight: 600;
-    color: #333;
-    font-size: 24px;
-}
-
-.d {
-    color: #666;
-}
-
-.created_at {
-    color: #999;
-}
 
 .description {
     white-space: pre-wrap;
@@ -69,4 +52,19 @@
     display: flex;
     width: 100%;
     gap: 10px;
+}
+
+.input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: 30px;
+    padding: 0 10px;
+}
+
+.warning {
+    color: red;
+    font-weight: 600;
+    font-size: 20px;
+    width: fit-content;
+    margin: 0 auto;
 }

@@ -22,9 +22,9 @@ export const reviewsApi = {
         }
     },
 
-    async leave(user_id, rating, message) {
+    async leave(user_id, rating, comment) {
         try {
-            const response = await fetch(`${BASE_URL}/api/exchanges/getUserExchanges`, {
+            const response = await fetch(`${BASE_URL}/api/reviews/registration`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export const reviewsApi = {
                 body: JSON.stringify({
                     user_id,
                     rating,
-                    message,
+                    comment,
                 })
             })
             if (!response.ok) {
