@@ -2,7 +2,7 @@ import { MyExchange } from '../../../entities/ui/MyExchange/MyExchange'
 import { DefaultDivider } from '../Dividers/DefaultDivider/DefaultDivider'
 import styles from './ExchangesListBox.module.css'
 
-export const ExchangesListBox = ({ title, dataList }) => {
+export const ExchangesListBox = ({ title, dataList, pending = false, accepted = false }) => {
     return (
         <div className={styles.wrapper}>
             {dataList.length > 0 &&
@@ -14,7 +14,7 @@ export const ExchangesListBox = ({ title, dataList }) => {
                     </div>
                     {dataList.slice().reverse().map((exchange, index) => {
                         return (
-                            <MyExchange obj={exchange} key={exchange.id || index} />
+                            <MyExchange obj={exchange} key={exchange.id || index} pending={pending} accepted={accepted} />
                         )
                     })}
                 </div>

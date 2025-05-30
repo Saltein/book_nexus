@@ -1,6 +1,6 @@
 import styles from './GlobalPage.module.css'
 import { Footer, Header } from '../../widgets'
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { MainPage, ModeratorPage, ProfilePage } from '../../pages';
 import { BookCatalogPage } from '../../pages';
 import { BackToTopButton } from '../../shared';
@@ -11,12 +11,14 @@ import { ExchangeAndDeliveryPage } from '../../pages';
 import { AuthProvider } from '../../app/context/AuthContext';
 import { ProtectedRoute } from '../../app/hoc/ProtectedRoute';
 
-export const GlobalPage = (props) => {
+export const GlobalPage = () => {
 
-    const location = useLocation();
+    const location = useLocation()
+
 
     const hideLayoutRoutes = ['/auth']
     const isSimpleLayout = hideLayoutRoutes.includes(location.pathname)
+
 
     return (
         <AuthProvider>

@@ -14,11 +14,11 @@ export const UserRow = ({ userData }) => {
     return (
         <div className={styles.wrapper} onClick={() => setIsOpen(true)}>
             <span className={`${styles.id} ${styles.value}`}>{userData.id}</span>
-            <span className={`${styles.name} ${styles.value}`}>{userData.name}</span>
+            <span className={`${styles.name} ${styles.value}`}>{userData.UserProfile.name}</span>
             <span className={`${styles.email} ${styles.value}`}>{userData.email}</span>
-            <span className={`${styles.phone} ${styles.value}`}>{userData.phone}</span>
-            <span className={`${styles.city} ${styles.value}`}>{userData.city}</span>
-            <span className={`${styles.birthday} ${styles.value}`}>{userData.birthday}</span>
+            <span className={`${styles.phone} ${styles.value}`}>{userData.UserProfile.phone}</span>
+            <span className={`${styles.city} ${styles.value}`}>{userData.UserProfile.city}</span>
+            <span className={`${styles.birthday} ${styles.value}`}>{userData.UserProfile.birthdate}</span>
             <span className={`${styles.role} ${styles.value}`}>{userData.role}</span>
 
             {isOpen &&

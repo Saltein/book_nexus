@@ -85,3 +85,8 @@
     flex-direction: column;
     color: #000;
 }
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}

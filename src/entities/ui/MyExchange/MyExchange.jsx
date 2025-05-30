@@ -7,9 +7,10 @@ import { ModalWindow } from '../../../shared'
 import { ExchangeInfoWindow } from './ExchangeInfoWindow/ExchangeInfoWindow'
 import { useState } from 'react'
 
-export const MyExchange = ({ obj }) => {
+export const MyExchange = ({ obj, pending, accepted }) => {
     const created_at = formatDate(obj.created_at)
     const userId = useSelector(getId)
+    const isMe = obj.Sender.id === userId
 
     const [isOpen, setIsOpen] = useState(false)
 
@@ -24,13 +25,13 @@ export const MyExchange = ({ obj }) => {
             <span className={styles.author}>{obj.Book.author}</span>
             <span className={styles.title}>{obj.Book.name}</span>
             <span className={styles.sender}>
-                {obj.Sender.id === userId ? 'Вы → ' + obj.Recipient.name : obj.Sender.name + ' → Вы'}
+                {isMe ? 'Вы → ' + obj.Recipient.name : obj.Sender.name + ' → Вы'}
             </span>
 
             <StatusIcon statusStr={obj.status} />
             {isOpen && (
                 <ModalWindow onClose={handleClose}>
-                    <ExchangeInfoWindow dataObj={obj}/>
+                    <ExchangeInfoWindow dataObj={obj} isMe={isMe} pending={pending} accepted={accepted} />
                 </ModalWindow>
             )}
         </div>

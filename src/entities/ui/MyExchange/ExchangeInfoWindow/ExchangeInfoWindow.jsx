@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux'
-import { DefaultDivider } from '../../../../shared'
+import { DefaultButton, DefaultDivider } from '../../../../shared'
 import { formatStatus } from '../../../../shared/lib/status/formatStatus'
 import { StatusIcon } from '../../../../shared/ui/StatusIcon/StatusIcon'
 import styles from './ExchangeInfoWindow.module.css'
 import { getId } from '../../../user/model/userSlice'
 import { formatDate } from '../../../../shared/lib/date/formatDate'
 
-export const ExchangeInfoWindow = ({ dataObj }) => {
+export const ExchangeInfoWindow = ({ dataObj, isMe, pending, accepted }) => {
     const userId = useSelector(getId)
 
     return (
@@ -57,6 +57,32 @@ export const ExchangeInfoWindow = ({ dataObj }) => {
                         "{dataObj.response_message}"
                     </div>
                 </div>
+                {(pending || accepted) &&
+                    <div className={styles.buttons}>
+                        {isMe && accepted &&
+                            <>
+                                <DefaultButton title={'Отменить'} />
+                            </>
+                        }
+                        {!isMe && accepted &&
+                            <>
+                                <DefaultButton title={'Завершить'} />
+                                <DefaultButton title={'Отменить'} />
+                            </>
+                        }
+                        {isMe && pending &&
+                            <>
+                                <DefaultButton title={'Принять'} />
+                                <DefaultButton title={'Отклонить'} />
+                            </>
+                        }
+                        {!isMe && pending &&
+                            <>
+                                <DefaultButton title={'Удалить'} />
+                            </>
+                        }
+                    </div>
+                }
             </div>
         </div>
     )

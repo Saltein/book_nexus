@@ -1,0 +1,73 @@
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+export const userApi = {
+    async getAll() {
+        try {
+            const response = await fetch(`${BASE_URL}/api/users`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Get users failed')
+            }
+
+            return await response.json()
+        } catch (error) {
+            console.error('Get users error:', error)
+            throw error
+        }
+    },
+
+    async ban(user_id, reason) {
+        try {
+            const response = await fetch(`${BASE_URL}/api/users/${user_id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify(
+                    {
+                        "is_blocked": true,
+                        "blocked_at": Date.now(),
+                        "blocked_reason": reason
+                    }
+                )
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Ban user failed')
+            }
+
+            return await response.json()
+        } catch (error) {
+            console.error('Ban user error:', error)
+            throw error
+        }
+    },
+
+    async getBanReason(user_id) {
+        try {
+            const response = await fetch(`${BASE_URL}/api/users/${user_id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Get ban reason failed')
+            }
+
+            return await response.json()
+        } catch (error) {
+            console.error('Get ban reason error:', error)
+            throw error
+        }
+    }
+}

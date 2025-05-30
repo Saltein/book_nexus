@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { GlobalPage } from '../pages';
 import styles from './App.module.css'
 import { dictionaryApi } from '../shared/api/dictionaryApi';
@@ -11,6 +11,7 @@ import { setFilterLists } from '../widgets/BookCatalogBlock/model/bookCatalogSli
 function App() {
 
   const dispatch = useDispatch()
+  
 
   const getDictionaries = async () => {
     try {

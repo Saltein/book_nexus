@@ -1,10 +1,11 @@
 import styles from './DefaultButton.module.css'
 
-export const DefaultButton = ({ title, onClick, color, brightText = true, height = '60px'}) => {
+export const DefaultButton = ({ title, onClick, color, brightText = true, height = '60px', border_radius = "5px" }) => {
     const buttonStyle = {
         backgroundColor: color || undefined,
         color: brightText ? '#fff' : '#000',
         height: height,
+        borderRadius: border_radius,
     };
 
     return (

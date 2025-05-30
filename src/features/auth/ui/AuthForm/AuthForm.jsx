@@ -5,9 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authApi } from '../../../../shared/api/authApi';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../../app/context/AuthContext';
-import { getEmail, setEmail, setId, setRole } from '../../../../entities/user/model/userSlice';
+import { getId, setBanned, setBanReason, setEmail, setId, setRole } from '../../../../entities/user/model/userSlice';
 import { isValidEmail } from '../../../../shared/lib/email/isValidEmail';
 import { ForgotPasswordWindow } from './ForgotPasswordWindow/ForgotPasswordWindow';
+import { logout } from '../../../../app/model/authSlice';
+import { BanWarningWindow } from './BanWarningWindow/BanWarningWindow';
+import { userApi } from '../../../../shared/api/userApi';
 
 const PHONE_PATTERN = '^(?=(?:.*\\d){11,})[+\\d\\s\\-\\(\\)]+$'
 
@@ -19,6 +22,7 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
     const { login } = useAuth()
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const userId = useSelector(getId)
 
     let formattedFormData
 
@@ -26,6 +30,8 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
     const [warning, setWarning] = useState('')
     const [codeStatus, setCodeStatus] = useState(0)
     const [isOpen, setIsOpen] = useState(false)
+    const [isBanMessageOpen, setBanMessageOpen] = useState(false)
+    const [banReason, setBanReason] = useState('')
 
     const handleOnChange = (e) => {
         const { name, value } = e.target
@@ -78,28 +84,39 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
         try {
             let response = await authApi.login(formData)
             if (response) {
-                const user = response.user;
+                const user = response.user
+                console.log(user)
 
                 // Redux
-                dispatch(setId(user.id));
-                dispatch(setEmail(user.email));
-                dispatch(setRole(user.role));
+                dispatch(setId(user.id))
+                dispatch(setEmail(user.email))
+                dispatch(setRole(user.role))
+                dispatch(setBanned(user.is_blocked))
+                // dispatch(setBanReason(user.))
 
                 // Local Storage
                 localStorage.setItem('user', JSON.stringify({
                     id: user.id,
                     email: user.email,
-                    role: user.role
+                    role: user.role,
+                    banned: user.is_blocked,
                 }));
 
-                login(user); // если login также сохраняет токен
-                navigate('/main');
+                if (user.is_blocked) {
+                    dispatch(logout())
+                    setBanMessageOpen(true)
+                    fetchBanReason()
+                } else {
+                    login(user); // если login также сохраняет токен
+                    navigate('/main');
+                }
+
             } else {
-                console.error("Ошибка входа:", response?.message || "Неизвестная ошибка");
+                console.error("Ошибка входа:", response?.message || "Неизвестная ошибка")
             }
 
         } catch (error) {
-            console.error('Ошибка входа:', error.message);
+            console.error('Ошибка входа:', error.message)
         }
     }
 
@@ -144,6 +161,16 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
             }
         } else {
             setWarning('Поля почты и проверочного кода должны быть заполнены')
+        }
+    }
+
+    const fetchBanReason = async () => {
+        try {
+            const response = await userApi.getBanReason(userId)
+            setBanReason(response.blocked_reason)
+            console.log(response)
+        } catch (error) {
+            console.log('Ошибка получения причины блокировки')
         }
     }
 
@@ -222,6 +249,13 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
                 {isLogin && isOpen &&
                     <ModalWindow onClose={() => setIsOpen(false)}>
                         <ForgotPasswordWindow />
+                    </ModalWindow>
+                }
+                {isBanMessageOpen &&
+                    <ModalWindow onClose={() => setBanMessageOpen(false)}>
+                        <div className={styles.banMessage}>
+                            <BanWarningWindow reason={banReason} onClose={() => setBanMessageOpen(false)} />
+                        </div>
                     </ModalWindow>
                 }
             </div>
