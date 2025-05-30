@@ -1,11 +1,13 @@
 import styles from './AuthForm.module.css'
 import { useEffect, useState } from 'react'
-import { DefaultButton } from '../../../../shared'
-import { useDispatch } from 'react-redux';
+import { DefaultButton, ModalWindow } from '../../../../shared'
+import { useDispatch, useSelector } from 'react-redux';
 import { authApi } from '../../../../shared/api/authApi';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../../app/context/AuthContext';
-import { setEmail, setId, setRole } from '../../../../entities/user/model/userSlice';
+import { getEmail, setEmail, setId, setRole } from '../../../../entities/user/model/userSlice';
+import { isValidEmail } from '../../../../shared/lib/email/isValidEmail';
+import { ForgotPasswordWindow } from './ForgotPasswordWindow/ForgotPasswordWindow';
 
 const PHONE_PATTERN = '^(?=(?:.*\\d){11,})[+\\d\\s\\-\\(\\)]+$'
 
@@ -21,6 +23,9 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
     let formattedFormData
 
     const [formData, setFormData] = useState({})
+    const [warning, setWarning] = useState('')
+    const [codeStatus, setCodeStatus] = useState(0)
+    const [isOpen, setIsOpen] = useState(false)
 
     const handleOnChange = (e) => {
         const { name, value } = e.target
@@ -30,28 +35,26 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
         }))
     }
 
-
-    // TO DO вывод ошибок на экран, отправка формы
     const handleRegister = async () => {
         console.log(formData)
 
-        if (Object.keys(formData).length !== 7) {
-            console.log("Заполните все поля!", formData.length)
+        if (Object.keys(formData).length !== 8) {
+            setWarning('Заполните все поля')
             return
         }
 
         if (!EMAIL_REGEX.test(formData.email)) {
-            console.log("Некорректный email");
+            setWarning("Некорректный email")
             return;
         }
 
         if (!PHONE_REGEX.test(formData.phone)) {
-            console.log("Некорректный номер телефона");
+            setWarning("Некорректный номер телефона")
             return;
         }
 
         if (formData.password !== formData.passwordCheck) {
-            console.log("Пароли не совпадают")
+            setWarning("Пароли не совпадают")
             return
         }
 
@@ -65,6 +68,7 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
             }
         } catch (error) {
             console.error('Ошибка регистрации:', error.message);
+            setWarning(`Ошибка регистрации: ${error.message}`);
         }
 
         console.log("Успешная (тест) регистрация", formattedFormData)
@@ -97,17 +101,60 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
         } catch (error) {
             console.error('Ошибка входа:', error.message);
         }
+    }
 
+    const handleSendCode = async () => {
+        const user_email = formData.email
+        if (!user_email || !isValidEmail(user_email)) {
+            setWarning('Неверный формат почты')
+            return
+        }
+        try {
+            const response = await authApi.sendCode(user_email)
+            if (response) {
+                setCodeStatus(1)
+            } else {
+                setWarning('Неизвестная ошибка отправки кода')
+                setCodeStatus(0)
+            }
+        } catch (error) {
+            setWarning('Ошибка отправки кода')
+        }
+    }
+
+    const handleCheckCode = async () => {
+        const user_email = formData.email
+        const user_code = formData.confirmationCode
+        if (user_email && user_code) {
+            try {
+                const response = await authApi.confirmCode(user_email, user_code)
+                if (response) {
+                    setCodeStatus(2)
+                } else {
+                    setCodeStatus(0)
+                }
+            } catch (error) {
+                if (error.message.includes('Incorrect verification code')) {
+                    setWarning('Неверный проверочный код')
+                } else if (error.message.includes('No code found for this email')) {
+                    setWarning('На эту почту не отправлялся код')
+                } else {
+                    setWarning('Неизвестная ошибка отправки кода')
+                }
+            }
+        } else {
+            setWarning('Поля почты и проверочного кода должны быть заполнены')
+        }
     }
 
     useEffect(() => {
         formattedFormData = {
             "account": {
-                "name": formData.fullName,
                 "email": formData.email,
                 "password": formData.password
             },
             "profile": {
+                "name": formData.fullName,
                 "phone": formData.phone,
                 "birthday": formData.dateOfBirth,
                 "city": formData.city,
@@ -124,8 +171,9 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
                     return (
                         input.name === 'confirmationCode' || (input.name === 'email' && !isLogin)
                             ?
-                            <div className={styles.confirmationCode}>
+                            <div key={index} className={styles.confirmationCode}>
                                 <input
+                                    maxLength={input.name === 'confirmationCode' ? 6 : 64}
                                     onChange={handleOnChange}
                                     name={input.name}
                                     key={index}
@@ -135,9 +183,19 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
                                 />
                                 {input.name === 'confirmationCode'
                                     ?
-                                    <DefaultButton title={'Проверить'} color={'#8a4fff'} height='40px' />
+                                    <DefaultButton
+                                        title={codeStatus === 2 ? 'Почта подтверждена' : 'Проверить'}
+                                        color={codeStatus === 2 ? '#5dbea3' : '#8a4fff'}
+                                        height='40px'
+                                        onClick={handleCheckCode}
+                                    />
                                     :
-                                    <DefaultButton title={'Отправить код'} color={'#8a4fff'} height='40px' />
+                                    <DefaultButton
+                                        title={codeStatus ? 'Код отправлен' : 'Отправить код'}
+                                        color={codeStatus ? '#5dbea3' : '#8a4fff'}
+                                        height='40px'
+                                        onClick={handleSendCode}
+                                    />
                                 }
                             </div>
                             :
@@ -157,7 +215,15 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
                             />
                     )
                 })}
-                {isLogin && <a className={styles.forgetPass}>Забыли пароль?</a>}
+                {!isLogin && <div className={styles.warningBox}>
+                    {warning && <span className={styles.warning}>{warning}</span>}
+                </div>}
+                {isLogin && <a className={styles.forgetPass} onClick={() => setIsOpen(true)}>Забыли пароль?</a>}
+                {isLogin && isOpen &&
+                    <ModalWindow onClose={() => setIsOpen(false)}>
+                        <ForgotPasswordWindow />
+                    </ModalWindow>
+                }
             </div>
 
             <DefaultButton title={buttonTitle} color={'#8a4fff'} onClick={isLogin ? handleLogin : handleRegister} />

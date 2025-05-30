@@ -1,9 +1,9 @@
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-export const bookCatalogApi = {
-    async get() {
+export const reportsApi = {
+    async getReports() {
         try {
-            const response = await fetch(`${BASE_URL}/api/books`, {
+            const response = await fetch(`${BASE_URL}/api/reports`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -12,35 +12,38 @@ export const bookCatalogApi = {
             })
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || 'Get books failed')
+                throw new Error(errorData.message || 'Get reports failed')
             }
 
             return await response.json()
         } catch (error) {
-            console.error('Get books error:', error)
+            console.error('Get reports error:', error)
             throw error
         }
     },
 
-    async getMy(userId) {
+    async newReport(reported_id, reporter_id, reason) {
         try {
-            const response = await fetch(`${BASE_URL}/api/users/getBooks`, {
+            const response = await fetch(`${BASE_URL}/api/reports/registration`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
                 body: JSON.stringify({
-                    "user_id": userId
+                    "reported_id": reported_id,
+                    "reporter_id": reporter_id,
+                    "reason": reason,
                 })
             })
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || 'Get my books failed')
+                throw new Error(errorData.message || 'Leave review failed')
             }
+
             return await response.json()
         } catch (error) {
-            console.error('Get my books error:', error)
+            console.error('Leave review error:', error)
             throw error
         }
     },

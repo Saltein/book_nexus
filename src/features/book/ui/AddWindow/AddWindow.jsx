@@ -24,13 +24,15 @@ import {
 import { getGenres } from '../../../../entities/dictionaries/genres/genresSlice'
 import { getCountries } from '../../../../entities/dictionaries/countries/countriesSlice'
 import { addBookApi } from '../../../../shared/api/addBookApi'
+import { getId } from '../../../../entities/user/model/userSlice'
 
-export const AddWindow = ({ onClose }) => {
+export const AddWindow = ({ onClose, onBookAdded }) => {
     const dispatch = useDispatch()
     const genres = useSelector(getGenres)
     const countries = useSelector(getCountries)
 
     const addBookData = {
+        user_id: useSelector(getId),
         name: useSelector(selectTitle),
         author: useSelector(selectAuthor),
         year: useSelector(selectYear),
@@ -58,6 +60,7 @@ export const AddWindow = ({ onClose }) => {
                 if (response) {
                     console.log('👍 Книга добавлена!', response)
                     dispatch(resetAddBook())
+                    onBookAdded()
                     onClose()
                 } else {
                     console.log("Неизвестная ошибка добавления книги")

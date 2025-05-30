@@ -12,10 +12,9 @@ import { getId } from '../../entities/user/model/userSlice'
 export const MyAnnouncements = () => {
     const dispatch = useDispatch()
     const userId = useSelector(getId)
-    console.log('id', userId)
-    let books = []
 
     const [isOpen, setIsOpen] = useState(false)
+    const [books, setBooks] = useState([])
 
     const handleClose = () => {
         setIsOpen(false)
@@ -30,7 +29,7 @@ export const MyAnnouncements = () => {
         try {
             const response = await bookCatalogApi.getMy(userId)
             if (response) {
-                books = response
+                setBooks(response)
             } else {
                 console.log("Неизвестная ошибка получения книг")
             }
@@ -48,7 +47,8 @@ export const MyAnnouncements = () => {
             <div className={styles.addBook} onClick={handleAddBook}>
                 <AddIcon className={styles.addIcon} />
             </div>
-            {books.map((book, index) => (
+            
+            {books.reverse().map((book, index) => (
                 <div key={`${book.id}-${index}`}>
                     <BookCard
                         bookData={book}
@@ -59,7 +59,7 @@ export const MyAnnouncements = () => {
 
             {isOpen &&
                 <ModalWindow onClose={handleClose}>
-                    <AddWindow onClose={handleClose} />
+                    <AddWindow onClose={handleClose} onBookAdded={getBooksFunc} />
                 </ModalWindow>
             }
         </div>

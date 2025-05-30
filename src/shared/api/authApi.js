@@ -85,5 +85,52 @@ export const authApi = {
             console.error('Logout error:', error)
             throw error
         }
+    },
+
+    async sendCode(email) {
+        try {
+            const response = await fetch(`${BASE_URL}/api/auth/send-code`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    "email": email,
+                })
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Send code failed')
+            }
+            return true
+        } catch (error) {
+            console.error('Send code error:', error)
+            throw error
+        }
+    },
+
+    async confirmCode(email, code) {
+        try {
+            const response = await fetch(`${BASE_URL}/api/auth/confirm-code`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    "email": email,
+                    "code": code,
+                })
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Code confirmation failed')
+            }
+            return true
+        } catch (error) {
+            console.error('Code confirmation error:', error.message)
+            throw error
+        }
     }
 }
