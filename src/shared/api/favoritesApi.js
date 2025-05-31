@@ -24,7 +24,7 @@ export const favoritesApi = {
 
     async getMy(userId) {
         try {
-            const response = await fetch(`${BASE_URL}/api/favorites/findUserFav`, {
+            const response = await fetch(`${BASE_URL}/api/users/getFavorites`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,7 +38,28 @@ export const favoritesApi = {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Get my favorites failed')
             }
-            return await response.json()
+
+            const data = await response.json()
+            return data.Favorites.map(item => {
+                const b = item.Book
+                return {
+                    id: b.id,
+                    favorite_id: item.id,
+                    name: b.name,
+                    author: b.author,
+                    year: b.year,
+                    img_url: b.img_url,
+                    description: b.description,
+                    created_at: b.created_at,
+                    updated_at: b.updated_at,
+                    genre_id: b.genre_id,
+                    lang_id: b.lang_id,
+                    country_id: b.country_id,
+                    Genre: b.Genre,
+                    AuthorCountry: b.AuthorCountry,
+                    BookLanguage: b.BookLanguage
+                }
+            })
         } catch (error) {
             console.error('Get my favorites error:', error)
             throw error
@@ -68,4 +89,26 @@ export const favoritesApi = {
             throw error
         }
     },
+
+    async delete(favorite_id) {
+        try {
+            const response = await fetch(`${BASE_URL}/api/favorites/${favorite_id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Favorite deletion failed');
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Favorite deletion error:', error);
+            throw error;
+        }
+    }
 }

@@ -12,14 +12,12 @@ export const BookCatalogBlock = ({ isAdmin = false, isFavorites = false }) => {
     const dispatch = useDispatch()
     const books = useSelector(getBooks)
     const filteredBooks = useSelector(getFilteredBooks)
-    const favorites = useSelector(getFavorites)
+    const rawFavorites = useSelector(getFavorites)
     const userId = useSelector(getId)
 
-    let booksData = isAdmin ? books : filteredBooks
-    if (isFavorites) {
-        booksData = favorites
-    }
+    const favorites = Array.isArray(rawFavorites) ? rawFavorites : []
 
+    const [booksData, setBooksData] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage] = useState(12) // Количество книг на странице
 
@@ -33,18 +31,18 @@ export const BookCatalogBlock = ({ isAdmin = false, isFavorites = false }) => {
 
     const getBooksFunc = async () => {
         try {
-            const response = isFavorites ? await favoritesApi.getMy(userId) : await bookCatalogApi.get()
-            if (response) {
-                if (isFavorites) {
-                    dispatch(setFavorites(response))
-                } else {
-                    dispatch(setBooks(response))
-                }
+            if (isFavorites) {
+                const response = await favoritesApi.getMy(userId);
+                // пусть response точно будет массивом; если нет — ставим пустой
+                const arr = Array.isArray(response) ? response : [];
+                dispatch(setFavorites(arr));
             } else {
-                console.log("Неизвестная ошибка получения книг")
+                const response = await bookCatalogApi.get();
+                // ожидаем, что response — массив книг в нужном формате
+                dispatch(setBooks(response));
             }
         } catch (error) {
-            console.log("Ошибка получения книг", error)
+            console.error('Ошибка получения книг', error);
         }
     }
 
@@ -56,12 +54,22 @@ export const BookCatalogBlock = ({ isAdmin = false, isFavorites = false }) => {
         setCurrentPage(1)
     }, [booksData])
 
+    useEffect(() => {
+        if (isFavorites) {
+            setBooksData(favorites)
+        } else if (isAdmin) {
+            setBooksData(books)
+        } else {
+            setBooksData(filteredBooks)
+        }
+    }, [favorites, books, filteredBooks, isFavorites, isAdmin])
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.bookList}>
                 {currentItems.map((book, index) => (
                     <div key={`${book.id}-${index}`}>
-                        <BookCard bookData={book} isAdmin={isAdmin} />
+                        <BookCard bookData={book} isAdmin={isAdmin} isFavorites={isFavorites} />
                     </div>
                 ))}
             </div>

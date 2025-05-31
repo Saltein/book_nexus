@@ -8,10 +8,12 @@ import { useSelector } from 'react-redux'
 import { favoritesApi } from '../../../shared/api/favoritesApi'
 import { getId } from '../../user/model/userSlice'
 
-export const BookCard = ({ bookData, isMyBook = false, isAdmin = false }) => {
+export const BookCard = ({ bookData, isMyBook = false, isAdmin = false, isFavorites = false }) => {
     const [isOpen, setIsOpen] = useState(false)
-    const [isFavorite, setIsFavorite] = useState(false)
+    const [isFavorite, setIsFavorite] = useState(isFavorites)
     const [showAlert, setShowAlert] = useState(false)
+
+    const alertText = isFavorites ? 'Вы уже удалили эту книгу из избранного' : 'Удалить из избранного можно во вкладке профиль'
 
     const userId = useSelector(getId)
 
@@ -38,6 +40,22 @@ export const BookCard = ({ bookData, isMyBook = false, isAdmin = false }) => {
         }
     }
 
+    const handleDeleteFavorite = async () => {
+        try {
+            await favoritesApi.delete(bookData.favorite_id)
+            setIsFavorite(false)
+        } catch (error) {
+            console.log('Set as favorite error:', error)
+            if (error && (error.message.includes('favorites_user_id_book_id_key') || error.message.includes('Item not found'))) {
+                setIsFavorite(false)
+                setShowAlert(true)
+                setTimeout(() => {
+                    setShowAlert(false)
+                }, 3000)
+            }
+        }
+    }
+
     return (
         <div className={styles.wrapper_of_wrapper} onClick={() => setIsOpen(true)}>
             <div className={styles.wrapper}>
@@ -47,10 +65,14 @@ export const BookCard = ({ bookData, isMyBook = false, isAdmin = false }) => {
                         <div className={styles.favorite}
                             onClick={(event) => {
                                 event.stopPropagation()
-                                handleFavorite()
+                                if (isFavorites) {
+                                    handleDeleteFavorite()
+                                } else {
+                                    handleFavorite()
+                                }
                             }}
                         >
-                            {showAlert && <span className={styles.alert}>Удалить из избранного можно во вкладке профиль</span>}
+                            {showAlert && <span className={styles.alert}>{alertText}</span>}
                             <img className={styles.heartIcon} src={isFavorite ? heartFillIcon : heartIcon} />
                         </div>
                     }
