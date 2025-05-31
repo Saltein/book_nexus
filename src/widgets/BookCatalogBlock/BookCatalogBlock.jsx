@@ -34,7 +34,6 @@ export const BookCatalogBlock = ({ isAdmin = false, isFavorites = false }) => {
     const getBooksFunc = async () => {
         try {
             const response = isFavorites ? await favoritesApi.getMy(userId) : await bookCatalogApi.get()
-            // console.log('API response:', response)
             if (response) {
                 if (isFavorites) {
                     dispatch(setFavorites(response))

@@ -50,7 +50,7 @@ export const BookCard = ({ bookData, isMyBook = false, isAdmin = false }) => {
                                 handleFavorite()
                             }}
                         >
-                            {showAlert && <span className={styles.alert}>Удалить из избранного можно в вкладке профиль</span>}
+                            {showAlert && <span className={styles.alert}>Удалить из избранного можно во вкладке профиль</span>}
                             <img className={styles.heartIcon} src={isFavorite ? heartFillIcon : heartIcon} />
                         </div>
                     }
