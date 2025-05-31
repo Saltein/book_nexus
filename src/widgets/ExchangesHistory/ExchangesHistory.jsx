@@ -43,9 +43,9 @@ export const ExchangesHistory = () => {
 
     return (
         <div className={styles.wrapper}>
-            <ExchangesListBox title={'Принятые'} dataList={acceptedExchangesData} accepted />
-            <ExchangesListBox title={'На рассмотрении'} dataList={pendingExchangesData} pending />
-            <ExchangesListBox title={'Архив'} dataList={archiveExchangesData} />
+            <ExchangesListBox title={'Принятые'} dataList={acceptedExchangesData} accepted update={getExchangesFunc} />
+            <ExchangesListBox title={'На рассмотрении'} dataList={pendingExchangesData} pending update={getExchangesFunc} />
+            <ExchangesListBox title={'Архив'} dataList={archiveExchangesData} update={getExchangesFunc} />
 
             {archiveExchangesData.length === 0 && <span className={styles.message}>Вы еще не совершали обменов</span>}
         </div >

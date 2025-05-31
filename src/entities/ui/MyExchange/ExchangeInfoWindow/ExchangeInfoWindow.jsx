@@ -5,9 +5,42 @@ import { StatusIcon } from '../../../../shared/ui/StatusIcon/StatusIcon'
 import styles from './ExchangeInfoWindow.module.css'
 import { getId } from '../../../user/model/userSlice'
 import { formatDate } from '../../../../shared/lib/date/formatDate'
+import { exchangesApi } from '../../../../shared/api/exchangesApi'
 
-export const ExchangeInfoWindow = ({ dataObj, isMe, pending, accepted }) => {
+export const ExchangeInfoWindow = ({ dataObj, isMe, pending, accepted, onClose, update }) => {
     const userId = useSelector(getId)
+    const colors = {
+        red: '#F44336',
+        green: '#4CAF50',
+        yellow: '#FFC107',
+    }
+
+    const handleClick = async (status) => {
+        try {
+            const response = await exchangesApi.changeStatus(dataObj.id, status)
+            if (!response) {
+                console.log('Неизвестная ошибка обновления статуса обмена')
+                return
+            }
+            onClose()
+            update()
+        } catch (error) {
+            console.error("Ошибка обновления статуса обмена", error)
+        }
+    }
+    const handleDelete = async () => {
+        try {
+            const response = await exchangesApi.delete(dataObj.id)
+            if (!response) {
+                console.log('Неизвестная ошибка удаления обмена')
+                return
+            }
+            onClose()
+            update()
+        } catch (error) {
+            console.error("Ошибка удаления обмена", error)
+        }
+    }
 
     return (
         <div className={styles.wrapper}>
@@ -61,24 +94,24 @@ export const ExchangeInfoWindow = ({ dataObj, isMe, pending, accepted }) => {
                     <div className={styles.buttons}>
                         {isMe && accepted &&
                             <>
-                                <DefaultButton title={'Отменить'} />
+                                <DefaultButton title={'Отменить'} onClick={() => handleClick('rejected')} color={colors.red} height='40px' />
                             </>
                         }
                         {!isMe && accepted &&
                             <>
-                                <DefaultButton title={'Завершить'} />
-                                <DefaultButton title={'Отменить'} />
+                                <DefaultButton title={'Завершить'} onClick={() => handleClick('completed')} color={colors.green} height='40px' />
+                                <DefaultButton title={'Отменить'} onClick={() => handleClick('rejected')} color={colors.red} height='40px' />
                             </>
                         }
                         {isMe && pending &&
                             <>
-                                <DefaultButton title={'Принять'} />
-                                <DefaultButton title={'Отклонить'} />
+                                <DefaultButton title={'Принять'} onClick={() => handleClick('accepted')} color={colors.yellow} brightText={false} height='40px' />
+                                <DefaultButton title={'Отклонить'} onClick={() => handleClick('rejected')} color={colors.red} height='40px' />
                             </>
                         }
                         {!isMe && pending &&
                             <>
-                                <DefaultButton title={'Удалить'} />
+                                <DefaultButton title={'Удалить'} onClick={() => handleDelete()} color={colors.red} height='40px' />
                             </>
                         }
                     </div>

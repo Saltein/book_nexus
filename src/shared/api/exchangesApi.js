@@ -9,7 +9,7 @@ export const exchangesApi = {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
-                                body: JSON.stringify({
+                body: JSON.stringify({
                     user_id,
                     status
                 })
@@ -25,4 +25,52 @@ export const exchangesApi = {
             throw error
         }
     },
+
+    async changeStatus(exchange_id, status) {
+        try {
+            const response = await fetch(`${BASE_URL}/api/exchanges/${exchange_id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify(
+                    {
+                        "status": status
+                    }
+                )
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Exchange status change failed')
+            }
+
+            return await response.json()
+        } catch (error) {
+            console.error('Exchange status change error:', error)
+            throw error
+        }
+    },
+
+    async delete(exchange_id) {
+        try {
+            const response = await fetch(`${BASE_URL}/api/exchanges/${exchange_id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Exchange deletion failed');
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Exchange deletion error:', error);
+            throw error;
+        }
+    }
 }
