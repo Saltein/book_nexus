@@ -248,7 +248,7 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
                 {isLogin && <a className={styles.forgetPass} onClick={() => setIsOpen(true)}>Забыли пароль?</a>}
                 {isLogin && isOpen &&
                     <ModalWindow onClose={() => setIsOpen(false)}>
-                        <ForgotPasswordWindow />
+                        <ForgotPasswordWindow onClose={() => setIsOpen(false)}/>
                     </ModalWindow>
                 }
                 {isBanMessageOpen &&

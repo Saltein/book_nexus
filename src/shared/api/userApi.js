@@ -69,5 +69,31 @@ export const userApi = {
             console.error('Get ban reason error:', error)
             throw error
         }
-    }
+    },
+
+    async changePass(user_id, new_password) {
+        try {
+            const response = await fetch(`${BASE_URL}/api/users/${user_id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify(
+                    {
+                        "password": new_password
+                    }
+                )
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Password change failed')
+            }
+
+            return await response.json()
+        } catch (error) {
+            console.error('Password change error:', error)
+            throw error
+        }
+    },
 }

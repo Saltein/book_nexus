@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { DefaultButton } from '../../../../../shared'
 import styles from './ForgotPasswordWindow.module.css'
 import { isValidEmail } from '../../../../../shared/lib/email/isValidEmail'
 import { authApi } from '../../../../../shared/api/authApi'
+import { userApi } from '../../../../../shared/api/userApi'
+import { useSelector } from 'react-redux'
+import { getId } from '../../../../../entities/user/model/userSlice'
 
-export const ForgotPasswordWindow = () => {
+export const ForgotPasswordWindow = ({ onClose }) => {
     const [warning, setWarning] = useState('')
     const [codeStatus, setCodeStatus] = useState(0)
     const [formData, setFormData] = useState({})
-
-    useEffect(() => {
-        console.log('data', formData)
-    }, [formData])
+    const userId = useSelector(getId)
 
     const handleOnChange = (e) => {
         const { name, value } = e.target
@@ -70,7 +70,21 @@ export const ForgotPasswordWindow = () => {
     }
 
     const handleSubmit = async () => {
-        return
+        if (!formData.newPassword) {
+            setWarning('Введите новый пароль')
+            return
+        }
+        try {
+            const response = userApi.changePass(userId, formData.newPassword)
+            if (response) {
+                onClose()
+            } else {
+                setWarning('Неизвестная ошибка смены пароля')
+            }
+        } catch (error) {
+            console.error('Ошибка смены пароля', error)
+            setWarning('Ошибка смены пароля')
+        }
     }
 
     return (
@@ -113,7 +127,7 @@ export const ForgotPasswordWindow = () => {
                 name={'newPassword'}
                 className={`${styles.input}`}
                 onChange={handleOnChange}
-                type='email'
+                type='password'
                 placeholder='Новый пароль'
             />}
             {codeStatus === 2 && <DefaultButton
