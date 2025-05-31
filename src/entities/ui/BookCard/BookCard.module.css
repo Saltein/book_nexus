@@ -8,8 +8,10 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* Занимает всё доступное пространство */
-    width: 100%; /* Занимает всю ширину родителя */
+    flex-grow: 1;
+    /* Занимает всё доступное пространство */
+    width: 100%;
+    /* Занимает всю ширину родителя */
     height: 480px;
     border-radius: 10px;
     overflow: hidden;
@@ -28,6 +30,7 @@
 }
 
 .coverWrapper {
+    position: relative;
     height: 300px;
     overflow: hidden;
 }
@@ -78,6 +81,8 @@
 }
 
 .buttonCon {
+    display: flex;
+    gap: 15px;
     margin: 15px
 }
 
@@ -92,4 +97,41 @@
     font-size: 0.8rem;
     font-weight: 600;
     font-family: "Poppins", sans-serif;
+}
+
+.favorite {
+    display: flex;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 800;
+    gap: 10px;
+}
+
+.alert {
+    margin-left: 10px;
+    background-color: #fff;
+    padding: 5px 10px;
+    border-radius: 10px;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+    font-weight: 600;
+    animation: fadeout 3s;
+}
+
+.heartIcon {
+    width: 30px;
+    height: 30px;
+}
+
+@keyframes fadeout {
+
+    0%,
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }

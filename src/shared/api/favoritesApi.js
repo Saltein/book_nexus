@@ -44,4 +44,28 @@ export const favoritesApi = {
             throw error
         }
     },
+
+    async set(user_id, book_id) {
+        try {
+            const response = await fetch(`${BASE_URL}/api/favorites/registration`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    "user_id": user_id,
+                    "book_id": book_id,
+                })
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Set as favorite failed')
+            }
+            return await response.json()
+        } catch (error) {
+            console.error('Set as favorite error:', error)
+            throw error
+        }
+    },
 }

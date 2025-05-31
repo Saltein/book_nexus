@@ -2,12 +2,40 @@ import styles from './BookCard.module.css'
 import { DefaultButton, DefaultDivider, ModalWindow } from '../../../shared/ui'
 import { useState } from 'react'
 import { BookCardModal } from './BookCardModal/BookCardModal'
+import heartIcon from './assets/heart.svg'
+import heartFillIcon from './assets/heart_fill.svg'
+import { useSelector } from 'react-redux'
+import { favoritesApi } from '../../../shared/api/favoritesApi'
+import { getId } from '../../user/model/userSlice'
 
 export const BookCard = ({ bookData, isMyBook = false, isAdmin = false }) => {
     const [isOpen, setIsOpen] = useState(false)
+    const [isFavorite, setIsFavorite] = useState(false)
+    const [showAlert, setShowAlert] = useState(false)
+
+    const userId = useSelector(getId)
 
     const onClose = () => {
         setIsOpen(false)
+    }
+
+    const handleFavorite = async () => {
+        if (!isFavorite) {
+            try {
+                await favoritesApi.set(userId, bookData.id)
+                setIsFavorite(true)
+            } catch (error) {
+                console.log('Set as favorite error:', error)
+                if (error && error.message.includes('favorites_user_id_book_id_key')) {
+                    setIsFavorite(true)
+                }
+            }
+        } else {
+            setShowAlert(true)
+            setTimeout(() => {
+                setShowAlert(false)
+            }, 3000)
+        }
     }
 
     return (
@@ -15,6 +43,17 @@ export const BookCard = ({ bookData, isMyBook = false, isAdmin = false }) => {
             <div className={styles.wrapper}>
 
                 <div className={styles.coverWrapper}>
+                    {!isMyBook && !isAdmin &&
+                        <div className={styles.favorite}
+                            onClick={(event) => {
+                                event.stopPropagation()
+                                handleFavorite()
+                            }}
+                        >
+                            {showAlert && <span className={styles.alert}>Удалить из избранного можно в вкладке профиль</span>}
+                            <img className={styles.heartIcon} src={isFavorite ? heartFillIcon : heartIcon} />
+                        </div>
+                    }
                     <img
                         className={styles.cover}
                         src={bookData.img_url}
