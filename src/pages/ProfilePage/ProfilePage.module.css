@@ -46,6 +46,10 @@
 
 .navButton.current {
     background: linear-gradient(to right, #55007722, #00000000);
+    &.favorites {
+        background: linear-gradient(to right, #00771222, #00000000);
+        color: rgb(0, 60, 0);
+    }
 }
 
 .navButton:hover {

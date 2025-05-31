@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux'
 import styles from './ProfilePage.module.css'
 import { logout } from '../../app/model/authSlice'
 import { Routes, Route, Navigate, Link } from 'react-router-dom'
-import { MyAnnouncements, ExchangesHistory } from '../../widgets'
+import { MyAnnouncements, ExchangesHistory, Favorites } from '../../widgets'
 import { useState } from 'react'
 
 export const ProfilePage = () => {
@@ -29,6 +29,11 @@ export const ProfilePage = () => {
                         to={'/profile/announcements'}
                         onClick={() => setCurrentPage(1)}
                     >Мои объявления</Link>
+                    <Link
+                        className={`${styles.navButton} ${styles.favorites} ${currentPage === 2 ? styles.current : ''}`}
+                        to={'/profile/favorites'}
+                        onClick={() => setCurrentPage(2)}
+                    >Избранное</Link>
                     <a className={`${styles.navButton} ${styles.logout}`} onClick={handleLogout}>Выйти из аккаунта</a>
                 </div>
             </div>
@@ -38,6 +43,7 @@ export const ProfilePage = () => {
 
                     <Route path={'history'} element={<ExchangesHistory />} />
                     <Route path={'announcements'} element={<MyAnnouncements />} />
+                    <Route path={'favorites'} element={<Favorites />} />
                 </Routes>
             </div>
         </div>

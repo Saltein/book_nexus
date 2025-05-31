@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 
 const initialState = {
     books: [],
+    favorites: [],
     filters: {
         genre: 0,
         country: 0,
@@ -16,6 +17,9 @@ const bookCatalogSlice = createSlice({
     name: 'books',
     initialState,
     reducers: {
+        setFavorites: (state, action) => {
+            state.favorites = action.payload
+        },
         setBooks: (state, action) => {
             state.books = action.payload
         },
@@ -46,11 +50,13 @@ export const {
     setFilterYearRange,
     setFilterLang,
     setFilterLists,
+    setFavorites,
 } = bookCatalogSlice.actions
 export default bookCatalogSlice.reducer
 
 // Базовые селекторы
 export const getFilters = state => state.bookCatalog.filters
+export const getFavorites = state => state.bookCatalog.favorites
 export const getBooks = state => state.bookCatalog.books
 export const getFilterLists = state => state.bookCatalog.filterLists
 

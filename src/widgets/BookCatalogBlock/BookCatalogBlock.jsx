@@ -3,15 +3,22 @@ import { BookCard } from '../../entities/ui/BookCard/BookCard'
 import styles from './BookCatalogBlock.module.css'
 import { Pagination } from '../../shared';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBooks, getFilteredBooks, getFilters, setBooks } from './model/bookCatalogSlice';
+import { getBooks, getFavorites, getFilteredBooks, setBooks, setFavorites } from './model/bookCatalogSlice';
 import { bookCatalogApi } from '../../shared/api/bookCatalogApi';
+import { favoritesApi } from '../../shared/api/favoritesApi';
+import { getId } from '../../entities/user/model/userSlice';
 
-export const BookCatalogBlock = ({ isAdmin = false }) => {
+export const BookCatalogBlock = ({ isAdmin = false, isFavorites = false }) => {
     const dispatch = useDispatch()
     const books = useSelector(getBooks)
     const filteredBooks = useSelector(getFilteredBooks)
+    const favorites = useSelector(getFavorites)
+    const userId = useSelector(getId)
 
     let booksData = isAdmin ? books : filteredBooks
+    if (isFavorites) {
+        booksData = favorites
+    }
 
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage] = useState(12) // Количество книг на странице
@@ -26,9 +33,14 @@ export const BookCatalogBlock = ({ isAdmin = false }) => {
 
     const getBooksFunc = async () => {
         try {
-            const response = await bookCatalogApi.get()
+            const response = isFavorites ? await favoritesApi.getMy(userId) : await bookCatalogApi.get()
+            console.log('API response:', response)
             if (response) {
-                dispatch(setBooks(response))
+                if (isFavorites) {
+                    dispatch(setFavorites(response))
+                } else {
+                    dispatch(setBooks(response))
+                }
             } else {
                 console.log("Неизвестная ошибка получения книг")
             }
@@ -55,11 +67,12 @@ export const BookCatalogBlock = ({ isAdmin = false }) => {
                 ))}
             </div>
 
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={(page) => { setCurrentPage(page) }}
-            />
+            {booksData.length > 0 &&
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={(page) => { setCurrentPage(page) }}
+                />}
         </div>
     );
 };
