@@ -1,0 +1,43 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    gap: 10px;
+    box-shadow: 0 5px 10px -2px #0004;
+    align-items: center;
+}
+
+.title {
+    text-align: center;
+}
+
+.rolesBox {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 10px;
+    gap: 10px;
+}
+
+.newRole {
+    display: block;
+    place-items: center;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: #eee;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.newRole.current {
+    background-color: #800098;
+    color: white;
+}
+
+.newRole:hover {
+    filter: brightness(1.1);
+    transition: 0.1s;
+}

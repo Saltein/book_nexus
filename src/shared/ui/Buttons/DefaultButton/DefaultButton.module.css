@@ -29,3 +29,17 @@
     filter: brightness(0.9);
     transform: scale(0.99);
 }
+
+.button.noActive {
+    background-color: #ccc;
+    cursor: auto;
+}
+
+.button.noActive:hover {
+    filter: brightness(1);
+}
+
+.button.noActive:active {
+    filter: brightness(1);
+    transform: scale(1);
+}

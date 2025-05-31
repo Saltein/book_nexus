@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { UserRow } from '../../entities/user/ui/UserRow/UserRow'
-import { Pagination, SearchBar } from '../../shared'
+import { ModalWindow, Pagination, SearchBar } from '../../shared'
 import styles from './AdminUsers.module.css'
 import { userApi } from '../../shared/api/userApi';
 
@@ -30,7 +30,7 @@ export const AdminUsers = () => {
     useEffect(() => {
         fetchUsers()
     }, [])
-    
+
     return (
         <div className={styles.wrapper}>
             <SearchBar />

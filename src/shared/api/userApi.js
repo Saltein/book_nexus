@@ -96,4 +96,30 @@ export const userApi = {
             throw error
         }
     },
+
+    async changeRole(user_id, new_role) {
+        try {
+            const response = await fetch(`${BASE_URL}/api/users/${user_id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify(
+                    {
+                        "role": new_role
+                    }
+                )
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Role change failed')
+            }
+
+            return await response.json()
+        } catch (error) {
+            console.error('Role change error:', error)
+            throw error
+        }
+    },
 }

@@ -2,9 +2,11 @@ import { useState } from 'react'
 import { DefaultButton, ModalWindow } from '../../../../shared'
 import { BanWindow } from './BanWindow/BanWindow'
 import styles from './UserCard.module.css'
+import { ChangeRoleWindow } from './ChangeRoleWindow/ChangeRoleWindow'
 
 export const UserCard = ({ userData }) => {
-    const [isOpen, setIsOpen] = useState(false)
+    const [isBanOpen, setIsBanOpen] = useState(false)
+    const [isChangeOpen, setIsChangeOpen] = useState(false)
 
     return (
         <div className={styles.wrapper}>
@@ -41,14 +43,19 @@ export const UserCard = ({ userData }) => {
                 {/* <DefaultButton title={'Посмотреть объявления'} height='30px' /> */}
             </div>
             <div className={styles.buttonsDiv}>
-                <DefaultButton title={'Изменить'} color={"#fa0"} brightText={false} />
+                <DefaultButton title={'Изменить роль'} color={"#fa0"} brightText={false} onClick={() => setIsChangeOpen(true)} />
                 {!userData.is_blocked &&
-                    <DefaultButton title={'Заблокировать'} color={"#d33"} onClick={() => setIsOpen(true)} />}
+                    <DefaultButton title={'Заблокировать'} color={"#d33"} onClick={() => setIsBanOpen(true)} />}
             </div>
 
-            {isOpen &&
-                <ModalWindow onClose={() => setIsOpen(false)}>
-                    <BanWindow userData={userData} onClose={() => setIsOpen(false)} />
+            {isBanOpen &&
+                <ModalWindow onClose={() => setIsBanOpen(false)}>
+                    <BanWindow userData={userData} onClose={() => setIsBanOpen(false)} />
+                </ModalWindow>}
+
+            {isChangeOpen &&
+                <ModalWindow onClose={() => setIsChangeOpen(false)}>
+                    <ChangeRoleWindow currentRole={userData.role} userId={userData.id} onClose={() => setIsChangeOpen(false)} />
                 </ModalWindow>}
         </div>
     )
