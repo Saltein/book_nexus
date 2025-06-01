@@ -5,7 +5,7 @@ import { formatDate } from '../../../../shared/lib/date/formatDate'
 import styles from './BookCardModal.module.css'
 import { AddWindow } from '../../../../features/book/ui/AddWindow/AddWindow'
 
-export const BookCardModal = ({ bookData, isAdmin = false, isMyBook = false, isInCatalog = false, onClose = () => { }, onBookAdded }) => {
+export const BookCardModal = ({ bookData, isAdmin = false, isMyBook = false, isInCatalog = false, onClose = () => { }, onBookAdded, onReservation }) => {
 
     const [isEditOpen, setIsEditOpen] = useState()
 
@@ -61,7 +61,7 @@ export const BookCardModal = ({ bookData, isAdmin = false, isMyBook = false, isI
                         <DefaultButton title={'Удалить'} color={"#d33"} onClick={handleDelete} />
                     </div>}
                 {isInCatalog &&
-                    <DefaultButton title={'Забронировать'} />}
+                    <DefaultButton title={'Забронировать'} onClick={onReservation} />}
             </div>
             {isEditOpen &&
                 <ModalWindow onClose={() => setIsEditOpen(false)}>

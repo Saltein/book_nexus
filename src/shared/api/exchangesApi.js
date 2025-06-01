@@ -72,5 +72,32 @@ export const exchangesApi = {
             console.error('Exchange deletion error:', error);
             throw error;
         }
-    }
+    },
+
+    async create(book_id, sender_id, recipient_id, delivery_method_id, request_message) {
+        try {
+            const response = await fetch(`${BASE_URL}/api/exchanges/registration`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    "book_id": book_id,
+                    "sender_id": sender_id,
+                    "recipient_id": recipient_id,
+                    "delivery_method_id": delivery_method_id,
+                    "request_message": request_message,
+                })
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Exchange creation failed')
+            }
+            return await response.json() 
+        } catch (error) {
+            console.error('Exchange creation error:', error)
+            throw error
+        }
+    },
 }

@@ -7,15 +7,19 @@ import heartFillIcon from './assets/heart_fill.svg'
 import { useSelector } from 'react-redux'
 import { favoritesApi } from '../../../shared/api/favoritesApi'
 import { getId } from '../../user/model/userSlice'
+import { exchangesApi } from '../../../shared/api/exchangesApi'
+import { ReservationModal } from './ReservationModal/ReservationModal'
 
 export const BookCard = ({ bookData, isMyBook = false, isAdmin = false, isFavorites = false, onBookAdded }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [isFavorite, setIsFavorite] = useState(isFavorites)
     const [showAlert, setShowAlert] = useState(false)
+    const [isReserveOpen, setIsReserveOpen] = useState(false)
 
     const alertText = isFavorites ? 'Вы уже удалили эту книгу из избранного' : 'Удалить из избранного можно во вкладке профиль'
 
     const userId = useSelector(getId)
+    // console.log('bookData', bookData)
 
     const onClose = () => {
         setIsOpen(false)
@@ -54,6 +58,11 @@ export const BookCard = ({ bookData, isMyBook = false, isAdmin = false, isFavori
                 }, 3000)
             }
         }
+    }
+
+    const handleReservation = async (e) => {
+        e.stopPropagation()
+        setIsReserveOpen(true)
     }
 
     return (
@@ -99,7 +108,7 @@ export const BookCard = ({ bookData, isMyBook = false, isAdmin = false, isFavori
 
                 {!isMyBook && !isAdmin &&
                     <div className={styles.buttonCon}>
-                        <DefaultButton title={'Забронировать'} />
+                        <DefaultButton title={'Забронировать'} onClick={handleReservation} />
                     </div>
                 }
 
@@ -113,8 +122,20 @@ export const BookCard = ({ bookData, isMyBook = false, isAdmin = false, isFavori
                                 isInCatalog={!isMyBook && !isAdmin}
                                 onClose={onClose}
                                 onBookAdded={onBookAdded}
+                                onReservation={handleReservation}
                             />
                         </div>
+                    </ModalWindow>
+                }
+
+                {isReserveOpen &&
+                    <ModalWindow onClose={() => setIsReserveOpen(false)}>
+                        {console.log(bookData)}
+                        <ReservationModal
+                            onClose={() => setIsReserveOpen(false)}
+                            bookId={bookData.id}
+                            senderId={bookData.UserBooks[0].user_id}
+                        />
                     </ModalWindow>
                 }
             </div>
