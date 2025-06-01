@@ -47,4 +47,30 @@ export const reportsApi = {
             throw error
         }
     },
+
+        async changeStatus(report_id, status) {
+        try {
+            const response = await fetch(`${BASE_URL}/api/reports/${report_id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify(
+                    {
+                        "status": status
+                    }
+                )
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Report status change failed')
+            }
+
+            return await response.json()
+        } catch (error) {
+            console.error('Report status change error:', error)
+            throw error
+        }
+    },
 }

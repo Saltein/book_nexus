@@ -3,7 +3,7 @@ import styles from './BanWindow.module.css'
 import { DefaultButton } from '../../../../../shared'
 import { userApi } from '../../../../../shared/api/userApi'
 
-export const BanWindow = ({ userData, onClose }) => {
+export const BanWindow = ({ userData, onClose, onBan }) => {
     const textareaRef = useRef()
 
     const [reason, setReason] = useState('')
@@ -11,6 +11,7 @@ export const BanWindow = ({ userData, onClose }) => {
     const handleBan = async () => {
         try {
             const response = userApi.ban(userData.id, reason)
+            if (onBan) onBan()
             onClose()
         } catch (error) {
             console.log('Ошибка блокировки пользователя')

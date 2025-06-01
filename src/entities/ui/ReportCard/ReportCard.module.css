@@ -1,0 +1,45 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    height: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.field {
+    border-left: 1px solid #ccc;
+    padding: 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+}
+
+.field:first-child {
+    border: none;
+}
+
+.id {
+    width: 5%;
+}
+
+.reason {
+    width: 30%;
+}
+
+.reported_name {
+    width: 20%;
+}
+
+.reported_email {
+    width: 20%;
+}
+
+.role {
+    width: 10%;
+}
+
+.created_at {
+    width: 15%;
+}
