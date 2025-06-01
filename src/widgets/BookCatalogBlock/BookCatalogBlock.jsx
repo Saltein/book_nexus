@@ -11,6 +11,7 @@ import { getId } from '../../entities/user/model/userSlice';
 export const BookCatalogBlock = ({ isAdmin = false, isFavorites = false }) => {
     const dispatch = useDispatch()
     const books = useSelector(getBooks)
+    console.log('books', books)
     const filteredBooks = useSelector(getFilteredBooks)
     const rawFavorites = useSelector(getFavorites)
     const userId = useSelector(getId)
