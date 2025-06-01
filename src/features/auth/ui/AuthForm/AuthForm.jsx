@@ -34,6 +34,7 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
     const [banReason, setBanReason] = useState('')
 
     const handleOnChange = (e) => {
+        setWarning('')
         const { name, value } = e.target
         setFormData(prev => ({
             ...prev,
@@ -81,6 +82,9 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
     }
 
     const handleLogin = async () => {
+        if (!formData.email || !formData.password) {
+            setWarning('Заполните все поля')
+        }
         try {
             let response = await authApi.login(formData)
             if (response) {
@@ -117,6 +121,11 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
 
         } catch (error) {
             console.error('Ошибка входа:', error.message)
+            if (error.message.includes('Неверный пароль')) {
+                setWarning('Неверный пароль')
+            } else {
+                setWarning('Ошибка входа')
+            }
         }
     }
 
@@ -242,9 +251,9 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
                             />
                     )
                 })}
-                {!isLogin && <div className={styles.warningBox}>
+                <div className={styles.warningBox}>
                     {warning && <span className={styles.warning}>{warning}</span>}
-                </div>}
+                </div>
                 {isLogin && <a className={styles.forgetPass} onClick={() => setIsOpen(true)}>Забыли пароль?</a>}
                 {isLogin && isOpen &&
                     <ModalWindow onClose={() => setIsOpen(false)}>
