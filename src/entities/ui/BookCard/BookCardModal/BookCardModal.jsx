@@ -1,8 +1,28 @@
-import { DefaultButton, DefaultDivider } from '../../../../shared'
+import { useState } from 'react'
+import { DefaultButton, DefaultDivider, ModalWindow } from '../../../../shared'
+import { addBookApi } from '../../../../shared/api/addBookApi'
 import { formatDate } from '../../../../shared/lib/date/formatDate'
 import styles from './BookCardModal.module.css'
+import { AddWindow } from '../../../../features/book/ui/AddWindow/AddWindow'
 
-export const BookCardModal = ({ bookData, isAdmin = false, isMyBook = false, isInCatalog = false }) => {
+export const BookCardModal = ({ bookData, isAdmin = false, isMyBook = false, isInCatalog = false, onClose = () => { }, onBookAdded }) => {
+
+    const [isEditOpen, setIsEditOpen] = useState()
+
+    const handleDelete = async () => {
+        try {
+            const response = await addBookApi.delete(bookData.id)
+            if (!response) {
+                console.log("Неизвестная ошибка удаления книги")
+                return
+            }
+            onBookAdded()
+            onClose()
+        } catch (error) {
+            console.error('Ошибка удаления книги:', error)
+        }
+    }
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.coverDiv}>
@@ -34,16 +54,20 @@ export const BookCardModal = ({ bookData, isAdmin = false, isMyBook = false, isI
                             <span className={styles.user}><span className={styles.d}>Владелец книги: </span>Иван Иванов</span>
                         </>}
                 </div>
-                {console.log('isMyBook', isMyBook)}
-                {console.log('isAdmin', isAdmin)}
+
                 {(isMyBook || isAdmin) &&
                     <div className={styles.buttonsDiv}>
-                        <DefaultButton title={'Изменить'} color={"#fa0"} brightText={false} />
-                        <DefaultButton title={'Удалить'} color={"#d33"} />
+                        <DefaultButton title={'Изменить'} color={"#fa0"} brightText={false} onClick={() => setIsEditOpen(true)} />
+                        <DefaultButton title={'Удалить'} color={"#d33"} onClick={handleDelete} />
                     </div>}
                 {isInCatalog &&
                     <DefaultButton title={'Забронировать'} />}
             </div>
+            {isEditOpen &&
+                <ModalWindow onClose={() => setIsEditOpen(false)}>
+                    <AddWindow editBook={bookData} onClose={() => setIsEditOpen(false)} onBookAdded={onBookAdded}/>
+                </ModalWindow>
+            }
         </div>
     )
 }

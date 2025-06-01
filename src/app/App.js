@@ -7,17 +7,19 @@ import { setCountries } from '../entities/dictionaries/countries/countriesSlice'
 import { setDelivery } from '../entities/dictionaries/delivery/deliverySlice';
 import { useEffect } from 'react';
 import { setFilterLists } from '../widgets/BookCatalogBlock/model/bookCatalogSlice';
+import { setLanguages } from '../entities/dictionaries/languages/languagesSlice';
 
 function App() {
 
   const dispatch = useDispatch()
-  
+
 
   const getDictionaries = async () => {
     try {
       const genres = await dictionaryApi.getGenres()
       const countries = await dictionaryApi.getCountries()
       const delivery = await dictionaryApi.getDelivery()
+      const languages = await dictionaryApi.getLanguages()
 
       if (genres) {
         dispatch(setGenres(genres))
@@ -28,11 +30,15 @@ function App() {
       if (delivery) {
         dispatch(setDelivery(delivery))
       }
-      if (genres && countries && delivery) {
+      if (languages) {
+        dispatch(setLanguages(languages))
+      }
+      if (genres && countries && languages) {
         dispatch(setFilterLists(
           {
             genre: genres,
             country: countries,
+            language: languages,
           }
         ))
       }

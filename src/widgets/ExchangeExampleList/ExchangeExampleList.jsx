@@ -32,7 +32,7 @@ export const ExchangeExampleList = () => {
         <div className={styles.wrapper}>
             <p className={styles.txt}>Примеры обменов</p>
             <div className={styles.exchangeList}>
-                {examplesData.map((exchange, index) => {
+                {[...examplesData].reverse().map((exchange, index) => {
                     return (
                         <div key={exchange.id || index}>
                             <ExchangeExample {...exchange} />

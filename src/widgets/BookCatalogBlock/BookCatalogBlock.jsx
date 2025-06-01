@@ -69,7 +69,7 @@ export const BookCatalogBlock = ({ isAdmin = false, isFavorites = false }) => {
             <div className={styles.bookList}>
                 {currentItems.map((book, index) => (
                     <div key={`${book.id}-${index}`}>
-                        <BookCard bookData={book} isAdmin={isAdmin} isFavorites={isFavorites} />
+                        <BookCard bookData={book} isAdmin={isAdmin} isFavorites={isFavorites} onBookAdded={getBooksFunc} />
                     </div>
                 ))}
             </div>

@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux'
 import { favoritesApi } from '../../../shared/api/favoritesApi'
 import { getId } from '../../user/model/userSlice'
 
-export const BookCard = ({ bookData, isMyBook = false, isAdmin = false, isFavorites = false }) => {
+export const BookCard = ({ bookData, isMyBook = false, isAdmin = false, isFavorites = false, onBookAdded }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [isFavorite, setIsFavorite] = useState(isFavorites)
     const [showAlert, setShowAlert] = useState(false)
@@ -103,11 +103,19 @@ export const BookCard = ({ bookData, isMyBook = false, isAdmin = false, isFavori
                     </div>
                 }
 
-                {isOpen ?
+                {isOpen &&
                     <ModalWindow onClose={onClose}>
-                        <BookCardModal bookData={bookData} isMyBook={isMyBook} isAdmin={isAdmin} isInCatalog={!isMyBook && !isAdmin} />
+                        <div onClick={(e) => e.stopPropagation()}>
+                            <BookCardModal
+                                bookData={bookData}
+                                isMyBook={isMyBook}
+                                isAdmin={isAdmin}
+                                isInCatalog={!isMyBook && !isAdmin}
+                                onClose={onClose}
+                                onBookAdded={onBookAdded}
+                            />
+                        </div>
                     </ModalWindow>
-                    : <></>
                 }
             </div>
         </div>

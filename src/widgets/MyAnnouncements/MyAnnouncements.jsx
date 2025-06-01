@@ -47,12 +47,13 @@ export const MyAnnouncements = () => {
             <div className={styles.addBook} onClick={handleAddBook}>
                 <AddIcon className={styles.addIcon} />
             </div>
-            
+
             {books.reverse().map((book, index) => (
                 <div key={`${book.id}-${index}`}>
                     <BookCard
                         bookData={book}
                         isMyBook
+                        onBookAdded={getBooksFunc}
                     />
                 </div>
             ))}

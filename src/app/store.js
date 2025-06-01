@@ -9,6 +9,7 @@ import addBookReducer from '../features/book/model/addBookSlice'
 import genresReducer from '../entities/dictionaries/genres/genresSlice'
 import countriesReducer from '../entities/dictionaries/countries/countriesSlice'
 import deliveryReducer from '../entities/dictionaries/delivery/deliverySlice'
+import languagesReducer from '../entities/dictionaries/languages/languagesSlice'
 
 export const store = configureStore({
     reducer: {
@@ -22,5 +23,6 @@ export const store = configureStore({
         genres: genresReducer,
         countries: countriesReducer,
         delivery: deliveryReducer,
+        languages: languagesReducer,
     },
 })
