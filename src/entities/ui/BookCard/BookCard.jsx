@@ -19,7 +19,6 @@ export const BookCard = ({ bookData, isMyBook = false, isAdmin = false, isFavori
     const alertText = isFavorites ? 'Вы уже удалили эту книгу из избранного' : 'Удалить из избранного можно во вкладке профиль'
 
     const userId = useSelector(getId)
-    // console.log('bookData', bookData)
 
     const onClose = () => {
         setIsOpen(false)
@@ -130,7 +129,6 @@ export const BookCard = ({ bookData, isMyBook = false, isAdmin = false, isFavori
 
                 {isReserveOpen &&
                     <ModalWindow onClose={() => setIsReserveOpen(false)}>
-                        {console.log(bookData)}
                         <ReservationModal
                             onClose={() => setIsReserveOpen(false)}
                             bookId={bookData.id}

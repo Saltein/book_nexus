@@ -35,7 +35,6 @@ export const ReservationModal = ({ onClose, bookId, senderId }) => {
         if (!localStorage.getItem('user')) {
             navigate('/auth')
         }
-        console.log('data', bookId, senderId, userId, deliveryMethod, message + `\n Email для связи ${userEmail}`)
         if (isFormValid()) {
             try {
                 const response = await exchangesApi.create(bookId, senderId, userId, deliveryMethod, message + `\n Email для связи ${userEmail}`)

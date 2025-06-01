@@ -1,11 +1,13 @@
 import { useSelector } from 'react-redux'
-import { DefaultButton, DefaultDivider } from '../../../../shared'
+import { DefaultButton, DefaultDivider, ModalWindow } from '../../../../shared'
 import { formatStatus } from '../../../../shared/lib/status/formatStatus'
 import { StatusIcon } from '../../../../shared/ui/StatusIcon/StatusIcon'
 import styles from './ExchangeInfoWindow.module.css'
 import { getId } from '../../../user/model/userSlice'
 import { formatDate } from '../../../../shared/lib/date/formatDate'
 import { exchangesApi } from '../../../../shared/api/exchangesApi'
+import { useState } from 'react'
+import { MessageModal } from './MessageModal/MessageModal'
 
 export const ExchangeInfoWindow = ({ dataObj, isMe, pending, accepted, onClose, update }) => {
     const userId = useSelector(getId)
@@ -15,7 +17,15 @@ export const ExchangeInfoWindow = ({ dataObj, isMe, pending, accepted, onClose, 
         yellow: '#FFC107',
     }
 
-    const handleClick = async (status) => {
+    const [isMessageOpen, setIsMessageOpen] = useState(false)
+    const [statusForModal, setStatusForModal] = useState('')
+
+    const handleClick = async (status, message) => {
+        setStatusForModal(status)
+        if (message) {
+            setIsMessageOpen(true)
+            return
+        }
         try {
             const response = await exchangesApi.changeStatus(dataObj.id, status)
             if (!response) {
@@ -85,10 +95,12 @@ export const ExchangeInfoWindow = ({ dataObj, isMe, pending, accepted, onClose, 
                         <span className={styles.d}>Сообщение отправителя: </span>
                         "{dataObj.request_message}"
                     </div>
-                    <div className={`${styles.message} ${styles.d}`}>
-                        <span className={styles.d}>Сообщение получателя: </span>
-                        "{dataObj.response_message}"
-                    </div>
+                    {dataObj.response_message &&
+                        <div className={`${styles.message} ${styles.d}`}>
+                            <span className={styles.d}>Сообщение получателя: </span>
+                            "{dataObj.response_message}"
+                        </div>
+                    }
                 </div>
                 {(pending || accepted) &&
                     <div className={styles.buttons}>
@@ -105,8 +117,8 @@ export const ExchangeInfoWindow = ({ dataObj, isMe, pending, accepted, onClose, 
                         }
                         {isMe && pending &&
                             <>
-                                <DefaultButton title={'Принять'} onClick={() => handleClick('accepted')} color={colors.yellow} brightText={false} height='40px' />
-                                <DefaultButton title={'Отклонить'} onClick={() => handleClick('rejected')} color={colors.red} height='40px' />
+                                <DefaultButton title={'Принять'} onClick={() => handleClick('accepted', true)} color={colors.yellow} brightText={false} height='40px' />
+                                <DefaultButton title={'Отклонить'} onClick={() => handleClick('rejected', true)} color={colors.red} height='40px' />
                             </>
                         }
                         {!isMe && pending &&
@@ -117,6 +129,11 @@ export const ExchangeInfoWindow = ({ dataObj, isMe, pending, accepted, onClose, 
                     </div>
                 }
             </div>
+            {isMessageOpen &&
+                <ModalWindow onClose={() => setIsMessageOpen(false)} >
+                    <MessageModal onClose={() => setIsMessageOpen(false)} message_from={dataObj.request_message} exchangeId = {dataObj.id} onSubmit={() => handleClick(statusForModal)} />
+                </ModalWindow>
+            }
         </div>
     )
 }

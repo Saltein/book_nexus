@@ -94,10 +94,36 @@ export const exchangesApi = {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Exchange creation failed')
             }
-            return await response.json() 
+            return await response.json()
         } catch (error) {
             console.error('Exchange creation error:', error)
             throw error
         }
     },
+
+    async changeResponseMessage(exchange_id, message) {
+        try {
+            const response = await fetch(`${BASE_URL}/api/exchanges/${exchange_id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify(
+                    {
+                        "response_message": message
+                    }
+                )
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'response_message change failed')
+            }
+
+            return await response.json()
+        } catch (error) {
+            console.error('response_message change error:', error)
+            throw error
+        }
+    }
 }
