@@ -9,7 +9,7 @@ import { exchangesApi } from '../../../../shared/api/exchangesApi'
 import { useState } from 'react'
 import { MessageModal } from './MessageModal/MessageModal'
 
-export const ExchangeInfoWindow = ({ dataObj, isMe, pending, accepted, onClose, update }) => {
+export const ExchangeInfoWindow = ({ dataObj, isMe, pending, accepted, closed, onClose, update }) => {
     const userId = useSelector(getId)
     const colors = {
         red: '#F44336',
@@ -17,7 +17,10 @@ export const ExchangeInfoWindow = ({ dataObj, isMe, pending, accepted, onClose, 
         yellow: '#FFC107',
     }
 
+    // console.log('dataObj', dataObj)
+
     const [isMessageOpen, setIsMessageOpen] = useState(false)
+    const [isReportOpen, setIsReportOpen] = useState(false)
     const [statusForModal, setStatusForModal] = useState('')
 
     const handleClick = async (status, message) => {
@@ -38,6 +41,7 @@ export const ExchangeInfoWindow = ({ dataObj, isMe, pending, accepted, onClose, 
             console.error("Ошибка обновления статуса обмена", error)
         }
     }
+
     const handleDelete = async () => {
         try {
             const response = await exchangesApi.delete(dataObj.id)
@@ -50,6 +54,10 @@ export const ExchangeInfoWindow = ({ dataObj, isMe, pending, accepted, onClose, 
         } catch (error) {
             console.error("Ошибка удаления обмена", error)
         }
+    }
+
+    const handleReport = () => {
+        setIsReportOpen(true)
     }
 
     return (
@@ -102,36 +110,45 @@ export const ExchangeInfoWindow = ({ dataObj, isMe, pending, accepted, onClose, 
                         </div>
                     }
                 </div>
-                {(pending || accepted) &&
-                    <div className={styles.buttons}>
-                        {isMe && accepted &&
-                            <>
-                                <DefaultButton title={'Отменить'} onClick={() => handleClick('rejected')} color={colors.red} height='40px' />
-                            </>
-                        }
-                        {!isMe && accepted &&
-                            <>
-                                <DefaultButton title={'Завершить'} onClick={() => handleClick('completed')} color={colors.green} height='40px' />
-                                <DefaultButton title={'Отменить'} onClick={() => handleClick('rejected')} color={colors.red} height='40px' />
-                            </>
-                        }
-                        {isMe && pending &&
-                            <>
-                                <DefaultButton title={'Принять'} onClick={() => handleClick('accepted', true)} color={colors.yellow} brightText={false} height='40px' />
-                                <DefaultButton title={'Отклонить'} onClick={() => handleClick('rejected', true)} color={colors.red} height='40px' />
-                            </>
-                        }
-                        {!isMe && pending &&
-                            <>
-                                <DefaultButton title={'Удалить'} onClick={() => handleDelete()} color={colors.red} height='40px' />
-                            </>
-                        }
-                    </div>
-                }
+                <div className={styles.buttons}>
+                    {isMe && accepted &&
+                        <>
+                            <DefaultButton title={'Отменить'} onClick={() => handleClick('rejected')} color={colors.red} height='40px' />
+                        </>
+                    }
+                    {!isMe && accepted &&
+                        <>
+                            <DefaultButton title={'Завершить'} onClick={() => handleClick('completed')} color={colors.green} height='40px' />
+                            <DefaultButton title={'Отменить'} onClick={() => handleClick('rejected')} color={colors.red} height='40px' />
+                        </>
+                    }
+                    {isMe && pending &&
+                        <>
+                            <DefaultButton title={'Принять'} onClick={() => handleClick('accepted', true)} color={colors.yellow} brightText={false} height='40px' />
+                            <DefaultButton title={'Отклонить'} onClick={() => handleClick('rejected', true)} color={colors.red} height='40px' />
+                        </>
+                    }
+                    {!isMe && pending &&
+                        <>
+                            <DefaultButton title={'Удалить'} onClick={() => handleDelete()} color={colors.red} height='40px' />
+                        </>
+                    }
+                    {closed &&
+                        <>
+                            <DefaultButton title={'Пожаловаться'} onClick={handleReport} color={colors.red} height='40px' />
+                        </>
+                    }
+                </div>
             </div>
             {isMessageOpen &&
                 <ModalWindow onClose={() => setIsMessageOpen(false)} >
-                    <MessageModal onClose={() => setIsMessageOpen(false)} message_from={dataObj.request_message} exchangeId = {dataObj.id} onSubmit={() => handleClick(statusForModal)} />
+                    <MessageModal onClose={() => setIsMessageOpen(false)} message_from={dataObj.request_message} exchangeId={dataObj.id} onSubmit={() => handleClick(statusForModal)} />
+                </ModalWindow>
+            }
+
+            {isReportOpen &&
+                <ModalWindow onClose={() => setIsReportOpen(false)} >
+                    <MessageModal onClose={() => setIsMessageOpen(false)} isReport dataObj={dataObj} onSubmit={() => setIsReportOpen(false)} />
                 </ModalWindow>
             }
         </div>

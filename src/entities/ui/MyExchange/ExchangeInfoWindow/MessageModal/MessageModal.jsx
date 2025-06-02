@@ -1,16 +1,21 @@
-import { useEffect, useRef, useState } from 'react'
 import styles from './MessageModal.module.css'
+import { useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getDelivery } from '../../../../dictionaries/delivery/deliverySlice'
-import { getEmail, getId } from '../../../../user/model/userSlice'
+import { getId } from '../../../../user/model/userSlice'
 import { DefaultButton } from '../../../../../shared'
 import { exchangesApi } from '../../../../../shared/api/exchangesApi'
+import { reportsApi } from '../../../../../shared/api/reportsApi'
 
-export const MessageModal = ({ onClose, message_from, exchangeId, onSubmit }) => {
+export const MessageModal = ({ onClose, message_from, exchangeId, onSubmit, isReport = false, dataObj }) => {
     const textareaRef = useRef()
 
     const [warning, setWarning] = useState('')
     const [message, setMessage] = useState('')
+    const userId = useSelector(getId)
+
+    const reportedId = (userId, senderId, recipientId) => {
+        return userId === senderId ? recipientId : senderId
+    }
 
     const isFormValid = () => {
         return message.length > 0
@@ -27,7 +32,12 @@ export const MessageModal = ({ onClose, message_from, exchangeId, onSubmit }) =>
     const handleSubmit = async () => {
         if (isFormValid()) {
             try {
-                const response = await exchangesApi.changeResponseMessage(exchangeId, message)
+                let response = null
+                if (isReport) {
+                    response = await reportsApi.newReport(reportedId(userId, dataObj.Sender.id, dataObj.Recipient.id), userId, message)
+                } else {
+                    response = await exchangesApi.changeResponseMessage(exchangeId, message)
+                }
                 if (!response) {
                     console.log('Неизвестная ошибка отправки ответа')
                     return
@@ -43,13 +53,15 @@ export const MessageModal = ({ onClose, message_from, exchangeId, onSubmit }) =>
         }
     }
 
+
     return (
         <div className={styles.wrapper}>
-            <h3 className={styles.label}>Напишите ответное сообщение</h3>
-            <div className={styles.messageBox}>
-                <div className={styles.avatar} />
-                <span className={styles.messageFrom}>{message_from}</span>
-            </div>
+            <h3 className={styles.label}>{isReport ? 'Напишите причину жалобы' : 'Напишите ответное сообщение'}</h3>
+            {!isReport &&
+                <div className={styles.messageBox}>
+                    <div className={styles.avatar} />
+                    <span className={styles.messageFrom}>{message_from}</span>
+                </div>}
 
             <textarea
                 ref={textareaRef}
@@ -60,12 +72,15 @@ export const MessageModal = ({ onClose, message_from, exchangeId, onSubmit }) =>
                     setWarning('')
                     setMessage(e.target.value)
                 }}
-                placeholder='Сообщение'
+                placeholder={isReport ? 'Причина' : 'Сообщение'}
             />
 
             {warning && <span className={styles.warning}>{warning}</span>}
 
-            <DefaultButton title={'Ок'} onClick={handleSubmit} />
+            {isReport
+                ? <DefaultButton title={'Пожаловаться'} onClick={handleSubmit} color={'#F44336'} />
+                : <DefaultButton title={'Ок'} onClick={handleSubmit} />
+            }
         </div>
     )
 }

@@ -4,7 +4,7 @@ import styles from './FilterSlidebar.module.css'
 export const FilterSlidebar = ({ title, min, max, step, value, onChange }) => {
 
     const [currentValue, setCurrentValue] = useState([value - step, value])
-    const [any, setAny] = useState(false)
+    const [any, setAny] = useState(true)
 
     const handleBoxChange = () => {
         setAny(!any)
@@ -34,20 +34,33 @@ export const FilterSlidebar = ({ title, min, max, step, value, onChange }) => {
             <h6 className={styles.title}>{title}</h6>
             <div className={styles.inputs}>
                 <div className={styles.checkboxCon}>
-                    <input className={styles.checkbox} type='checkbox' value={any} onChange={handleBoxChange} />
+                    <input
+                        className={styles.checkbox}
+                        type='checkbox'
+                        checked={any}
+                        onChange={handleBoxChange}
+                    />
                     <span>Любой</span>
                 </div>
 
-                <input className={`${styles.slider} ${any ? styles.disabled : ''}`} type='range'
-                    min={min} max={max - max % step} step={step}
-                    value={currentValue[0]} onChange={handleSlideChange}
-                />
+                {!any &&
+                    <input
+                        className={`${styles.slider} ${any ? styles.disabled : ''}`}
+                        type='range'
+                        min={min}
+                        max={max - max % step}
+                        step={step}
+                        value={currentValue[0]}
+                        onChange={handleSlideChange}
+                        disabled={any}
+                    />}
             </div>
-            <div className={styles.valueCon}>
-                <span className={`${any ? styles.disabled : ''}`}>
-                    {currentValue[0]} - {(parseInt(currentValue[0]) + step) > max ? (max) : (parseInt(currentValue[0]) + step)}
-                </span>
-            </div>
+            {!any &&
+                <div className={styles.valueCon}>
+                    <span className={`${any ? styles.disabled : ''}`}>
+                        {currentValue[0]} - {(parseInt(currentValue[0]) + step) > max ? (max) : (parseInt(currentValue[0]) + step)}
+                    </span>
+                </div>}
         </div>
     )
 }

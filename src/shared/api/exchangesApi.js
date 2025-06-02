@@ -27,6 +27,15 @@ export const exchangesApi = {
     },
 
     async changeStatus(exchange_id, status) {
+        let body = {
+            "status": status
+        }
+        if (status === 'rejected' || status == 'completed') {
+            body = {
+                "status": status,
+                "completed_at": Date.now()
+            }
+        }
         try {
             const response = await fetch(`${BASE_URL}/api/exchanges/${exchange_id}`, {
                 method: 'PUT',
@@ -34,11 +43,7 @@ export const exchangesApi = {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
-                body: JSON.stringify(
-                    {
-                        "status": status
-                    }
-                )
+                body: JSON.stringify(body)
             })
             if (!response.ok) {
                 const errorData = await response.json();

@@ -61,6 +61,7 @@ export const BookCard = ({ bookData, isMyBook = false, isAdmin = false, isFavori
 
     const handleReservation = async (e) => {
         e.stopPropagation()
+        console.log('bookData', bookData)
         setIsReserveOpen(true)
     }
 

@@ -7,7 +7,7 @@ import { ModalWindow } from '../../../shared'
 import { ExchangeInfoWindow } from './ExchangeInfoWindow/ExchangeInfoWindow'
 import { useState } from 'react'
 
-export const MyExchange = ({ obj, pending, accepted, update }) => {
+export const MyExchange = ({ obj, pending, accepted, closed, update }) => {
     const created_at = formatDate(obj.created_at)
     const userId = useSelector(getId)
     const isMe = obj.Sender.id === userId
@@ -31,7 +31,7 @@ export const MyExchange = ({ obj, pending, accepted, update }) => {
             <StatusIcon statusStr={obj.status} />
             {isOpen && (
                 <ModalWindow onClose={handleClose}>
-                    <ExchangeInfoWindow dataObj={obj} isMe={isMe} pending={pending} accepted={accepted} onClose={handleClose} update={update} />
+                    <ExchangeInfoWindow dataObj={obj} isMe={isMe} pending={pending} accepted={accepted} onClose={handleClose} update={update} closed={closed} />
                 </ModalWindow>
             )}
         </div>

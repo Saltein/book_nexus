@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
+import { getSearchText } from '../../../features/search/model/searchSlice';
 
 const initialState = {
     books: [],
@@ -62,55 +63,59 @@ export const getFilterLists = state => state.bookCatalog.filterLists
 
 // Мемоизированный селектор
 export const getFilteredBooks = createSelector(
-    [getBooks, getFilters],
-    (books, filters) => {
-        const [minYear, maxYear] = filters.yearRange;
-        // Индексы фильтра идут так: 0→ru, 1→en, 2→other
-        let genreIndex = parseInt(filters.genre, 10);
-        let countryIndex = parseInt(filters.country, 10);
+    [getBooks, getFilters, getSearchText],
+    (books, filters, searchText) => {
+        const [minYear, maxYear] = filters.yearRange
+        let genreIndex = parseInt(filters.genre, 10) || 0
+        let countryIndex = parseInt(filters.country, 10) || 0
 
-        if (isNaN(genreIndex)) {
-            genreIndex = 0;
-        }
-        if (isNaN(countryIndex)) {
-            countryIndex = 0;
-        }
+        const genreList = filters.filterLists.genre || []
+        const countryList = filters.filterLists.country || []
 
-        const genreList = filters.filterLists.genre || [];
-        const countryList = filters.filterLists.country || [];
+        const selectedGenre = genreList[genreIndex - 1]
+        const selectedCountry = countryList[countryIndex - 1]
 
-        const selectedGenre = genreList[genreIndex - 1];
-        const selectedCountry = countryList[countryIndex - 1];
+        const normalizedSearch = searchText.trim().toLowerCase()
 
         return books.filter(book => {
-            // 1) Фильтрация по жанру
+            // Фильтрация по жанру
             if (genreIndex !== 0 && book.Genre.name !== selectedGenre?.name) {
-                return false;
+                return false
             }
-            // 2) Фильтрация по стране автора
+            // Фильтрация по стране автора
             if (countryIndex !== 0 && book.AuthorCountry.name !== selectedCountry?.name) {
-                return false;
+                return false
             }
-            // 3) Фильтрация по году
+            // Фильтрация по году
             if (book.year < minYear || book.year > maxYear) {
-                return false;
+                return false
             }
-            // 4) Если не выбран ни один язык — пропускаем всё
-            if (!filters.lang.some(Boolean)) {
-                return true;
+            // Фильтрация по языку
+            if (filters.lang.some(Boolean)) {
+                let idx = book.lang_id === 1 ? 0 : book.lang_id === 2 ? 1 : 2;
+                if (!filters.lang[idx]) {
+                    return false
+                }
+            }
+            // Фильтрация по поисковой строке
+            if (normalizedSearch) {
+                const fieldsToSearch = [
+                    book?.name,
+                    book?.author,
+                    book.Genre?.name,
+                    book.AuthorCountry?.name,
+                ]
+
+                console.log('normalizedSearch', fieldsToSearch)
+
+                const matchesSearch = fieldsToSearch.some(field =>
+                    field?.toLowerCase().includes(normalizedSearch)
+                )
+
+                if (!matchesSearch) return false
             }
 
-            // 5) Вычисляем индекс языкового фильтра на основе lang_id
-            let idx;
-            if (book.lang_id === 1) {
-                idx = 0; // «ru»
-            } else if (book.lang_id === 2) {
-                idx = 1; // «en»
-            } else {
-                idx = 2; // «other»
-            }
-
-            return filters.lang[idx];
+            return true
         });
     }
 );
