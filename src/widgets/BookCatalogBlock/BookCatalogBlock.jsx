@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { BookCard } from '../../entities/ui/BookCard/BookCard'
 import styles from './BookCatalogBlock.module.css'
-import { Pagination } from '../../shared';
+import { Pagination, SearchBar } from '../../shared';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBooks, getFavorites, getFilteredBooks, setBooks, setFavorites } from './model/bookCatalogSlice';
 import { bookCatalogApi } from '../../shared/api/bookCatalogApi';
@@ -67,6 +67,7 @@ export const BookCatalogBlock = ({ isAdmin = false, isFavorites = false }) => {
 
     return (
         <div className={styles.wrapper}>
+            <SearchBar />
             <div className={styles.bookList}>
                 {currentItems.map((book, index) => (
                     <div key={`${book.id}-${index}`}>

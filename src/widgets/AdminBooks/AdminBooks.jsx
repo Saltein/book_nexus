@@ -1,3 +1,4 @@
+import { SearchBar } from '../../shared'
 import { BookCatalogBlock } from '../BookCatalogBlock/BookCatalogBlock'
 import styles from './AdminBooks.module.css'
 

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { reportsApi } from '../../shared/api/reportsApi'
 import styles from './AdminReports.module.css'
-import { Pagination } from '../../shared'
+import { Pagination, SearchBar } from '../../shared'
 import { ReportCard } from '../../entities'
 
 const REPORTS_PER_PAGE = 10
@@ -41,7 +41,8 @@ export const AdminReports = () => {
     }, [])
 
     return (
-        <div className={styles.div}>
+        <div className={styles.wrapper}>
+            <SearchBar />
             <div className={styles.reportsList}>
                 {paginatedReports.map((report, index) => (
                     <ReportCard key={`${index}-${report.id}`} reportData={report} onSolution={fetchReports} />
