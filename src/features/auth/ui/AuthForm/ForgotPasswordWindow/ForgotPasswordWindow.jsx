@@ -4,20 +4,17 @@ import styles from './ForgotPasswordWindow.module.css'
 import { isValidEmail } from '../../../../../shared/lib/email/isValidEmail'
 import { authApi } from '../../../../../shared/api/authApi'
 import { userApi } from '../../../../../shared/api/userApi'
-import { useSelector } from 'react-redux'
-import { getId } from '../../../../../entities/user/model/userSlice'
 
 export const ForgotPasswordWindow = ({ onClose }) => {
     const [warning, setWarning] = useState('')
     const [codeStatus, setCodeStatus] = useState(0)
     const [formData, setFormData] = useState({})
-    const userId = useSelector(getId)
 
     const handleOnChange = (e) => {
         const { name, value } = e.target
         setFormData(prev => ({
             ...prev,
-            [name]: value // Динамическое обновление поля по имени инпута
+            [name]: value
         }))
         setWarning('')
     }
@@ -74,11 +71,18 @@ export const ForgotPasswordWindow = ({ onClose }) => {
             setWarning('Введите новый пароль')
             return
         }
+
         try {
-            console.log('userId', userId)
-            const response = await userApi.changePass(userId, formData.newPassword)
+            const user_email = formData.email
+            console.log('user_email', user_email)
+            const userId = await userApi.getIdByEmail(user_email)
+            if (!userId) {
+                setWarning('Пользователь с такой почтой не найден')
+                return
+            }
+
+            const response = await userApi.changePass(userId.id, formData.newPassword)
             if (response) {
-                console.log('change pass', response)
                 onClose()
             } else {
                 setWarning('Неизвестная ошибка смены пароля')
@@ -95,8 +99,8 @@ export const ForgotPasswordWindow = ({ onClose }) => {
                 <div className={styles.emailBox}>
                     <input
                         maxLength={64}
-                        name={'email'}
-                        className={`${styles.input}`}
+                        name='email'
+                        className={styles.input}
                         onChange={handleOnChange}
                         type='email'
                         placeholder='Электронная почта'
@@ -111,8 +115,8 @@ export const ForgotPasswordWindow = ({ onClose }) => {
                 <div className={styles.codeBox}>
                     <input
                         maxLength={64}
-                        name={'confirmationCode'}
-                        className={`${styles.input}`}
+                        name='confirmationCode'
+                        className={styles.input}
                         onChange={handleOnChange}
                         placeholder='Код подтверждения'
                     />
@@ -124,19 +128,23 @@ export const ForgotPasswordWindow = ({ onClose }) => {
                     />
                 </div>
             </div>
-            {codeStatus === 2 && <input
-                maxLength={64}
-                name={'newPassword'}
-                className={`${styles.input}`}
-                onChange={handleOnChange}
-                type='password'
-                placeholder='Новый пароль'
-            />}
-            {codeStatus === 2 && <DefaultButton
-                title={'Сменить пароль'}
-                color={'#8a4fff'}
-                onClick={handleSubmit}
-            />}
+            {codeStatus === 2 && (
+                <input
+                    maxLength={64}
+                    name='newPassword'
+                    className={styles.input}
+                    onChange={handleOnChange}
+                    type='password'
+                    placeholder='Новый пароль'
+                />
+            )}
+            {codeStatus === 2 && (
+                <DefaultButton
+                    title='Сменить пароль'
+                    color='#8a4fff'
+                    onClick={handleSubmit}
+                />
+            )}
             {warning && <span className={styles.warning}>{warning}</span>}
         </div>
     )

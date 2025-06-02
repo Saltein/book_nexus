@@ -18,7 +18,7 @@ export const ReviewsList = () => {
         const indexOfLastItem = currentPage * itemsPerPage;
         const indexOfFirstItem = indexOfLastItem - itemsPerPage;
         return reviewsData.slice(indexOfFirstItem, indexOfLastItem);
-    }, [currentPage, itemsPerPage]);
+    }, [currentPage, itemsPerPage, reviewsData]);
 
     const totalPages = Math.ceil(reviewsData.length / itemsPerPage);
 

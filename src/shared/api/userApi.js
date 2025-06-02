@@ -122,4 +122,28 @@ export const userApi = {
             throw error
         }
     },
+
+    async getIdByEmail(user_email) {
+        try {
+            const response = await fetch(`${BASE_URL}/api/users/getWithMail`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    "email": user_email
+                })
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Get id failed')
+            }
+
+            return await response.json()
+        } catch (error) {
+            console.error('Get id error:', error)
+            throw error
+        }
+    }
 }

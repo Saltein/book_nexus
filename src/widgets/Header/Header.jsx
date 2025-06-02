@@ -65,7 +65,7 @@ export const Header = () => {
             </div>
 
             <div className={`${styles.menu} ${menuVisible ? styles.active : ''}`}>
-                <NavMenu menuList={moreMenuList} onClick={handleMenu} />
+                <NavMenu menuList={moreMenuList} onClick={handleMenu} role={role} isLogged={isLogged}/>
             </div>
 
         </div>

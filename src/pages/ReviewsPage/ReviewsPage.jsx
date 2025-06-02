@@ -4,12 +4,19 @@ import { PreviewLabel } from '../../shared/ui/PreviewLabel/PreviewLabel'
 import { ReviewsList } from '../../widgets/ReviewsList/ReviewsList'
 import styles from './ReviewsPage.module.css'
 import { ReviewForm } from '../../features'
+import { useNavigate } from 'react-router-dom'
 
 export const ReviewsPage = () => {
+    const navigate = useNavigate()
+
     const [isLeaving, setLeaving] = useState(false)
 
     const handleCreateReview = () => {
-        setLeaving(true)
+        if (localStorage.getItem('user')) {
+            setLeaving(true)
+        } else {
+            navigate('/auth')
+        }
     }
     const handleClose = () => {
         setLeaving(false)

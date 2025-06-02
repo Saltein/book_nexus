@@ -68,8 +68,8 @@
     }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
     .wrapper {
-        max-width: 540px;
+        flex-direction: column;
     }
 }

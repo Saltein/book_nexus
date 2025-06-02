@@ -6,7 +6,7 @@
     border-radius: 20px;
     gap: 20px;
     box-shadow: 0 5px 10px -2px #0004;
-    min-width: 500px;
+    min-width: 300px;
 }
 
 .label {
@@ -47,3 +47,4 @@
     font-size: 18px;
     text-align: center;
 }
+
