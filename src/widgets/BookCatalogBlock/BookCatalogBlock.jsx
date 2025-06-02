@@ -3,16 +3,17 @@ import { useEffect, useMemo, useState } from 'react';
 import { BookCard } from '../../entities/ui/BookCard/BookCard'
 import { Pagination, SearchBar } from '../../shared';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBooks, getFavorites, getFilteredBooks, setBooks, setFavorites } from './model/bookCatalogSlice';
+import { getBooks, getFilteredBooks, getFilteredFavorites, setBooks, setFavorites } from './model/bookCatalogSlice';
 import { bookCatalogApi } from '../../shared/api/bookCatalogApi';
 import { favoritesApi } from '../../shared/api/favoritesApi';
 import { getId } from '../../entities/user/model/userSlice';
+import { getSearchText } from '../../features/search/model/searchSlice';
 
 export const BookCatalogBlock = ({ isAdmin = false, isFavorites = false }) => {
     const dispatch = useDispatch()
     const books = useSelector(getBooks)
     const filteredBooks = useSelector(getFilteredBooks)
-    const rawFavorites = useSelector(getFavorites)
+    const rawFavorites = useSelector(getFilteredFavorites)
     const userId = useSelector(getId)
 
     const favorites = Array.isArray(rawFavorites) ? rawFavorites : []

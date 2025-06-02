@@ -92,7 +92,7 @@ export const getFilteredBooks = createSelector(
             }
             // Фильтрация по языку
             if (filters.lang.some(Boolean)) {
-                let idx = book.lang_id === 1 ? 0 : book.lang_id === 2 ? 1 : 2;
+                let idx = book.lang_id === 1 ? 0 : book.lang_id === 2 ? 1 : 2
                 if (!filters.lang[idx]) {
                     return false
                 }
@@ -116,6 +116,32 @@ export const getFilteredBooks = createSelector(
             }
 
             return true
+        })
+    }
+)
+
+// Селектор для фильтрации списка избранного только по поисковой строке
+export const getFilteredFavorites = createSelector(
+    [getFavorites, getSearchText],
+    (favorites, searchText) => {
+        const normalizedSearch = searchText.trim().toLowerCase()
+
+        // Если строка поиска пуста, возвращаем весь массив favorites
+        if (!normalizedSearch) {
+            return favorites
+        }
+
+        return favorites.filter(book => {
+            const fieldsToSearch = [
+                book?.name,
+                book?.author,
+                book.Genre?.name,
+                book.AuthorCountry?.name,
+            ];
+
+            return fieldsToSearch.some(field =>
+                field?.toLowerCase().includes(normalizedSearch)
+            );
         });
     }
 );
