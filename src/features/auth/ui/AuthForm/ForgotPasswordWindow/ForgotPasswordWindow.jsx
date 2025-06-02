@@ -75,8 +75,10 @@ export const ForgotPasswordWindow = ({ onClose }) => {
             return
         }
         try {
-            const response = userApi.changePass(userId, formData.newPassword)
+            console.log('userId', userId)
+            const response = await userApi.changePass(userId, formData.newPassword)
             if (response) {
+                console.log('change pass', response)
                 onClose()
             } else {
                 setWarning('Неизвестная ошибка смены пароля')

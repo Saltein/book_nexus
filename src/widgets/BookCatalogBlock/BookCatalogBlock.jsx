@@ -1,6 +1,6 @@
+import styles from './BookCatalogBlock.module.css'
 import { useEffect, useMemo, useState } from 'react';
 import { BookCard } from '../../entities/ui/BookCard/BookCard'
-import styles from './BookCatalogBlock.module.css'
 import { Pagination, SearchBar } from '../../shared';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBooks, getFavorites, getFilteredBooks, setBooks, setFavorites } from './model/bookCatalogSlice';
@@ -57,8 +57,6 @@ export const BookCatalogBlock = ({ isAdmin = false, isFavorites = false }) => {
     useEffect(() => {
         if (isFavorites) {
             setBooksData(favorites)
-        } else if (isAdmin) {
-            setBooksData(books)
         } else {
             setBooksData(filteredBooks)
         }

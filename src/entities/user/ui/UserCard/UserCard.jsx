@@ -53,7 +53,7 @@ export const UserCard = ({ userData, reportData, onClose, onSolution }) => {
         <div className={styles.wrapper}>
             {!reportData
                 ?
-                <div div className={styles.descriptionDiv}>
+                <div className={styles.descriptionDiv}>
                     <span className={`${styles.id} ${styles.value}`}>
                         <span className={styles.d}>ID: </span>{data.id}
                     </span>
@@ -84,7 +84,7 @@ export const UserCard = ({ userData, reportData, onClose, onSolution }) => {
                         </span>}
                 </div>
                 :
-                <div div className={styles.descriptionDiv}>
+                <div className={styles.descriptionDiv}>
                     <span className={`${styles.id} ${styles.value}`}>
                         <span className={styles.d}>ID жалобы: </span>{data.report_id}
                     </span>

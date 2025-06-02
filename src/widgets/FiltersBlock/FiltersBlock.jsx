@@ -10,6 +10,7 @@ import {
 } from '../BookCatalogBlock/model/bookCatalogSlice'
 import { getGenres } from '../../entities/dictionaries/genres/genresSlice'
 import { getCountries } from '../../entities/dictionaries/countries/countriesSlice'
+import { useEffect } from 'react'
 
 const langOptionsList = [
     {
@@ -32,7 +33,7 @@ export const FiltersBlock = () => {
     const countryOptionsList = useSelector(getCountries)
 
     const dispatch = useDispatch()
-    
+
     const filters = useSelector(state => state.bookCatalog.filters)
     // const filterLists = useSelector TO DO
 
@@ -53,6 +54,14 @@ export const FiltersBlock = () => {
         ))
     }
 
+    useEffect(() => {
+        return () => {
+            dispatch(setFilterCountry(''))
+            dispatch(setFilterGenre(''))
+            dispatch(setFilterLang([]))
+            dispatch(setFilterYearRange(''))
+        }
+    }, [dispatch])
 
     return (
         <div className={styles.wrapper}>
