@@ -7,7 +7,6 @@ import heartFillIcon from './assets/heart_fill.svg'
 import { useSelector } from 'react-redux'
 import { favoritesApi } from '../../../shared/api/favoritesApi'
 import { getId } from '../../user/model/userSlice'
-import { exchangesApi } from '../../../shared/api/exchangesApi'
 import { ReservationModal } from './ReservationModal/ReservationModal'
 
 export const BookCard = ({ bookData, isMyBook = false, isAdmin = false, isFavorites = false, onBookAdded }) => {
@@ -61,7 +60,7 @@ export const BookCard = ({ bookData, isMyBook = false, isAdmin = false, isFavori
 
     const handleReservation = async (e) => {
         e.stopPropagation()
-        console.log('bookData', bookData)
+        console.log('bookData1', bookData)
         setIsReserveOpen(true)
     }
 
@@ -130,6 +129,7 @@ export const BookCard = ({ bookData, isMyBook = false, isAdmin = false, isFavori
 
                 {isReserveOpen &&
                     <ModalWindow onClose={() => setIsReserveOpen(false)}>
+                        {console.log('bookData', bookData)}
                         <ReservationModal
                             onClose={() => setIsReserveOpen(false)}
                             bookId={bookData.id}

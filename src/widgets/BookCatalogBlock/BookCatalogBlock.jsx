@@ -34,6 +34,7 @@ export const BookCatalogBlock = ({ isAdmin = false, isFavorites = false }) => {
         try {
             if (isFavorites) {
                 const response = await favoritesApi.getMy(userId);
+                console.log('response get favorites', response)
                 // пусть response точно будет массивом; если нет — ставим пустой
                 const arr = Array.isArray(response) ? response : [];
                 dispatch(setFavorites(arr));

@@ -57,7 +57,8 @@ export const favoritesApi = {
                     country_id: b.country_id,
                     Genre: b.Genre,
                     AuthorCountry: b.AuthorCountry,
-                    BookLanguage: b.BookLanguage
+                    BookLanguage: b.BookLanguage,
+                    UserBooks: b.UserBooks
                 }
             })
         } catch (error) {
