@@ -50,26 +50,26 @@ export const userApi = {
         }
     },
 
-    async getBanReason(user_id) {
-        try {
-            const response = await fetch(`${BASE_URL}/api/users/${user_id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-            })
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Get ban reason failed')
-            }
+    // async getBanReason(user_id) {
+    //     try {
+    //         const response = await fetch(`${BASE_URL}/api/users/${user_id}`, {
+    //             method: 'GET',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             credentials: 'include',
+    //         })
+    //         if (!response.ok) {
+    //             const errorData = await response.json();
+    //             throw new Error(errorData.message || 'Get ban reason failed')
+    //         }
 
-            return await response.json()
-        } catch (error) {
-            console.error('Get ban reason error:', error)
-            throw error
-        }
-    },
+    //         return await response.json()
+    //     } catch (error) {
+    //         console.error('Get ban reason error:', error)
+    //         throw error
+    //     }
+    // },
 
     async changePass(user_id, new_password) {
         try {

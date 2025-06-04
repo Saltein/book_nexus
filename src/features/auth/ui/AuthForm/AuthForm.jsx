@@ -175,10 +175,10 @@ export const AuthForm = ({ inputs = [], buttonTitle, isLogin = false, setCurrent
 
     const fetchBanReason = async () => {
         try {
-            const response = await userApi.getBanReason(userId)
+            const response = await userApi.getIdByEmail(formData.email)
+            console.log('ban response', response)
             setBanReason(response.blocked_reason)
-            console.log(response)
-        } catch (error) {
+        } catch (error) {   
             console.log('Ошибка получения причины блокировки')
         }
     }
